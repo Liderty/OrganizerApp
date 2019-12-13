@@ -16,7 +16,7 @@ class CategoriesFragment : Fragment() {
     lateinit var db: DataBaseHandler
 
     fun countAvarage(gradeList: List<Int>): Double {
-        return gradeList.sum().toDouble() / gradeList.size
+        return Math.round((gradeList.sum().toDouble() / gradeList.size) * 10.0) / 10.0
     }
 
     fun updateAvarage() {
