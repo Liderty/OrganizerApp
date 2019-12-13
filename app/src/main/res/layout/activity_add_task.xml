@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:text="Create task"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkText"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/taskImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/edit" />
+
+            <EditText
+                android:id="@+id/etvName"
+                android:hint="Pick a name for your new task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:textColorHint="@color/colorHintText"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etvDescription"
+            android:hint="Add some description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:lines="3"
+            android:maxLines="3"
+            android:inputType="textMultiLine"
+            android:textColorHint="@color/colorHintText"/>
+
+        <Button
+            android:id="@+id/btnInsert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorInsert"
+            android:padding="10dp"
+            android:text="Insert"
+            android:textColor="@color/colorBrightText" />
+
+        <Button
+            android:id="@+id/btnGoBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:text="Return"
+            android:textColor="@color/colorBrightText"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorDevelopment"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="3"
+>
+
+            <Button
+                android:id="@+id/btnRead"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorRead"
+                android:text="Read"
+                android:textColor="@color/colorBrightText" />
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorUpdate"
+                android:text="Update"
+                android:enabled="false"
+                android:textColor="@color/colorBrightText" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:enabled="false"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorDelete"
+                android:text="Delete"
+                android:textColor="@color/colorBrightText" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvResult"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="10dp" />
+
+        </ScrollView>
+
+    </LinearLayout>
+</LinearLayout>
