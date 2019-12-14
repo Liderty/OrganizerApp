@@ -21,17 +21,17 @@ class TaskListViewAdapter (var listViewContext: Context, var resources: Int, var
         val taskGradeTextView: TextView = view.findViewById(R.id.taskGrade)
 
         var taskItem:Task = taskItems[position]
+
         taskImageView.setImageDrawable(listViewContext.resources.getDrawable(taskItem.taskIcon))
         taskTitleTextView.text = taskItem.taskName
         taskDescriptionTextView.text = taskItem.taskDescription
+
         if(taskItem.taskAvarage != 0.toDouble()) {
             taskGradeTextView.text = taskItem.taskAvarage.toString()
         } else {
             taskGradeTextView.text = ""
         }
 
-
         return view
     }
-
 }

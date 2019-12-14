@@ -42,6 +42,27 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Select task category"
+            android:textSize="15dp"
+            android:textColor="@color/colorDarkText" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
+
         <EditText
             android:id="@+id/etvDescription"
             android:hint="Add some description"
@@ -73,7 +94,6 @@
             android:text="Return"
             android:textColor="@color/colorBrightText"/>
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -81,7 +101,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/colorDevelopment"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"

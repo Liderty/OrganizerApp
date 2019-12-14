@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TaskActivity"></activity>
+        <activity android:name=".CategorySpinnerActivity"></activity>
+        <activity android:name=".AddCategoryActivity" />
+        <activity android:name=".TaskActivity" />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".AddGradeActivity" />
         <activity android:name=".MainActivity">
