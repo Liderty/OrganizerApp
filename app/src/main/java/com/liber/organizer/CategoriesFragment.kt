@@ -19,7 +19,6 @@ class CategoriesFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_categories, container, false)
         categorylistView = view.findViewById(R.id.categoryListView)
-
         return view
     }
 
@@ -33,10 +32,10 @@ class CategoriesFragment : Fragment() {
 
         categorylistView.adapter = CategoryListViewAdapter(context, R.layout.listview_category_row, categoryList)
         categorylistView.setOnItemClickListener{ parent: AdapterView<*>, view: View, position: Int, id: Long ->
-            //var intent = Intent(context, TaskActivity::class.java)
-            //intent.putExtra("task", tasksList[position])
-            //startActivity(intent)
-            Toast.makeText(context, "You clicked ${position}", Toast.LENGTH_SHORT)
+
+            var intent = Intent(context, TaskListActivity::class.java)
+            intent.putExtra("category", categoryList[position])
+            startActivity(intent)
         }
 
         view.btnCreateCategroy.setOnClickListener {

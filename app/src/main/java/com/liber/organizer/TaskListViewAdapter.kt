@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 
-class TaskListViewAdapter (var listViewContext: Context, var resources: Int, var taskItems:List<Task>):ArrayAdapter<Task>(listViewContext, resources, taskItems) {
+class TaskListViewAdapter (var listViewContext: Context, var resources: Int, var taskItems:List<Task>) : ArrayAdapter<Task>(listViewContext, resources, taskItems) {
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

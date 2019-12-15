@@ -1,19 +1,21 @@
 package com.liber.organizer
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.ListView
-import kotlinx.android.synthetic.main.fragment_categories_tasks.view.*
 
-class CategoriesTasksFragment : Fragment() {
+class TaskListActivity : AppCompatActivity() {
 
     lateinit var tasksListView: ListView
-    lateinit var db: DataBaseHandler
+
+    var context = this
+    var db = DataBaseHandler(context)
+
 
     fun countAvarage(gradeList: List<Int>): Double {
         return Math.round((gradeList.sum().toDouble() / gradeList.size) * 10.0) / 10.0
@@ -45,38 +47,32 @@ class CategoriesTasksFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_categories_tasks, container, false)
-        tasksListView = view.findViewById(R.id.tasksListView)
-        return view
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_task_list)
 
-        val context = getContext()
-        db = DataBaseHandler(context!!)
+        val categoryItem = intent.getSerializableExtra("category") as Category
+
+        var btnCreateTask = findViewById<LinearLayout>(R.id.btnCreateTask)
 
         updateAvarage()
-        var tasksList = db.readTasks()
 
-        tasksListView.adapter = TaskListViewAdapter(context, R.layout.listview_task_row, tasksList)
+        var tasksList = db.readTasks(categoryItem.categoryId)
+
+        tasksListView = findViewById(R.id.tasksListView)
+        tasksListView.adapter = TaskListViewAdapter(this, R.layout.listview_task_row, tasksList)
+
         tasksListView.setOnItemClickListener{ parent: AdapterView<*>, view: View, position: Int, id: Long ->
-            var intent = Intent(context, TaskActivity::class.java)
+            var intent = Intent(this, TaskActivity::class.java)
             intent.putExtra("task", tasksList[position])
             startActivity(intent)
         }
 
-        view.btnCreateTask.setOnClickListener {
-            var intent = Intent(context, AddTaskActivity::class.java)
+        btnCreateTask.setOnClickListener {
+            var intent = Intent(this, AddTaskActivity::class.java)
+            intent.putExtra("category", categoryItem)
             startActivity(intent)
         }
-
-        view.btnGoToDBGradeTab.setOnClickListener {
-            var intent = Intent(context, AddGradeActivity::class.java)
-            startActivity(intent)
-        }
-
     }
 }
-

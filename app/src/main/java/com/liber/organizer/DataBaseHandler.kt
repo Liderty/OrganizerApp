@@ -86,6 +86,30 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return tasksList
     }
 
+    fun readTasks(categoryId: Int): MutableList<Task> {
+        var tasksList: MutableList<Task> = ArrayList()
+
+        val db = this.readableDatabase
+        val query = "SELECT * FROM ${TASK_TABLE_NAME} WHERE (${COL_CATEGORY_ID}==${categoryId})"
+        val selectedData = db.rawQuery(query, null)
+
+        if (selectedData.moveToFirst()) {
+            do {
+                var taskItem = Task()
+                taskItem.taskId = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
+                taskItem.taskName = selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
+                taskItem.taskDescription = selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
+                taskItem.taskAvarage = selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+                taskItem.categoryId = selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
+                tasksList.add(taskItem)
+            } while (selectedData.moveToNext())
+        }
+
+        selectedData.close()
+        db.close()
+        return tasksList
+    }
+
     fun updateTaskAvarage(taskId: Int, newTaskAvarage: Double) {
         val db = this.writableDatabase
         val query = "SELECT * FROM ${TASK_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId})"

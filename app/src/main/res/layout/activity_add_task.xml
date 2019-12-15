@@ -42,27 +42,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Select task category"
-            android:textSize="15dp"
-            android:textColor="@color/colorDarkText" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/categorySpinner"
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-        </LinearLayout>
-
         <EditText
             android:id="@+id/etvDescription"
             android:hint="Add some description"

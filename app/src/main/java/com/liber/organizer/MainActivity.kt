@@ -9,14 +9,17 @@ import androidx.fragment.app.FragmentPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    val manger = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val mainTabAdapter = MainViewPagerAdapter(supportFragmentManager)
+        val mainTabAdapter = MainViewPagerAdapter(manger)
+
         mainTabAdapter.addFragment(CategoriesFragment(), "Categories")
         mainTabAdapter.addFragment(SummaryFragment(), "Summary")
+
         mainViewPager.adapter = mainTabAdapter
         mainTabs.setupWithViewPager(mainViewPager)
     }
