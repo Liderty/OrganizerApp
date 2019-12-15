@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/tasksListView"
+            android:id="@+id/categoryListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

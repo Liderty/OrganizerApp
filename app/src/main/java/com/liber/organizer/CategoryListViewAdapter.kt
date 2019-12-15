@@ -1,5 +1,6 @@
 package com.liber.organizer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.liber.organizer.R
 
-class CategoryListViewAdapter (var listViewContext: Context, var resources: Int, var categoryItems: List<Category>) : ArrayAdapter<Category>(listViewContext, resources, categoryItems) {
 
+class CategoryListViewAdapter (var listViewContext: Context, var resources: Int, var categoryItems:List<Category>) : ArrayAdapter<Category>(listViewContext, resources, categoryItems) {
+
+    @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val layoutInflater: LayoutInflater = LayoutInflater.from(listViewContext)
         val view: View = layoutInflater.inflate(resources, null)

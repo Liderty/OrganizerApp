@@ -8,16 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_categories.view.*
 
 class CategoriesFragment : Fragment() {
 
-    lateinit var tasksListView: ListView
+    lateinit var categorylistView: ListView
     lateinit var db: DataBaseHandler
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_categories, container, false)
-        tasksListView = view.findViewById(R.id.tasksListView)
+        categorylistView = view.findViewById(R.id.categoryListView)
+
         return view
     }
 
@@ -27,13 +29,14 @@ class CategoriesFragment : Fragment() {
         val context = getContext()
         db = DataBaseHandler(context!!)
 
-        var tasksList = db.readTasks()
+        var categoryList = db.readCategory()
 
-        tasksListView.adapter = TaskListViewAdapter(context, R.layout.listview_task_row, tasksList)
-        tasksListView.setOnItemClickListener{ parent: AdapterView<*>, view: View, position: Int, id: Long ->
-            var intent = Intent(context, TaskActivity::class.java)
-            intent.putExtra("task", tasksList[position])
-            startActivity(intent)
+        categorylistView.adapter = CategoryListViewAdapter(context, R.layout.listview_category_row, categoryList)
+        categorylistView.setOnItemClickListener{ parent: AdapterView<*>, view: View, position: Int, id: Long ->
+            //var intent = Intent(context, TaskActivity::class.java)
+            //intent.putExtra("task", tasksList[position])
+            //startActivity(intent)
+            Toast.makeText(context, "You clicked ${position}", Toast.LENGTH_SHORT)
         }
 
         view.btnCreateCategroy.setOnClickListener {
