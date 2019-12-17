@@ -1,137 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:text="Create task"
-            android:textSize="30sp"
-            android:textAlignment="center"
-            android:textColor="@color/colorDarkText"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/taskImage"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/edit" />
-
-            <EditText
-                android:id="@+id/etvName"
-                android:hint="Pick a name for your new task"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:textColorHint="@color/colorHintText"/>
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/etvDescription"
-            android:hint="Add some description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:lines="3"
-            android:maxLines="3"
-            android:inputType="textMultiLine"
-            android:textColorHint="@color/colorHintText"/>
-
-        <Button
-            android:id="@+id/btnInsert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorInsert"
-            android:padding="10dp"
-            android:text="Insert"
-            android:textColor="@color/colorBrightText" />
-
-        <Button
-            android:id="@+id/btnGoBack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:text="Return"
-            android:textColor="@color/colorBrightText"/>
-
-    </LinearLayout>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorDevelopment"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:weightSum="3"
->
+            android:orientation="vertical"
+            android:padding="@dimen/padding_large">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:text="@string/create_task"
+                android:textAlignment="center"
+                android:textColor="@color/colorDarkText"
+                android:textSize="@dimen/text_size_header"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/etvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/pick_name_for_task"
+                    android:textColorHint="@color/colorHintText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pick_an_icon"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorDarkText"
+                    android:textSize="@dimen/text_size_creation" />
+
+                <ImageView
+                    android:id="@+id/taskImage"
+                    android:layout_width="@dimen/icon_size_medium"
+                    android:layout_height="@dimen/icon_size_medium"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:contentDescription="@string/task_icon_description"
+                    android:src="@drawable/edit" />
+
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <EditText
+                android:id="@+id/etvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:hint="@string/description_hint"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="3"
+                android:textColorHint="@color/colorHintText" />
+
+            <RadioGroup
+                android:id="@+id/evaluation_interval_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@color/colorHintText"
+                android:padding="@dimen/padding_large">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:text="@string/interval_radio_title"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_small_header"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="radio_button_click"
+                    android:text="@string/interval_radio_everyday" />
+
+                <RadioButton
+                    android:id="@+id/green"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="radio_button_click"
+                    android:text="@string/interval_radio_weekly" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/daysSpinnerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_evaluate_day_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorDarkText"
+                    android:textSize="@dimen/text_size_creation" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spinner_size" />
+
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timeSelectorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_evaluate_time_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorDarkText"
+                    android:textSize="@dimen/text_size_creation" />
+
+
+            </LinearLayout>
+
+            <View style="@style/Divider" />
 
             <Button
-                android:id="@+id/btnRead"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorRead"
-                android:text="Read"
+                android:id="@+id/btnInsert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@color/colorInsert"
+                android:text="@string/done"
                 android:textColor="@color/colorBrightText" />
 
             <Button
-                android:id="@+id/btnUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorUpdate"
-                android:text="Update"
-                android:enabled="false"
-                android:textColor="@color/colorBrightText" />
-
-            <Button
-                android:id="@+id/btnDelete"
-                android:enabled="false"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorDelete"
-                android:text="Delete"
+                android:id="@+id/btnGoBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@color/colorPrimary"
+                android:text="@string/Cancel"
                 android:textColor="@color/colorBrightText" />
 
         </LinearLayout>
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tvResult"
+        <!-- DEVELOPMENT SECTION -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorDevelopment"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="3">
+
+                <Button
+                    android:id="@+id/btnRead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorRead"
+                    android:text="Read"
+                    android:textColor="@color/colorBrightText" />
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorUpdate"
+                    android:enabled="false"
+                    android:text="Update"
+                    android:textColor="@color/colorBrightText" />
+
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorDelete"
+                    android:enabled="false"
+                    android:text="Delete"
+                    android:textColor="@color/colorBrightText" />
+
+            </LinearLayout>
+
+            <ScrollView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="10dp" />
+                android:layout_height="match_parent">
 
-        </ScrollView>
+                <TextView
+                    android:id="@+id/tvResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="10dp" />
 
+            </ScrollView>
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
+

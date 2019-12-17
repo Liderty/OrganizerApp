@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 
-
 class CategoryListViewAdapter (var listViewContext: Context, var resources: Int, var categoryItems:List<Category>) : ArrayAdapter<Category>(listViewContext, resources, categoryItems) {
 
     @SuppressLint("ViewHolder")
@@ -20,11 +19,10 @@ class CategoryListViewAdapter (var listViewContext: Context, var resources: Int,
         val categoryImageView: ImageView = view.findViewById(R.id.categoryImage)
         val categoryNameTextView: TextView = view.findViewById(R.id.categoryName)
 
-        var categoryItem: Category = categoryItems[position]
+        val categoryItem: Category = categoryItems[position]
         categoryImageView.setImageDrawable(listViewContext.resources.getDrawable(categoryItem.categoryIcon))
         categoryNameTextView.text = categoryItem.categoryName
 
         return view
     }
-
 }
