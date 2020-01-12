@@ -10,10 +10,15 @@ import com.liber.organizer.MainActivity
 import com.liber.organizer.R
 import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.android.synthetic.main.activity_task.btnGoBack
+import java.time.LocalDateTime
+import java.util.*
 
 class TaskActivity : AppCompatActivity() {
 
+    val EVALUATE_EVERYDAY_STRING = "Everyday"
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
 
@@ -31,6 +36,8 @@ class TaskActivity : AppCompatActivity() {
         taskTitleTextView.text = taskItem.taskName
         taskDescriptionTextView.text = taskItem.taskDescription
         taskGradeTextView.text = taskItem.taskAvarage.toString()
+        taskEvaluationDay.text = getDay(taskItem.taskEvaluationDay)
+        taskEvaluationTime.text = getTime(taskItem.taskEvaluationTime)
 
         circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.drawable.plus, R.drawable.check)
             .addSubMenu(Color.parseColor("#48E84D"), R.drawable.digit_five)
@@ -50,5 +57,22 @@ class TaskActivity : AppCompatActivity() {
             var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    fun getDay(dayId: Int) : String {
+        if(dayId < 8) {
+            return resources.getStringArray(R.array.daysOfWeek)[dayId]
+        } else return EVALUATE_EVERYDAY_STRING
+    }
+
+    fun getTime(timeInMillis: Long) : String {
+        val hours = timeInMillis / 1000L / 60 / 60
+        val minutes = timeInMillis / 1000L / 60 % 60
+
+        if(minutes == 0L) {
+            return "${hours}:00"
+        }
+
+        return "${hours}:${minutes}"
     }
 }

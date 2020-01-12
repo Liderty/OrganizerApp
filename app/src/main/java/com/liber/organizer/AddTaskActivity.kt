@@ -9,6 +9,9 @@ import kotlinx.android.synthetic.main.activity_add_task.*
 import java.util.*
 
 class AddTaskActivity : AppCompatActivity() {
+
+    val EVALUATE_EVRERYDAY_VALUE = 8
+
     var context = this
     var db = DataBaseHandler(context)
     var evaluation_flag = false
@@ -54,21 +57,17 @@ class AddTaskActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     context,
-                    "Spinner selected : ${position}",
+                    "Spinner selected : ${parent?.getItemAtPosition(position).toString()}",
                     Toast.LENGTH_SHORT
                 ).show()
-
-//                parent?.getItemAtPosition(position).toString()
             }
         }
 
-
         timePicker.setOnTimeChangedListener { _, hour, minute ->
-            var calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, hour)
-            calendar.set(Calendar.MINUTE, minute)
-
-            selectedTime = calendar.timeInMillis
+            var hoursInMillis = hour * 60L * 60 * 1000
+            var minutesInMillis = minute * 60L * 1000
+            selectedTime = hoursInMillis + minutesInMillis
+            System.out.println(selectedTime)
         }
 
 
@@ -89,7 +88,7 @@ class AddTaskActivity : AppCompatActivity() {
                     val task = Task(
                         etvName.text.toString(),
                         etvDescription.text.toString(),
-                        selectedDay,
+                        EVALUATE_EVRERYDAY_VALUE,
                         selectedTime,
                         categoryItem.categoryId
                     )

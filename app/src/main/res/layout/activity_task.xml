@@ -50,6 +50,56 @@
             android:textSize="16sp"
             android:layout_margin="5dp"/>
 
+        <View style="@style/Divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Evaluation day:"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/taskEvaluationDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Everyday"
+                android:textSize="16sp"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Evaluation time:"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/taskEvaluationTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12:00"
+                android:textSize="16sp"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end"/>
+
+        </LinearLayout>
+
+        <View style="@style/Divider" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +117,7 @@
                 android:id="@+id/taskGrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="5.0"
+                android:text="4.7"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textAlignment="textEnd"
