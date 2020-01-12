@@ -64,8 +64,6 @@
 
             </LinearLayout>
 
-            <View style="@style/Divider" />
-
             <EditText
                 android:id="@+id/etvDescription"
                 android:layout_width="match_parent"
@@ -78,7 +76,7 @@
                 android:textColorHint="@color/colorHintText" />
 
             <RadioGroup
-                android:id="@+id/evaluation_interval_radio"
+                android:id="@+id/evaluation_interval_radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
@@ -96,7 +94,7 @@
                     android:textStyle="bold" />
 
                 <RadioButton
-                    android:id="@+id/red"
+                    android:id="@+id/radio_everyday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -104,7 +102,7 @@
                     android:text="@string/interval_radio_everyday" />
 
                 <RadioButton
-                    android:id="@+id/green"
+                    android:id="@+id/radio_weekly"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="radio_button_click"
@@ -113,9 +111,11 @@
             </RadioGroup>
 
             <LinearLayout
+                android:id="@+id/daySpinnerElement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView
@@ -128,9 +128,10 @@
                     android:textSize="@dimen/text_size_creation" />
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/daysSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spinner_size" />
+                    android:layout_height="@dimen/spinner_size"
+                    android:layout_marginTop="@dimen/margin_medium"/>
 
             </LinearLayout>
 
@@ -151,10 +152,16 @@
                     android:textColor="@color/colorDarkText"
                     android:textSize="@dimen/text_size_creation" />
 
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/padding_large"
+                    android:timePickerMode="spinner"/>
+
 
             </LinearLayout>
-
-            <View style="@style/Divider" />
 
             <Button
                 android:id="@+id/btnInsert"

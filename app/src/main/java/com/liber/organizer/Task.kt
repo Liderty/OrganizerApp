@@ -1,6 +1,5 @@
 package com.liber.organizer
 
-import com.liber.organizer.R
 import java.io.Serializable
 
 class Task : Serializable {
@@ -10,6 +9,8 @@ class Task : Serializable {
     var taskDescription: String = ""
     var taskAvarage: Double = 0.0
     var taskIcon: Int = R.drawable.settings
+    var taskEvaluationDay: Int = 0
+    var taskEvaluationTime: Long = 0
     var categoryId: Int = 0
 
     constructor(taskName: String, taskDescription: String) {
@@ -20,6 +21,14 @@ class Task : Serializable {
     constructor(taskName: String, taskDescription: String, categoryId: Int) {
         this.taskName = taskName
         this.taskDescription = taskDescription
+        this.categoryId = categoryId
+    }
+
+    constructor(taskName: String, taskDescription: String, taskEvaluationDay: Int, taskEvaluationTime: Long, categoryId: Int) {
+        this.taskName = taskName
+        this.taskDescription = taskDescription
+        this.taskEvaluationDay = taskEvaluationDay
+        this.taskEvaluationTime = taskEvaluationTime
         this.categoryId = categoryId
     }
 
