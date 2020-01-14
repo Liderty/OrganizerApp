@@ -114,8 +114,8 @@ class AddTaskActivity : AppCompatActivity() {
             for (i in 0..(data.size - 1)) {
                 tvResult.append(
                     "${data.get(i).taskId} | ${data.get(i).taskName} | ${data.get(i).taskDescription} " +
-                            "| ${data.get(i).taskAvarage} | ${data.get(i).taskEvaluationDay} " +
-                            "| ${data.get(i).taskEvaluationTime} | ${data.get(i).categoryId}\n"
+                            "| ${data.get(i).taskAvarage} |date ${data.get(i).taskCreationDate} |day ${data.get(i).taskEvaluationDay} " +
+                            "|time ${data.get(i).taskEvaluationTime} | ${data.get(i).categoryId}\n"
                 )
             }
         }

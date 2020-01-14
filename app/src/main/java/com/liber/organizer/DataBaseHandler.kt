@@ -9,11 +9,12 @@ import android.widget.Toast
 val DATABASE_NAME = "TaskDB"
 
 val TASK_TABLE_NAME = "Tasks"
+val COL_TASK_ID = "task_id"
 val COL_TASK_NAME = "task_name"
 val COL_TASK_DESCRIPTION = "task_description"
 val COL_TASK_AVARAGE = "task_avarage"
 val COL_TASK_ICON = "task_icon"
-val COL_TASK_ID = "task_id"
+val COL_TASK_CREATION_DATE = "task_creation_date"
 val COL_TASK_EVALUATION_DAY = "task_evaluation_day"
 val COL_TASK_EVALUATION_TIME = "task_evaluation_time"
 val FK_TASK_CATEGORY = "fk_category"
@@ -32,7 +33,7 @@ val COL_CATEGORY_ICON = "category_icon"
 
 
 val QUERRY_CREATE_TABLE_CATEGORY = "CREATE TABLE ${CATEGORY_TABLE_NAME} (${COL_CATEGORY_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_CATEGORY_NAME} VARCHAR(256), ${COL_CATEGORY_ICON} INTEGER)"
-val QUERRY_CREATE_TABLE_TASK = "CREATE TABLE ${TASK_TABLE_NAME} (${COL_TASK_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_TASK_NAME} VARCHAR(256), ${COL_TASK_DESCRIPTION} VARCHAR(256), ${COL_TASK_AVARAGE} INTEGER, ${COL_TASK_ICON} INTEGER, ${COL_TASK_EVALUATION_DAY} INTEGER, ${COL_TASK_EVALUATION_TIME} INTEGER, ${COL_CATEGORY_ID} INTEGER, CONSTRAINT ${FK_TASK_CATEGORY} FOREIGN KEY (${COL_CATEGORY_ID}) REFERENCES ${CATEGORY_TABLE_NAME}(${COL_CATEGORY_ID}))"
+val QUERRY_CREATE_TABLE_TASK = "CREATE TABLE ${TASK_TABLE_NAME} (${COL_TASK_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_TASK_NAME} VARCHAR(256), ${COL_TASK_DESCRIPTION} VARCHAR(256), ${COL_TASK_AVARAGE} INTEGER, ${COL_TASK_CREATION_DATE} INTEGER, ${COL_TASK_ICON} INTEGER, ${COL_TASK_EVALUATION_DAY} INTEGER, ${COL_TASK_EVALUATION_TIME} INTEGER, ${COL_CATEGORY_ID} INTEGER, CONSTRAINT ${FK_TASK_CATEGORY} FOREIGN KEY (${COL_CATEGORY_ID}) REFERENCES ${CATEGORY_TABLE_NAME}(${COL_CATEGORY_ID}))"
 val QUERRY_CREATE_TABLE_GRADE = "CREATE TABLE ${GRADE_TABLE_NAME} (${COL_GRADE_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GRADE_DATE} VARCHAR(256), ${COL_GRADE_GRADE} INTEGER, ${COL_TASK_ID} INTEGER, CONSTRAINT ${FK_GRADE_TASK} FOREIGN KEY (${COL_TASK_ID}) REFERENCES ${TASK_TABLE_NAME}(${COL_TASK_ID}))"
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
@@ -52,6 +53,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
         cv.put(COL_TASK_NAME, task.taskName)
         cv.put(COL_TASK_DESCRIPTION, task.taskDescription)
+        cv.put(COL_TASK_CREATION_DATE, task.taskCreationDate)
         cv.put(COL_TASK_ICON, task.taskIcon)
         cv.put(COL_TASK_AVARAGE, task.taskAvarage)
         cv.put(COL_TASK_EVALUATION_DAY, task.taskEvaluationDay)
@@ -81,6 +83,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 taskItem.taskName = selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
                 taskItem.taskDescription = selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
                 taskItem.taskAvarage = selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_ICON)).toInt()
+                taskItem.taskCreationDate = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_CREATION_DATE)).toLong()
                 taskItem.taskEvaluationDay = selectedData.getString(selectedData.getColumnIndex(
                     COL_TASK_EVALUATION_DAY)).toInt()
                 taskItem.taskEvaluationTime = selectedData.getString(selectedData.getColumnIndex(
@@ -109,6 +115,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 taskItem.taskName = selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
                 taskItem.taskDescription = selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
                 taskItem.taskAvarage = selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_ICON)).toInt()
+                taskItem.taskCreationDate = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_CREATION_DATE)).toLong()
                 taskItem.taskEvaluationDay = selectedData.getString(selectedData.getColumnIndex(
                     COL_TASK_EVALUATION_DAY)).toInt()
                 taskItem.taskEvaluationTime = selectedData.getString(selectedData.getColumnIndex(
