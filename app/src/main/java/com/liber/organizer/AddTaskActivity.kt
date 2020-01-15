@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_add_task.*
-import java.util.*
 
 class AddTaskActivity : AppCompatActivity() {
 
@@ -107,6 +106,22 @@ class AddTaskActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        btnUpdate.setOnClickListener {
+            if(evaluation_flag) {
+                val task = Task(
+                    etvName.text.toString(),
+                    etvDescription.text.toString(),
+                    selectedDay,
+                    selectedTime,
+                    categoryItem.categoryId
+                )
+
+                task.taskUpdateDate = 1547507640
+
+                db.insertTask(task)
+            }
+        }
+
         btnRead.setOnClickListener {
             val data = db.readTasks()
             tvResult.text = ""
@@ -114,7 +129,7 @@ class AddTaskActivity : AppCompatActivity() {
             for (i in 0..(data.size - 1)) {
                 tvResult.append(
                     "${data.get(i).taskId} | ${data.get(i).taskName} | ${data.get(i).taskDescription} " +
-                            "| ${data.get(i).taskAvarage} |date ${data.get(i).taskCreationDate} |day ${data.get(i).taskEvaluationDay} " +
+                            "| ${data.get(i).taskAvarage} |date ${data.get(i).taskUpdateDate} |day ${data.get(i).taskEvaluationDay} " +
                             "|time ${data.get(i).taskEvaluationTime} | ${data.get(i).categoryId}\n"
                 )
             }

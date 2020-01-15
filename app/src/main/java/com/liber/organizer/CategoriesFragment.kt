@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
 import kotlinx.android.synthetic.main.fragment_categories.view.*
+import java.time.DayOfWeek
 import java.util.*
 
 class CategoriesFragment : Fragment() {
@@ -19,11 +20,17 @@ class CategoriesFragment : Fragment() {
     fun getListOfDatesForTaskGrades(task: Task) {
         var dateList = arrayListOf<Long>()
 
-        var currentDate = Calendar.getInstance()
+        var taskEvaluationDay = task.taskEvaluationDay
+        var lastUpdateDate = TaskDate(task.taskUpdateDate)
+        var currentDate = TaskDate()
 
+        val daysBetween = currentDate.daysBetweenThisAndOther(lastUpdateDate)
 
+        for (i in 0..daysBetween) {
+            println("daysBetween:" + daysBetween)
+        }
 
-        TODO("Not implemented") // returns list of dates for grades
+        // returns list of dates for grades
     }
 
     fun createGrades(taskId: Int, dateList: Long) {
@@ -39,14 +46,12 @@ class CategoriesFragment : Fragment() {
     }
 
     fun evaluateGrades() {
-        var taskList = db.readTasks()
-        var gradeList = db.readGrades()
-
-        for (i in 0..(taskList.size - 1)) {
-            getListOfDatesForTaskGrades(taskList.get(i))
+        val taskList = db.readTasks()
+        if(taskList.size > 0) {
+            for (i in 0..(taskList.size - 1)) {
+                getListOfDatesForTaskGrades(taskList.get(i))
+            }
         }
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,6 +65,13 @@ class CategoriesFragment : Fragment() {
 
         val context = getContext()
         db = DataBaseHandler(context!!)
+
+        // TESTBLOCK.START
+
+        evaluateGrades()
+
+
+        // TESTBLOCK.END
 
         var categoryList = db.readCategory()
 
@@ -77,4 +89,3 @@ class CategoriesFragment : Fragment() {
         }
     }
 }
-

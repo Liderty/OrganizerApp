@@ -16,14 +16,15 @@ import java.util.*
 class TaskActivity : AppCompatActivity() {
 
     val EVALUATE_EVERYDAY_STRING = "Everyday"
+    val OUT_OF_WEEK = 7
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
 
-        var context = this
-        var db = DataBaseHandler(context)
+        val context = this
+        val db = DataBaseHandler(context)
 
         val taskItem = intent.getSerializableExtra("task") as Task
 
@@ -47,20 +48,20 @@ class TaskActivity : AppCompatActivity() {
             .addSubMenu(Color.parseColor("#FF662E"), R.drawable.digit_one)
             .setOnMenuSelectedListener {
                 index ->
-                    var newGrade = Grade(6-(index+1), taskItem.taskId)
+                    val newGrade = Grade(6-(index+1), taskItem.taskId)
                     db.insertGrade(newGrade)
                 recreate()
             }
 
 
         btnGoBack.setOnClickListener {
-            var intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
 
     fun getDay(dayId: Int) : String {
-        if(dayId < 8) {
+        if(dayId < OUT_OF_WEEK) {
             return resources.getStringArray(R.array.daysOfWeek)[dayId]
         } else return EVALUATE_EVERYDAY_STRING
     }
