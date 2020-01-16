@@ -215,7 +215,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/colorUpdate"
-                    android:enabled="false"
                     android:text="Update"
                     android:textColor="@color/colorBrightText" />
 
@@ -225,7 +224,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/colorDelete"
-                    android:enabled="false"
                     android:text="Delete"
                     android:textColor="@color/colorBrightText" />
 

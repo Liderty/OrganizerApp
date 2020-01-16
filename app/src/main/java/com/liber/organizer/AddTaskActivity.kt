@@ -106,19 +106,22 @@ class AddTaskActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btnUpdate.setOnClickListener {
-            if(evaluation_flag) {
-                val task = Task(
-                    etvName.text.toString(),
-                    etvDescription.text.toString(),
-                    selectedDay,
-                    selectedTime,
-                    categoryItem.categoryId
-                )
+        btnDelete.setOnClickListener {
+            if (etvName.text.toString().length > 0 && etvDescription.text.toString().length > 0) {
+                if (evaluation_flag) {
+                    val task = Task(
+                        etvName.text.toString(),
+                        etvDescription.text.toString(),
+                        selectedDay,
+                        selectedTime,
+                        categoryItem.categoryId
+                    )
 
-                task.taskUpdateDate = 1547507640
+                    task.taskUpdateDate = 1546339890000L
 
-                db.insertTask(task)
+                    db.insertTask(task)
+                }
+
             }
         }
 

@@ -9,32 +9,41 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
 import kotlinx.android.synthetic.main.fragment_categories.view.*
-import java.time.DayOfWeek
-import java.util.*
+import kotlin.collections.ArrayList
 
 class CategoriesFragment : Fragment() {
 
     lateinit var categorylistView: ListView
     lateinit var db: DataBaseHandler
 
-    fun getListOfDatesForTaskGrades(task: Task) {
-        var dateList = arrayListOf<Long>()
+    fun createMissingGradesForTask(task: Task) {
 
         var taskEvaluationDay = task.taskEvaluationDay
         var lastUpdateDate = TaskDate(task.taskUpdateDate)
         var currentDate = TaskDate()
 
-        val daysBetween = currentDate.daysBetweenThisAndOther(lastUpdateDate)
+        var datesList = currentDate.getDatesListBetweenThisAndOtherDate(lastUpdateDate)
+        var daysList = currentDate.getDaysListByIndexFromDatesList(taskEvaluationDay, datesList)
 
-        for (i in 0..daysBetween) {
-            println("daysBetween:" + daysBetween)
-        }
-
-        // returns list of dates for grades
+        createGrades(task, daysList)
     }
 
-    fun createGrades(taskId: Int, dateList: Long) {
-        TODO("Not implemented") // create missing grades
+    fun createGrades(task: Task, daysList: ArrayList<Long>) {
+        var gradeList = db.readGrades()
+
+        var sortedGrades = gradeList.sortedWith(compareBy({it.gradeDate}))
+
+        for (day in daysList) {
+            for( grade in sortedGrades ) {
+                if(TaskDate(grade.gradeDate).getDateWithoutTime() == TaskDate(day).getDateWithoutTime()) {
+                    break
+                } else if(TaskDate(grade.gradeDate).getDateWithoutTime() > TaskDate(day).getDateWithoutTime()) {
+                    val newGrade = Grade(task.taskId, day)
+                    db.insertGrade(newGrade)
+                    break
+                }
+            }
+        }
     }
 
     fun popupGradesForEvaluation() {
@@ -47,9 +56,10 @@ class CategoriesFragment : Fragment() {
 
     fun evaluateGrades() {
         val taskList = db.readTasks()
+
         if(taskList.size > 0) {
             for (i in 0..(taskList.size - 1)) {
-                getListOfDatesForTaskGrades(taskList.get(i))
+                createMissingGradesForTask(taskList.get(i))
             }
         }
     }
@@ -70,7 +80,6 @@ class CategoriesFragment : Fragment() {
 
         evaluateGrades()
 
-
         // TESTBLOCK.END
 
         var categoryList = db.readCategory()
@@ -85,6 +94,11 @@ class CategoriesFragment : Fragment() {
 
         view.btnCreateCategroy.setOnClickListener {
             var intent = Intent(context, AddCategoryActivity::class.java)
+            startActivity(intent)
+        }
+
+        view.openGrades.setOnClickListener() {
+            var intent = Intent(context, AddGradeActivity::class.java)
             startActivity(intent)
         }
     }

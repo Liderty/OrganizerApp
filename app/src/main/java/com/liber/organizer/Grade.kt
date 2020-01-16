@@ -13,6 +13,11 @@ class Grade {
         this.gradeDate = System.currentTimeMillis()
     }
 
+    constructor(taskId: Int, gradeDate: Long) {
+        this.taskId = taskId
+        this.gradeDate = gradeDate
+    }
+
     constructor() {
 
     }
