@@ -18,53 +18,116 @@ class CategoriesFragment : Fragment() {
 
     fun createMissingGradesForTask(task: Task) {
 
-        var taskEvaluationDay = task.taskEvaluationDay
-        var lastUpdateDate = TaskDate(task.taskUpdateDate)
-        var currentDate = TaskDate()
+        val taskEvaluationDay = task.taskEvaluationDay
+        val lastUpdateDate = TaskDate(task.taskUpdateDate)
+        val currentDate = TaskDate()
 
-        var datesList = currentDate.getDatesListBetweenThisAndOtherDate(lastUpdateDate)
-        var daysList = currentDate.getDaysListByIndexFromDatesList(taskEvaluationDay, datesList)
+        val datesList = currentDate.getDatesListBetweenThisAndOtherDate(lastUpdateDate)
+        var daysList = datesList
+
+        if (taskEvaluationDay < 7) {
+            daysList = currentDate.getDaysListByIndexFromDatesList(taskEvaluationDay, datesList)
+        }
 
         createGrades(task, daysList)
+
+        val newUpdateDate = TaskDate()
+        db.updateTaskUpdateDate(task.taskId, newUpdateDate.milliseconds)
     }
 
     fun createGrades(task: Task, daysList: ArrayList<Long>) {
-        var gradeList = db.readGrades()
+        val gradeList = db.readGrades(task.taskId)
 
-        var sortedGrades = gradeList.sortedWith(compareBy({it.gradeDate}))
+        val sortedGrades = gradeList.sortedWith(compareBy({ it.gradeDate }))
 
         for (day in daysList) {
-            for( grade in sortedGrades ) {
-                if(TaskDate(grade.gradeDate).getDateWithoutTime() == TaskDate(day).getDateWithoutTime()) {
-                    break
-                } else if(TaskDate(grade.gradeDate).getDateWithoutTime() > TaskDate(day).getDateWithoutTime()) {
-                    val newGrade = Grade(task.taskId, day)
-                    db.insertGrade(newGrade)
-                    break
+            if (sortedGrades.isEmpty()) {
+                val newGrade = Grade(task.taskId, day)
+                db.insertGrade(newGrade)
+
+            } else {
+                for (grade in sortedGrades) {
+                    if (TaskDate(grade.gradeDate).getDateWithoutTime() == TaskDate(day).getDateWithoutTime()) {
+                        break
+                    } else if (TaskDate(grade.gradeDate).getDateWithoutTime() > TaskDate(day).getDateWithoutTime()) {
+                        val newGrade = Grade(task.taskId, day)
+                        db.insertGrade(newGrade)
+                        break
+                    }
                 }
             }
         }
     }
 
-    fun popupGradesForEvaluation() {
-        TODO("Not implemented") // check list of grades that are missing grade and show popup with list of them
+    fun gradesForEvaluation(): ArrayList<Grade> {
+        val emptyGradeList = db.readEmptyGrades()
+        val gradesForEvaluationList = arrayListOf<Grade>()
+
+        val currentDate = TaskDate()
+
+        for (grade in emptyGradeList) {
+            var gradeTask = db.readTask(grade.taskId)
+            var evaluationFullDateAndTime = TaskDate(grade.gradeDate, gradeTask.taskEvaluationTime)
+
+            if (evaluationFullDateAndTime.milliseconds < currentDate.milliseconds) {
+                gradesForEvaluationList.add(grade)
+            }
+        }
+
+        return gradesForEvaluationList
     }
 
-    fun resolveOldGrades () {
-        TODO("Not implemented") // automatically evaluate grades older than seted
+    fun resolveDeprecated(grade: Grade, taskList: MutableList<Task>): Boolean {
+        val isDeprecated = false
+
+        for (task in taskList) {
+            if (grade.taskId == task.taskId) {
+                var currentTime = TaskDate()
+                var evaluationDate = TaskDate(grade.gradeDate)
+
+                if (task.taskEvaluationDay > 6) {
+                    if (currentTime.getDaysBetweenThisAndOtherDate(evaluationDate) > 5) {
+                        db.updateGradeGrade(grade.gradeId, 1)
+                    }
+                } else {
+                    if (currentTime.getDaysBetweenThisAndOtherDate(evaluationDate) > 14) {
+                        db.updateGradeGrade(grade.gradeId, 1)
+                    }
+                }
+            }
+        }
+
+        return isDeprecated
+    }
+
+    fun resolveDeprecatedGrades() {
+        val gradeList = db.readGrades()
+        val taskList = db.readTasks()
+
+        if (gradeList.isNotEmpty()) {
+            for (grade in gradeList) {
+                if (grade.gradeGrade == 0) {
+                    resolveDeprecated(grade, taskList)
+                }
+            }
+        }
     }
 
     fun evaluateGrades() {
         val taskList = db.readTasks()
 
-        if(taskList.size > 0) {
-            for (i in 0..(taskList.size - 1)) {
-                createMissingGradesForTask(taskList.get(i))
+        if (taskList.size > 0) {
+            for (task in taskList) {
+                createMissingGradesForTask(task)
             }
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_categories, container, false)
         categorylistView = view.findViewById(R.id.categoryListView)
         return view
@@ -73,19 +136,32 @@ class CategoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fm = fragmentManager
         val context = getContext()
         db = DataBaseHandler(context!!)
 
-        // TESTBLOCK.START
-
         evaluateGrades()
+        resolveDeprecatedGrades()
 
+        val emptyGrades = gradesForEvaluation()
+
+        // TESTBLOCK.START
+        if(emptyGrades.size > 0) {
+            val ratingsDialog = RatingDialog()
+
+            var args = Bundle()
+            args.putSerializable("grades", emptyGrades)
+
+            ratingsDialog.setArguments(args)
+            ratingsDialog.show(fm!!, "Ratings_tag")
+        }
         // TESTBLOCK.END
 
         var categoryList = db.readCategory()
 
-        categorylistView.adapter = CategoryListViewAdapter(context, R.layout.listview_category_row, categoryList)
-        categorylistView.setOnItemClickListener{ parent: AdapterView<*>, view: View, position: Int, id: Long ->
+        categorylistView.adapter =
+            CategoryListViewAdapter(context, R.layout.listview_category_row, categoryList)
+        categorylistView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
 
             var intent = Intent(context, TaskListActivity::class.java)
             intent.putExtra("category", categoryList[position])

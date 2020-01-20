@@ -4,7 +4,6 @@ import java.util.*
 import java.util.Calendar.*
 import kotlin.collections.ArrayList
 import kotlin.math.abs
-import kotlin.time.milliseconds
 
 class TaskDate {
 
@@ -21,6 +20,10 @@ class TaskDate {
 
     constructor() {
         this.milliseconds = System.currentTimeMillis()
+    }
+
+    constructor(dateMillis: Long, timeMillis: Long) {
+        this.milliseconds = this.getDateWithoutTime(dateMillis) + timeMillis
     }
 
     fun getDaysBetweenThisAndOtherDate(otherDate: TaskDate): Int {

@@ -120,6 +120,20 @@ class AddTaskActivity : AppCompatActivity() {
                     task.taskUpdateDate = 1546339890000L
 
                     db.insertTask(task)
+
+                } else {
+
+                    val task = Task(
+                        etvName.text.toString(),
+                        etvDescription.text.toString(),
+                        EVALUATE_EVRERYDAY_VALUE,
+                        selectedTime,
+                        categoryItem.categoryId
+                    )
+
+                    task.taskUpdateDate = 1546339890000L
+
+                    db.insertTask(task)
                 }
 
             }

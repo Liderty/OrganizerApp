@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context=".TaskListActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small"
+        android:text="Tasks"
+        android:textColor="@color/colorBrightText"
+        android:textSize="@dimen/text_size_small_header"
+        android:textAlignment="center"
+        android:background="@color/colorDarkText"/>
+
     <ListView
         android:id="@+id/tasksListView"
         android:layout_width="match_parent"

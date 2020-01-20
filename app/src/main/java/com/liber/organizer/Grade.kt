@@ -1,6 +1,8 @@
 package com.liber.organizer
 
-class Grade {
+import java.io.Serializable
+
+class Grade : Serializable {
 
     var gradeId: Int = 0
     var gradeDate: Long = 0

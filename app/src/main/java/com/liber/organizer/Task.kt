@@ -1,7 +1,5 @@
 package com.liber.organizer
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.io.Serializable
 
 class Task : Serializable {

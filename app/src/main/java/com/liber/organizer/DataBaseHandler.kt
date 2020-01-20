@@ -30,7 +30,7 @@ val COL_CATEGORY_ID = "category_id"
 val COL_CATEGORY_NAME = "category_name"
 val COL_CATEGORY_ICON = "category_icon"
 
-
+val EMPTY_GRADE = 0
 
 val QUERRY_CREATE_TABLE_CATEGORY = "CREATE TABLE ${CATEGORY_TABLE_NAME} (${COL_CATEGORY_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_CATEGORY_NAME} VARCHAR(256), ${COL_CATEGORY_ICON} INTEGER)"
 val QUERRY_CREATE_TABLE_TASK = "CREATE TABLE ${TASK_TABLE_NAME} (${COL_TASK_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_TASK_NAME} VARCHAR(256), ${COL_TASK_DESCRIPTION} VARCHAR(256), ${COL_TASK_AVARAGE} INTEGER, ${COL_TASK_UPDATE_DATE} INTEGER, ${COL_TASK_ICON} INTEGER, ${COL_TASK_EVALUATION_DAY} INTEGER, ${COL_TASK_EVALUATION_TIME} INTEGER, ${COL_CATEGORY_ID} INTEGER, CONSTRAINT ${FK_TASK_CATEGORY} FOREIGN KEY (${COL_CATEGORY_ID}) REFERENCES ${CATEGORY_TABLE_NAME}(${COL_CATEGORY_ID}))"
@@ -101,6 +101,37 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return tasksList
     }
 
+    fun readTask(taskId: Int): Task {
+        val db = this.readableDatabase
+        val query = "SELECT * FROM ${TASK_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId})"
+        val selectedData = db.rawQuery(query, null)
+
+        var taskItem = Task()
+
+        if (selectedData.moveToFirst()) {
+            do {
+                taskItem.taskId = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
+                taskItem.taskName = selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
+                taskItem.taskDescription = selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
+                taskItem.taskAvarage = selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_ICON)).toInt()
+                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_UPDATE_DATE)).toLong()
+                taskItem.taskEvaluationDay = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_EVALUATION_DAY)).toInt()
+                taskItem.taskEvaluationTime = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_EVALUATION_TIME)).toLong()
+                taskItem.categoryId = selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
+            } while (selectedData.moveToNext())
+        }
+
+        selectedData.close()
+        db.close()
+        return taskItem
+    }
+
+
     fun readTasks(categoryId: Int): MutableList<Task> {
         var tasksList: MutableList<Task> = ArrayList()
 
@@ -142,6 +173,35 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             do {
                 var cv = ContentValues()
                 cv.put(COL_TASK_AVARAGE, newTaskAvarage)
+
+                db.update(
+                    TASK_TABLE_NAME, cv, "${COL_TASK_ID}=? AND ${COL_TASK_NAME}=?", arrayOf(
+                        result.getString(
+                            result.getColumnIndex(
+                                COL_TASK_ID
+                            )
+                        ), result.getString(
+                            result.getColumnIndex(
+                                COL_TASK_NAME
+                            )
+                        )
+                    )
+                )
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+    }
+
+    fun updateTaskUpdateDate(taskId: Int, newDate: Long) {
+        val db = this.writableDatabase
+        val query = "SELECT * FROM ${TASK_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var cv = ContentValues()
+                cv.put(COL_TASK_UPDATE_DATE, newDate)
 
                 db.update(
                     TASK_TABLE_NAME, cv, "${COL_TASK_ID}=? AND ${COL_TASK_NAME}=?", arrayOf(
@@ -227,6 +287,80 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         result.close()
         db.close()
         return gradeList
+    }
+
+    fun readGrades(taskId: Int): MutableList<Grade> {
+        var gradeList: MutableList<Grade> = ArrayList()
+
+        val db = this.readableDatabase
+        val query = "SELECT * FROM ${GRADE_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var gradeItem = Grade()
+                gradeItem.gradeId = result.getString(result.getColumnIndex(COL_GRADE_ID)).toInt()
+                gradeItem.gradeDate = result.getString(result.getColumnIndex(COL_GRADE_DATE)).toLong()
+                gradeItem.gradeGrade = result.getString(result.getColumnIndex(COL_GRADE_GRADE)).toInt()
+                gradeItem.taskId = result.getString(result.getColumnIndex(COL_TASK_ID)).toInt()
+                gradeList.add(gradeItem)
+            } while (result.moveToNext())
+        }
+
+        result.close()
+        db.close()
+        return gradeList
+    }
+    fun readEmptyGrades(): MutableList<Grade> {
+        var gradeList: MutableList<Grade> = ArrayList()
+
+        val db = this.readableDatabase
+        val query = "SELECT * FROM ${GRADE_TABLE_NAME} WHERE (${COL_GRADE_GRADE}==${EMPTY_GRADE})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var gradeItem = Grade()
+                gradeItem.gradeId = result.getString(result.getColumnIndex(COL_GRADE_ID)).toInt()
+                gradeItem.gradeDate = result.getString(result.getColumnIndex(COL_GRADE_DATE)).toLong()
+                gradeItem.gradeGrade = result.getString(result.getColumnIndex(COL_GRADE_GRADE)).toInt()
+                gradeItem.taskId = result.getString(result.getColumnIndex(COL_TASK_ID)).toInt()
+                gradeList.add(gradeItem)
+            } while (result.moveToNext())
+        }
+
+        result.close()
+        db.close()
+        return gradeList
+    }
+
+    fun updateGradeGrade(gradeId: Int, newGrade: Int) {
+        val db = this.writableDatabase
+        val query = "SELECT * FROM ${GRADE_TABLE_NAME} WHERE (${COL_GRADE_ID}==${gradeId})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var cv = ContentValues()
+                cv.put(COL_GRADE_GRADE, newGrade)
+
+                db.update(
+                    GRADE_TABLE_NAME, cv, "${COL_GRADE_ID}=? AND ${COL_GRADE_DATE}=?", arrayOf(
+                        result.getString(
+                            result.getColumnIndex(
+                                COL_GRADE_ID
+                            )
+                        ), result.getString(
+                            result.getColumnIndex(
+                                COL_GRADE_DATE
+                            )
+                        )
+                    )
+                )
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
     }
 
     fun insertCategory(category: Category) {
