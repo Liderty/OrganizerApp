@@ -7,7 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 
-class RatingListViewAdapter (var listViewContext: Context, var resources: Int, var gradeItems:List<Grade>) : ArrayAdapter<Grade>(listViewContext, resources, gradeItems) {
+class RatingListViewAdapter(
+    var listViewContext: Context,
+    var resources: Int,
+    var gradeItems: List<Grade>
+) : ArrayAdapter<Grade>(listViewContext, resources, gradeItems) {
 
     var db = DataBaseHandler(context)
 
@@ -30,7 +34,7 @@ class RatingListViewAdapter (var listViewContext: Context, var resources: Int, v
         taskTitleTextView.text = taskItem.taskName
         taskDescriptionTextView.text = taskItem.taskDescription
 
-        if(taskItem.taskAvarage != 0.toDouble()) {
+        if (taskItem.taskAvarage != 0.toDouble()) {
             taskGradeTextView.text = taskItem.taskAvarage.toString()
         } else {
             taskGradeTextView.text = ""
@@ -39,8 +43,15 @@ class RatingListViewAdapter (var listViewContext: Context, var resources: Int, v
         taskRateButton.setOnClickListener {
             println("tid: ${taskItem.taskId} gid: ${gradeItem.gradeId} rat: ${taskRatingBar.rating.toInt()}")
             db.updateGradeGrade(gradeItem.gradeId, taskRatingBar.rating.toInt())
+            reloadData(gradeItem)
         }
 
         return view
     }
+
+    fun reloadData(gradeItem: Grade) {
+        this.remove(gradeItem)
+        this.notifyDataSetChanged()
+    }
+
 }

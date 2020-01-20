@@ -55,8 +55,7 @@ class TaskActivity : AppCompatActivity() {
 
 
         btnGoBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 
