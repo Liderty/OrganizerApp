@@ -4,10 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.ListView
+import android.widget.*
+import kotlinx.android.synthetic.main.activity_task_list.*
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -15,7 +13,6 @@ class TaskListActivity : AppCompatActivity() {
 
     var context = this
     var db = DataBaseHandler(context)
-
 
     fun countAvarage(gradeList: List<Int>): Double {
         return Math.round((gradeList.sum().toDouble() / gradeList.size) * 10.0) / 10.0
@@ -53,7 +50,6 @@ class TaskListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task_list)
 
         val categoryItem = intent.getSerializableExtra("category") as Category
-
         var btnCreateTask = findViewById<LinearLayout>(R.id.btnCreateTask)
 
         updateAvarage()

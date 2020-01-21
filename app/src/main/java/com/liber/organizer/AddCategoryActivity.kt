@@ -28,8 +28,7 @@ class AddCategoryActivity : AppCompatActivity() {
         }
 
         btnGoBack.setOnClickListener {
-            var intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         btnRead.setOnClickListener {

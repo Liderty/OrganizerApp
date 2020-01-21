@@ -24,6 +24,10 @@ class AddTaskActivity : AppCompatActivity() {
         val categoryItem = intent.getSerializableExtra("category") as Category
         val daySpinner = findViewById(R.id.daySpinnerElement) as LinearLayout
 
+        taskImage.setOnClickListener {
+
+        }
+
         radio_everyday.setOnClickListener {
             this.evaluation_flag = false
             daySpinner.visibility = View.INVISIBLE
