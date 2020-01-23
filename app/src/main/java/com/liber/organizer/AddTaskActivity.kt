@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_add_task.*
 
 class AddTaskActivity : AppCompatActivity() {
 
-    val EVALUATE_EVRERYDAY_VALUE = 8
+    val EVALUATE_EVRERYDAY_VALUE = 7
 
     var context = this
     var db = DataBaseHandler(context)
@@ -70,7 +70,6 @@ class AddTaskActivity : AppCompatActivity() {
             var hoursInMillis = hour * 60L * 60 * 1000
             var minutesInMillis = minute * 60L * 1000
             selectedTime = hoursInMillis + minutesInMillis
-            System.out.println(selectedTime)
         }
 
 
@@ -98,8 +97,7 @@ class AddTaskActivity : AppCompatActivity() {
                     db.insertTask(task)
                 }
 
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(context, "Please fill data!", Toast.LENGTH_SHORT).show()
             }
@@ -110,38 +108,38 @@ class AddTaskActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btnDelete.setOnClickListener {
-            if (etvName.text.toString().length > 0 && etvDescription.text.toString().length > 0) {
-                if (evaluation_flag) {
-                    val task = Task(
-                        etvName.text.toString(),
-                        etvDescription.text.toString(),
-                        selectedDay,
-                        selectedTime,
-                        categoryItem.categoryId
-                    )
-
-                    task.taskUpdateDate = 1546339890000L
-
-                    db.insertTask(task)
-
-                } else {
-
-                    val task = Task(
-                        etvName.text.toString(),
-                        etvDescription.text.toString(),
-                        EVALUATE_EVRERYDAY_VALUE,
-                        selectedTime,
-                        categoryItem.categoryId
-                    )
-
-                    task.taskUpdateDate = 1546339890000L
-
-                    db.insertTask(task)
-                }
-
-            }
-        }
+//        btnDelete.setOnClickListener {
+//            if (etvName.text.toString().length > 0 && etvDescription.text.toString().length > 0) {
+//                if (evaluation_flag) {
+//                    val task = Task(
+//                        etvName.text.toString(),
+//                        etvDescription.text.toString(),
+//                        selectedDay,
+//                        selectedTime,
+//                        categoryItem.categoryId
+//                    )
+//
+//                    task.taskUpdateDate = 1546339890000L
+//
+//                    db.insertTask(task)
+//
+//                } else {
+//
+//                    val task = Task(
+//                        etvName.text.toString(),
+//                        etvDescription.text.toString(),
+//                        EVALUATE_EVRERYDAY_VALUE,
+//                        selectedTime,
+//                        categoryItem.categoryId
+//                    )
+//
+//                    task.taskUpdateDate = 1546339890000L
+//
+//                    db.insertTask(task)
+//                }
+//
+//            }
+//        }
 
         btnRead.setOnClickListener {
             val data = db.readTasks()

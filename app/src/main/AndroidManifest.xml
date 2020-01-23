@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TaskListActivity"></activity>
-        <activity android:name=".CategorySpinnerActivity" />
+        <activity android:name=".EditTaskActivity" />
         <activity android:name=".AddCategoryActivity" />
         <activity android:name=".TaskActivity" />
         <activity android:name=".AddTaskActivity" />

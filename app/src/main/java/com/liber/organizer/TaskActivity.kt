@@ -6,12 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import com.liber.organizer.MainActivity
-import com.liber.organizer.R
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.android.synthetic.main.activity_task.btnGoBack
-import java.time.LocalDateTime
-import java.util.*
+
 
 class TaskActivity : AppCompatActivity() {
 
@@ -53,6 +52,29 @@ class TaskActivity : AppCompatActivity() {
                 recreate()
             }
 
+        btnEdit.setOnClickListener {
+            var intent = Intent(context, EditTaskActivity::class.java)
+            intent.putExtra("task", taskItem)
+            startActivity(intent)
+        }
+
+        btnDelete.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+
+            builder.setTitle("Deleting Task")
+            builder.setMessage("WARNING: Are you sure you want to delete this Task? All of its data like grades and statistics will be also deleted!")
+
+            builder.setPositiveButton("Confirm Delete"){dialog, which ->
+                Toast.makeText(applicationContext,"Successfully deleted.",Toast.LENGTH_SHORT).show()
+            }
+
+            builder.setNegativeButton("Cancel"){dialog,which ->
+                Toast.makeText(applicationContext,"Nothing deleted",Toast.LENGTH_SHORT).show()
+            }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
 
         btnGoBack.setOnClickListener {
             finish()

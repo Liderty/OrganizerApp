@@ -41,7 +41,7 @@ class TaskDate {
         return datesList
     }
 
-    public fun getDaysListByIndexFromDatesList(index: Int, datesList: ArrayList<Long>): ArrayList<Long> {
+    fun getDaysListByIndexFromDatesList(index: Int, datesList: ArrayList<Long>): ArrayList<Long> {
         var daysList = arrayListOf<Long>()
         for (i in 0..datesList.size - 1) {
             if(TaskDate(datesList[i]).getDayOfWeekIndex() == index) {
@@ -51,8 +51,20 @@ class TaskDate {
         return daysList
     }
 
+    fun getHour() : Int {
+        var calendar = getInstance(TimeZone.getTimeZone("UTC"))
+        calendar.setTimeInMillis(this.milliseconds)
+        return calendar.get(HOUR_OF_DAY)
+    }
+
+    fun getMinute() : Int {
+        var calendar = getInstance(TimeZone.getTimeZone("UTC"))
+        calendar.setTimeInMillis(this.milliseconds)
+        return calendar.get(MINUTE)
+    }
+
     fun getDayOfWeekIndex(): Int {
-        var calendar = GregorianCalendar.getInstance()
+        var calendar = getInstance(TimeZone.getTimeZone("UTC"))
         calendar.setTimeInMillis(this.milliseconds)
 
         var dayOfWeek = when (calendar.get(DAY_OF_WEEK)) {
@@ -74,7 +86,7 @@ class TaskDate {
     }
 
     fun getDateWithoutTime(dateTimeMillis: Long): Long {
-        var calendar = GregorianCalendar.getInstance()
+        var calendar = getInstance(TimeZone.getTimeZone("UTC"))
         calendar.setTimeInMillis(dateTimeMillis)
 
         calendar.set(MILLISECOND, 0);

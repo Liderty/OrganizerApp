@@ -164,6 +164,62 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return tasksList
     }
 
+    fun updateTask(taskId: Int, editedTask: Task) {
+
+        val db = this.writableDatabase
+        val query = "SELECT * FROM ${TASK_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var cv = ContentValues()
+
+                val emptyTask = Task()
+
+                println("${emptyTask.taskName} versus ${editedTask.taskName}")
+                if (emptyTask.taskName != editedTask.taskName) {
+                    cv.put(COL_TASK_NAME, editedTask.taskName)
+                }
+
+                println("${emptyTask.taskDescription} versus ${editedTask.taskDescription}")
+                if (emptyTask.taskDescription != editedTask.taskDescription) {
+                    cv.put(COL_TASK_DESCRIPTION, editedTask.taskDescription)
+                }
+
+                println("${emptyTask.taskIcon} versus ${editedTask.taskIcon}")
+                if (emptyTask.taskIcon != editedTask.taskIcon) {
+                    cv.put(COL_TASK_ICON, editedTask.taskIcon)
+                }
+
+                println("${emptyTask.taskEvaluationDay} versus ${editedTask.taskEvaluationDay}")
+                if (emptyTask.taskEvaluationDay != editedTask.taskEvaluationDay) {
+                    cv.put(COL_TASK_EVALUATION_DAY, editedTask.taskEvaluationDay)
+                }
+
+                println("${emptyTask.taskEvaluationTime} versus ${editedTask.taskEvaluationTime}")
+                if (emptyTask.taskEvaluationTime != editedTask.taskEvaluationTime) {
+                    cv.put(COL_TASK_EVALUATION_TIME, editedTask.taskEvaluationTime)
+                }
+
+                db.update(
+                    TASK_TABLE_NAME, cv, "${COL_TASK_ID}=? AND ${COL_TASK_NAME}=?", arrayOf(
+                        result.getString(
+                            result.getColumnIndex(
+                                COL_TASK_ID
+                            )
+                        ), result.getString(
+                            result.getColumnIndex(
+                                COL_TASK_NAME
+                            )
+                        )
+                    )
+                )
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+    }
+
     fun updateTaskAvarage(taskId: Int, newTaskAvarage: Double) {
         val db = this.writableDatabase
         val query = "SELECT * FROM ${TASK_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId})"
@@ -221,25 +277,6 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         result.close()
         db.close()
     }
-
-//
-//    fun getNames(): MutableList<String> {
-//        var list: MutableList<String> = ArrayList()
-//
-//        val db = this.readableDatabase
-//        val query = "SELECT * FROM ${TABLE_NAME}"
-//        val result = db.rawQuery(query, null)
-//
-//        if (result.moveToFirst()) {
-//            do {
-//                list.add(result.getString(result.getColumnIndex(COL_NAME)))
-//            } while (result.moveToNext())
-//        }
-//
-//        result.close()
-//        db.close()
-//        return list
-//    }
 
 //    fun deleteData() {
 //        var db = this.writableDatabase

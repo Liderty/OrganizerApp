@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_large">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:text="Edit task"
+                android:textAlignment="center"
+                android:textColor="@color/colorDarkText"
+                android:textSize="@dimen/text_size_header"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/etvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/pick_name_for_task"
+                    android:textColorHint="@color/colorHintText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change icon"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorDarkText"
+                    android:textSize="@dimen/text_size_creation" />
+
+                <ImageView
+                    android:id="@+id/taskImage"
+                    android:layout_width="@dimen/icon_size_medium"
+                    android:layout_height="@dimen/icon_size_medium"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:contentDescription="@string/task_icon_description"
+                    android:src="@drawable/edit" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/etvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:hint="@string/description_hint"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:maxLines="3"
+                android:textColorHint="@color/colorHintText" />
+
+            <RadioGroup
+                android:id="@+id/evaluation_interval_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@color/colorHintText"
+                android:padding="@dimen/padding_large">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:text="@string/interval_radio_title"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_small_header"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radio_everyday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="radio_button_click"
+                    android:text="@string/interval_radio_everyday" />
+
+                <RadioButton
+                    android:id="@+id/radio_weekly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="radio_button_click"
+                    android:text="@string/interval_radio_weekly" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/daySpinnerElement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/daysSpinnerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_evaluate_day_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorDarkText"
+                    android:textSize="@dimen/text_size_creation" />
+
+                <Spinner
+                    android:id="@+id/daysSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spinner_size"
+                    android:layout_marginTop="@dimen/margin_medium"/>
+
+            </LinearLayout>
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timeSelectorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_evaluate_time_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorDarkText"
+                    android:textSize="@dimen/text_size_creation" />
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/padding_large"
+                    android:timePickerMode="spinner"/>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSaveChanges"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@color/colorInsert"
+                android:text="Save changes"
+                android:textColor="@color/colorBrightText" />
+
+            <Button
+                android:id="@+id/btnGoBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@color/colorPrimary"
+                android:text="@string/Cancel"
+                android:textColor="@color/colorBrightText" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
