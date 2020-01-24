@@ -55,14 +55,7 @@ class AddTaskActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-
                 selectedDay = position
-
-                Toast.makeText(
-                    context,
-                    "Spinner selected : ${parent?.getItemAtPosition(position).toString()}",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
 

@@ -11,8 +11,10 @@ class TaskListActivity : AppCompatActivity() {
 
     lateinit var tasksListView: ListView
 
+    var categoryId = 0
     var context = this
     var db = DataBaseHandler(context)
+
 
     fun countAvarage(gradeList: List<Int>): Double {
         return Math.round((gradeList.sum().toDouble() / gradeList.size) * 10.0) / 10.0
@@ -50,24 +52,29 @@ class TaskListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task_list)
 
         val categoryItem = intent.getSerializableExtra("category") as Category
+        categoryId = categoryItem.categoryId
         var btnCreateTask = findViewById<LinearLayout>(R.id.btnCreateTask)
 
         updateAvarage()
 
-        var tasksList = db.readTasks(categoryItem.categoryId)
-
         tasksListView = findViewById(R.id.tasksListView)
-        tasksListView.adapter = TaskListViewAdapter(this, R.layout.listview_task_row, tasksList)
 
-        tasksListView.setOnItemClickListener{ parent: AdapterView<*>, view: View, position: Int, id: Long ->
-            var intent = Intent(this, TaskActivity::class.java)
-            intent.putExtra("task", tasksList[position])
-            startActivity(intent)
-        }
 
         btnCreateTask.setOnClickListener {
             var intent = Intent(this, AddTaskActivity::class.java)
             intent.putExtra("category", categoryItem)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var tasksList = db.readTasks(categoryId)
+
+        tasksListView.adapter = TaskListViewAdapter(this, R.layout.listview_task_row, tasksList)
+        tasksListView.setOnItemClickListener{ parent: AdapterView<*>, view: View, position: Int, id: Long ->
+            var intent = Intent(this, TaskActivity::class.java)
+            intent.putExtra("task", tasksList[position])
             startActivity(intent)
         }
     }

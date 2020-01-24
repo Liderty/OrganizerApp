@@ -65,7 +65,11 @@ class TaskActivity : AppCompatActivity() {
             builder.setMessage("WARNING: Are you sure you want to delete this Task? All of its data like grades and statistics will be also deleted!")
 
             builder.setPositiveButton("Confirm Delete"){dialog, which ->
-                Toast.makeText(applicationContext,"Successfully deleted.",Toast.LENGTH_SHORT).show()
+                if(db.deleteTask(taskItem.taskId)) {
+                    db.deleteAllTaskGrades(taskItem.taskId)
+                    Toast.makeText(applicationContext,"Successfully deleted.",Toast.LENGTH_SHORT).show()
+                }
+                finish()
             }
 
             builder.setNegativeButton("Cancel"){dialog,which ->

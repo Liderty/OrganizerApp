@@ -278,13 +278,12 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
     }
 
-//    fun deleteData() {
-//        var db = this.writableDatabase
-//
-//        db.delete(TABLE_NAME, COL_ID + "=?", arrayOf(1.toString()))
-//
-//        db.close()
-//    }
+    fun deleteTask(_id: Int): Boolean {
+        val db = this.writableDatabase
+        val _success = db.delete(TASK_TABLE_NAME, COL_TASK_ID + "=?", arrayOf(_id.toString())).toLong()
+        db.close()
+        return Integer.parseInt("$_success") != -1
+    }
 
     fun insertGrade(grade: Grade) {
         val db = this.writableDatabase
@@ -397,6 +396,12 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             } while (result.moveToNext())
         }
         result.close()
+        db.close()
+    }
+
+    fun deleteAllTaskGrades(_id: Int) {
+        val db = this.writableDatabase
+        db.delete(GRADE_TABLE_NAME, COL_TASK_ID + "=?", arrayOf(_id.toString())).toLong()
         db.close()
     }
 
