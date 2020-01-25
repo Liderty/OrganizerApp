@@ -4,7 +4,6 @@
     <string name="done">Done</string>
     <string name="Cancel">Cancel</string>
 
-
     <string name="task_name">Task name</string>
     <string name="create_task">Create task</string>
     <string name="pick_name_for_task">Pick a name for your new task</string>
@@ -17,8 +16,6 @@
     <string name="select_evaluate_day_title">Select the appropriate day to evaluate</string>
     <string name="select_evaluate_time_title">Choose a convenient time to evaluate</string>
 
-
-
     <string-array name="daysOfWeek">
         <item>Monday</item>
         <item>Tuesday</item>
@@ -28,4 +25,11 @@
         <item>Saturday</item>
         <item>Sunday</item>
     </string-array>
+
+    <string-array name="summaryFragments">
+        <item>All Data</item>
+        <item>Categories</item>
+        <item>Tasks</item>
+    </string-array>
+
 </resources>

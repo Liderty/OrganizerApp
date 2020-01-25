@@ -15,34 +15,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val mainTabAdapter = MainViewPagerAdapter(manger)
+        val mainTabAdapter = FragmentViewPagerAdapter(manger)
 
         mainTabAdapter.addFragment(CategoriesFragment(), "Categories")
         mainTabAdapter.addFragment(SummaryFragment(), "Summary")
 
         mainViewPager.adapter = mainTabAdapter
         mainTabs.setupWithViewPager(mainViewPager)
-    }
-
-    class MainViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter (manager) {
-        private val fragmentList: MutableList<Fragment> = ArrayList()
-        private val titleList: MutableList<String> = ArrayList()
-
-        override fun getItem(position: Int): Fragment {
-            return fragmentList[position]
-        }
-
-        override fun getCount(): Int {
-            return fragmentList.size
-        }
-
-        fun addFragment(fragment: Fragment, title: String){
-            fragmentList.add(fragment)
-            titleList.add(title)
-        }
-
-        override fun getPageTitle(position: Int): CharSequence? {
-            return titleList[position]
-        }
     }
 }
