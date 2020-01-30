@@ -23,16 +23,19 @@ class RatingListViewAdapter(
         val taskImageView: ImageView = view.findViewById(R.id.taskImage)
         val taskTitleTextView: TextView = view.findViewById(R.id.taskTitle)
         val taskDescriptionTextView: TextView = view.findViewById(R.id.taskDescription)
+        val taskDate: TextView = view.findViewById(R.id.taskDate)
         val taskGradeTextView: TextView = view.findViewById(R.id.taskGrade)
         val taskRatingBar: RatingBar = view.findViewById(R.id.taskRatingBar)
         val taskRateButton: Button = view.findViewById(R.id.btnRate)
 
         val gradeItem: Grade = gradeItems[position]
         val taskItem: Task = db.readTask(gradeItem.taskId)
+        val taskItemDate = TaskDate(gradeItem.gradeDate)
 
         taskImageView.setImageDrawable(listViewContext.resources.getDrawable(taskItem.taskIcon))
         taskTitleTextView.text = taskItem.taskName
         taskDescriptionTextView.text = taskItem.taskDescription
+        taskDate.text = taskItemDate.getStringDate()
 
         if (taskItem.taskAvarage != 0.toDouble()) {
             taskGradeTextView.text = taskItem.taskAvarage.toString()

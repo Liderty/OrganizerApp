@@ -101,38 +101,38 @@ class AddTaskActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-//        btnDelete.setOnClickListener {
-//            if (etvName.text.toString().length > 0 && etvDescription.text.toString().length > 0) {
-//                if (evaluation_flag) {
-//                    val task = Task(
-//                        etvName.text.toString(),
-//                        etvDescription.text.toString(),
-//                        selectedDay,
-//                        selectedTime,
-//                        categoryItem.categoryId
-//                    )
-//
-//                    task.taskUpdateDate = 1546339890000L
-//
-//                    db.insertTask(task)
-//
-//                } else {
-//
-//                    val task = Task(
-//                        etvName.text.toString(),
-//                        etvDescription.text.toString(),
-//                        EVALUATE_EVRERYDAY_VALUE,
-//                        selectedTime,
-//                        categoryItem.categoryId
-//                    )
-//
-//                    task.taskUpdateDate = 1546339890000L
-//
-//                    db.insertTask(task)
-//                }
-//
-//            }
-//        }
+        btnDelete.setOnClickListener {
+            if (etvName.text.toString().length > 0 && etvDescription.text.toString().length > 0) {
+                if (evaluation_flag) {
+                    val task = Task(
+                        etvName.text.toString(),
+                        etvDescription.text.toString(),
+                        selectedDay,
+                        selectedTime,
+                        categoryItem.categoryId
+                    )
+
+                    task.taskUpdateDate = 1579956101000L
+
+                    db.insertTask(task)
+
+                } else {
+
+                    val task = Task(
+                        etvName.text.toString(),
+                        etvDescription.text.toString(),
+                        EVALUATE_EVRERYDAY_VALUE,
+                        selectedTime,
+                        categoryItem.categoryId
+                    )
+
+                    task.taskUpdateDate = 1579956101000L
+
+                    db.insertTask(task)
+                }
+
+            }
+        }
 
         btnRead.setOnClickListener {
             val data = db.readTasks()

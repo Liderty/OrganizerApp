@@ -17,10 +17,10 @@ class RatingDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var db = DataBaseHandler(this.context!!)
+        val db = DataBaseHandler(this.context!!)
         val context = getContext()
 
-        var emptyGrades = db.readEmptyGrades()
+        val emptyGrades = db.readEmptyGrades()
 
         val rootView = inflater.inflate(R.layout.dialog_rating_list, container)
         val ratingListView = rootView.findViewById(R.id.listviewRatings) as ListView

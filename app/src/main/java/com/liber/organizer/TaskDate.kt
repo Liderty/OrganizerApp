@@ -41,10 +41,10 @@ class TaskDate {
         return datesList
     }
 
-    fun getDaysListByIndexFromDatesList(index: Int, datesList: ArrayList<Long>): ArrayList<Long> {
+    fun getDaysListByIndexFromDatesList(dayIndex: Int, datesList: ArrayList<Long>): ArrayList<Long> {
         var daysList = arrayListOf<Long>()
         for (i in 0..datesList.size - 1) {
-            if(TaskDate(datesList[i]).getDayOfWeekIndex() == index) {
+            if(TaskDate(datesList[i]).getDayOfWeekIndex() == dayIndex) {
                 daysList.add(datesList[i])
             }
         }
@@ -103,5 +103,12 @@ class TaskDate {
 
     fun getStringDayOf(index: Int): String {
         return DAYS_OF_WEEK[index]
+    }
+
+    fun getStringDate() : String {
+        val calendar = getInstance(TimeZone.getTimeZone("UTC"))
+        calendar.setTimeInMillis(milliseconds)
+        val dateString = "${calendar.get(DAY_OF_MONTH)}/${calendar.get(MONTH) + 1}/${calendar.get(YEAR)}"
+        return dateString
     }
 }
