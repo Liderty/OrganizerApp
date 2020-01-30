@@ -5,11 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".SummaryCategoriesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Categories"
-        android:gravity="center"/>
+        android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category Grades"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:layout_margin="@dimen/margin_large"/>
+
+        <ListView
+            android:id="@+id/listViewCategoriesCharts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </FrameLayout>

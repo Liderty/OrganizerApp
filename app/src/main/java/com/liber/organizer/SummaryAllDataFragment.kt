@@ -44,7 +44,7 @@ class SummaryAllDataFragment : Fragment() {
 
         val colors = java.util.ArrayList<Int>()
         for (c in ColorTemplate.PASTEL_COLORS) colors.add(c)
-        colors.add(ColorTemplate.getHoloBlue())
+//        colors.add(ColorTemplate.getHoloBlue())
         dataSet.setColors(colors)
 
         val data = PieData(dataSet)
