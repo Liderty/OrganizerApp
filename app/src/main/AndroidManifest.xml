@@ -12,6 +12,7 @@
         <activity android:name=".IconPickerActivity"></activity>
         <activity android:name=".TaskListActivity" />
         <activity android:name=".EditTaskActivity" />
+        <activity android:name=".EditCategoryActivity" />
         <activity android:name=".AddCategoryActivity" />
         <activity android:name=".TaskActivity" />
         <activity android:name=".AddTaskActivity" />

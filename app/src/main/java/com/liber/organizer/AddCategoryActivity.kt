@@ -37,8 +37,7 @@ class AddCategoryActivity : AppCompatActivity() {
                 var category = Category(etvName.text.toString(), categoryIcon)
                 db.insertCategory(category)
 
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(context, "Please fill data!", Toast.LENGTH_SHORT)
             }

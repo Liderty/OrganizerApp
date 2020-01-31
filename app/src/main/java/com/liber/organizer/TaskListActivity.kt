@@ -65,6 +65,12 @@ class TaskListActivity : AppCompatActivity() {
             intent.putExtra("category", categoryItem)
             startActivity(intent)
         }
+
+        buttonEditCategory.setOnClickListener {
+            var intent = Intent(context, EditCategoryActivity::class.java)
+            intent.putExtra("category", categoryItem)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {

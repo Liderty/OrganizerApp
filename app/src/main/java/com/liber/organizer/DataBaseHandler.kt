@@ -172,31 +172,26 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
         if (result.moveToFirst()) {
             do {
-                var cv = ContentValues()
+                val cv = ContentValues()
 
                 val emptyTask = Task()
 
-                println("${emptyTask.taskName} versus ${editedTask.taskName}")
                 if (emptyTask.taskName != editedTask.taskName) {
                     cv.put(COL_TASK_NAME, editedTask.taskName)
                 }
 
-                println("${emptyTask.taskDescription} versus ${editedTask.taskDescription}")
                 if (emptyTask.taskDescription != editedTask.taskDescription) {
                     cv.put(COL_TASK_DESCRIPTION, editedTask.taskDescription)
                 }
 
-                println("${emptyTask.taskIcon} versus ${editedTask.taskIcon}")
                 if (emptyTask.taskIcon != editedTask.taskIcon) {
                     cv.put(COL_TASK_ICON, editedTask.taskIcon)
                 }
 
-                println("${emptyTask.taskEvaluationDay} versus ${editedTask.taskEvaluationDay}")
                 if (emptyTask.taskEvaluationDay != editedTask.taskEvaluationDay) {
                     cv.put(COL_TASK_EVALUATION_DAY, editedTask.taskEvaluationDay)
                 }
 
-                println("${emptyTask.taskEvaluationTime} versus ${editedTask.taskEvaluationTime}")
                 if (emptyTask.taskEvaluationTime != editedTask.taskEvaluationTime) {
                     cv.put(COL_TASK_EVALUATION_TIME, editedTask.taskEvaluationTime)
                 }
@@ -443,5 +438,42 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
 
         return categoryList
+    }
+
+    fun updateCategory(categoryId: Int, category: Category) {
+        val db = this.writableDatabase
+        val query = "SELECT * FROM ${CATEGORY_TABLE_NAME} WHERE (${COL_CATEGORY_ID}==${categoryId})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var cv = ContentValues()
+                val emptyCategory = Category()
+
+                if (emptyCategory.categoryName != category.categoryName) {
+                    cv.put(COL_CATEGORY_NAME, category.categoryName)
+                }
+
+                if (emptyCategory.categoryIcon != category.categoryIcon) {
+                    cv.put(COL_CATEGORY_ICON, category.categoryIcon)
+                }
+
+                db.update(
+                    CATEGORY_TABLE_NAME, cv, "${COL_CATEGORY_ID}=? AND ${COL_CATEGORY_NAME}=?", arrayOf(
+                        result.getString(
+                            result.getColumnIndex(
+                                COL_CATEGORY_ID
+                            )
+                        ), result.getString(
+                            result.getColumnIndex(
+                                COL_CATEGORY_NAME
+                            )
+                        )
+                    )
+                )
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
     }
 }

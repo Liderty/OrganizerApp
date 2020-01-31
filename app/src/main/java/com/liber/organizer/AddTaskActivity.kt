@@ -65,8 +65,8 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         timePicker.setOnTimeChangedListener { _, hour, minute ->
-            var hoursInMillis = hour * 60L * 60 * 1000
-            var minutesInMillis = minute * 60L * 1000
+            val hoursInMillis = hour * 60L * 60 * 1000
+            val minutesInMillis = minute * 60L * 1000
             selectedTime = hoursInMillis + minutesInMillis
         }
 
@@ -104,8 +104,7 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         btnGoBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         btnDelete.setOnClickListener {

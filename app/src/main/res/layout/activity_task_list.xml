@@ -51,4 +51,13 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonEditCategory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Edit Category"
+        android:background="@color/colorDarkText"
+        android:textColor="@color/colorBrightText"
+        android:padding="10dp"/>
 </LinearLayout>

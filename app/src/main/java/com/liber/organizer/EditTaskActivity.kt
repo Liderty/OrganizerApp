@@ -1,5 +1,7 @@
 package com.liber.organizer
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -20,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_edit_task.timePicker
 class EditTaskActivity : AppCompatActivity() {
 
     val EVALUATE_EVRERYDAY_VALUE = 7
+    val REQUEST_ICON_CODE = 1
 
     var context = this
     var db = DataBaseHandler(context)
@@ -27,6 +30,8 @@ class EditTaskActivity : AppCompatActivity() {
     var time_changed_flag = false
     var selectedDay = 0
     var selectedTime = 0L
+    var taskIcon = R.drawable.settings
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,11 @@ class EditTaskActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_item,
             resources.getStringArray(R.array.daysOfWeek)
         )
+
+        taskImage.setOnClickListener {
+            var intent = Intent(this, IconPickerActivity::class.java)
+            startActivityForResult(intent, REQUEST_ICON_CODE)
+        }
 
         daysSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
         daysSpinner.adapter = daysSpinnerAdapter
@@ -96,6 +106,11 @@ class EditTaskActivity : AppCompatActivity() {
                     editedTask.taskDescription = etvDescription.text.toString()
                 }
 
+                if(taskIcon != taskItem.taskIcon) {
+                    isEditedFlag = true
+                    editedTask.taskIcon = taskIcon
+                }
+
                 if(evaluation_flag) {
                     if (selectedDay != taskItem.taskEvaluationDay) {
                         isEditedFlag = true
@@ -146,5 +161,14 @@ class EditTaskActivity : AppCompatActivity() {
         val taskTime = TaskDate(taskItem.taskEvaluationTime)
         timePicker.hour = taskTime.getHour()
         timePicker.minute = taskTime.getMinute()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_ICON_CODE && resultCode == Activity.RESULT_OK) {
+            val test = data?.getSerializableExtra("klucz") as Int
+            taskIcon = test
+            taskImage.setImageDrawable(context.getDrawable(test))
+        }
     }
 }
