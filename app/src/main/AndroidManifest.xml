@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TaskListActivity"></activity>
+        <activity android:name=".IconPickerActivity"></activity>
+        <activity android:name=".TaskListActivity" />
         <activity android:name=".EditTaskActivity" />
         <activity android:name=".AddCategoryActivity" />
         <activity android:name=".TaskActivity" />
         <activity android:name=".AddTaskActivity" />
-        <activity android:name=".AddGradeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

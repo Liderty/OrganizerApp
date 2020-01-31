@@ -1,5 +1,7 @@
 package com.liber.organizer
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,12 +12,14 @@ import kotlinx.android.synthetic.main.activity_add_task.*
 class AddTaskActivity : AppCompatActivity() {
 
     val EVALUATE_EVRERYDAY_VALUE = 7
+    val REQUEST_ICON_CODE = 1
 
     var context = this
     var db = DataBaseHandler(context)
     var evaluation_flag = false
     var selectedDay = 0
     var selectedTime = 0L
+    var taskIcon = R.drawable.settings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +29,8 @@ class AddTaskActivity : AppCompatActivity() {
         val daySpinner = findViewById(R.id.daySpinnerElement) as LinearLayout
 
         taskImage.setOnClickListener {
-
+            var intent = Intent(this, IconPickerActivity::class.java)
+            startActivityForResult(intent, REQUEST_ICON_CODE)
         }
 
         radio_everyday.setOnClickListener {
@@ -72,6 +77,7 @@ class AddTaskActivity : AppCompatActivity() {
                 if(evaluation_flag) {
                     val task = Task(
                         etvName.text.toString(),
+                        taskIcon,
                         etvDescription.text.toString(),
                         selectedDay,
                         selectedTime,
@@ -82,6 +88,7 @@ class AddTaskActivity : AppCompatActivity() {
                 } else {
                     val task = Task(
                         etvName.text.toString(),
+                        taskIcon,
                         etvDescription.text.toString(),
                         EVALUATE_EVRERYDAY_VALUE,
                         selectedTime,
@@ -106,6 +113,7 @@ class AddTaskActivity : AppCompatActivity() {
                 if (evaluation_flag) {
                     val task = Task(
                         etvName.text.toString(),
+                        taskIcon,
                         etvDescription.text.toString(),
                         selectedDay,
                         selectedTime,
@@ -120,6 +128,7 @@ class AddTaskActivity : AppCompatActivity() {
 
                     val task = Task(
                         etvName.text.toString(),
+                        taskIcon,
                         etvDescription.text.toString(),
                         EVALUATE_EVRERYDAY_VALUE,
                         selectedTime,
@@ -145,6 +154,15 @@ class AddTaskActivity : AppCompatActivity() {
                             "|time ${data.get(i).taskEvaluationTime} | ${data.get(i).categoryId}\n"
                 )
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_ICON_CODE && resultCode == Activity.RESULT_OK) {
+            val test = data?.getSerializableExtra("klucz") as Int
+            taskIcon = test
+            taskImage.setImageDrawable(context.getDrawable(test))
         }
     }
 }

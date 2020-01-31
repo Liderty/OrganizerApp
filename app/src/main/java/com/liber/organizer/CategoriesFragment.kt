@@ -172,10 +172,5 @@ class CategoriesFragment : Fragment() {
             var intent = Intent(context, AddCategoryActivity::class.java)
             startActivity(intent)
         }
-
-        view.openGrades.setOnClickListener() {
-            var intent = Intent(context, AddGradeActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

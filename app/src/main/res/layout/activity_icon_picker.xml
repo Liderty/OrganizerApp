@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".IconPickerActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick an image:"
+        android:background="@color/colorUpdate"
+        android:textColor="@color/colorBrightText"
+        android:textSize="@dimen/text_size_header"
+        android:gravity="center"/>
+
+    <GridView
+        android:id="@+id/gridViewIcons"
+        android:layout_width="match_parent"
+        android:layout_height="640dp"
+        android:numColumns="5"/>
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:background="@color/colorDarkText"
+        android:textColor="@color/colorBrightText"
+        android:text="Cancel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

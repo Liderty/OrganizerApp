@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/padding_large">
 
         <TextView
             android:layout_width="match_parent"
@@ -16,30 +16,41 @@
             android:layout_margin="10dp"
             android:padding="10dp"
             android:text="Add a new Category"
-            android:textSize="30sp"
             android:textAlignment="center"
-            android:textColor="@color/colorDarkText"/>
+            android:textColor="@color/colorDarkText"
+            android:textSize="30sp" />
+
+
+        <EditText
+            android:id="@+id/etvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name for your new category"
+            android:textColorHint="@color/colorHintText"
+            android:padding="@dimen/padding_large"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="10dp">
+            android:layout_margin="@dimen/margin_medium"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/taskImage"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="@dimen/margin_large"
-                android:src="@drawable/business_contact"/>
-
-            <EditText
-                android:id="@+id/etvName"
-                android:hint="Name for your new category"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="1"
-                android:textColorHint="@color/colorHintText"/>
+                android:text="@string/pick_an_icon"
+                android:textAlignment="center"
+                android:textColor="@color/colorDarkText"
+                android:textSize="@dimen/text_size_creation" />
+
+            <ImageView
+                android:id="@+id/categoryImage"
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_medium"
+                android:contentDescription="@string/task_icon_description"
+                android:src="@drawable/settings" />
 
         </LinearLayout>
 
@@ -47,9 +58,8 @@
             android:id="@+id/btnInsert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/colorInsert"
-            android:padding="10dp"
             android:text="Insert"
             android:textColor="@color/colorBrightText" />
 
@@ -57,10 +67,9 @@
             android:id="@+id/btnGoBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:background="@color/colorPrimary"
             android:text="Return"
-            android:textColor="@color/colorBrightText"/>
+            android:textColor="@color/colorBrightText" />
 
 
     </LinearLayout>
@@ -69,16 +78,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorDevelopment"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/btnRead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorRead"
-            android:textColor="@color/colorBrightText"
-            android:text="Read" />
+            android:text="Read"
+            android:textColor="@color/colorBrightText" />
 
         <ScrollView
             android:layout_width="match_parent"

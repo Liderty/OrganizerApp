@@ -14,9 +14,10 @@ class Task : Serializable {
     var taskEvaluationTime: Long = 0
     var categoryId: Int = 0
 
-    constructor(taskName: String, taskDescription: String, taskEvaluationDay: Int, taskEvaluationTime: Long, categoryId: Int) {
+    constructor(taskName: String, taskIcon: Int, taskDescription: String, taskEvaluationDay: Int, taskEvaluationTime: Long, categoryId: Int) {
         this.taskName = taskName
         this.taskDescription = taskDescription
+        this.taskIcon = taskIcon
         this.taskUpdateDate = getUpdateDate()
         this.taskEvaluationDay = taskEvaluationDay
         this.taskEvaluationTime = taskEvaluationTime

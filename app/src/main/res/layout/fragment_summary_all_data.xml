@@ -3,28 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SummaryAllDataFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".SummaryAllDataFragment">
 
-    <LinearLayout
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chartAllGrades"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/margin_large" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="All Grades"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textStyle="bold"
-            android:textColor="@color/colorAccent"
-            android:layout_margin="@dimen/margin_large"/>
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chartAllGrades"
-            android:layout_margin="@dimen/margin_large"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
 </FrameLayout>

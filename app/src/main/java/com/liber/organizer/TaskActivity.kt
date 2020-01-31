@@ -32,7 +32,7 @@ class TaskActivity : AppCompatActivity() {
         val taskDescriptionTextView: TextView = findViewById(R.id.taskDescription)
         val taskGradeTextView: TextView = findViewById(R.id.taskGrade)
 
-        taskImageView.setImageResource(R.drawable.settings)
+        taskImageView.setImageResource(taskItem.taskIcon)
         taskTitleTextView.text = taskItem.taskName
         taskDescriptionTextView.text = taskItem.taskDescription
         taskGradeTextView.text = taskItem.taskAvarage.toString()
