@@ -13,9 +13,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_task.*
-import kotlinx.android.synthetic.main.activity_task.btnGoBack
 
 
 class TaskActivity : AppCompatActivity() {
@@ -28,6 +26,7 @@ class TaskActivity : AppCompatActivity() {
 
     val EVALUATE_EVERYDAY_STRING = "Everyday"
     val OUT_OF_WEEK = 7
+    private var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -38,6 +37,7 @@ class TaskActivity : AppCompatActivity() {
         db = DataBaseHandler(context)
 
         val taskItem = intent.getSerializableExtra("task") as Task
+        id = taskItem.taskId
 
         taskImageView = findViewById(R.id.taskImage)
         taskTitleTextView = findViewById(R.id.taskTitle)
@@ -79,7 +79,7 @@ class TaskActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val taskItem = db.readTask(taskId)
+        val taskItem = db.readTask(id)
 
         taskImageView.setImageResource(taskItem.taskIcon)
         taskTitleTextView.text = taskItem.taskName

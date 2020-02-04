@@ -11,12 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/categoryListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-
         <LinearLayout
             android:id="@+id/btnCreateCategroy"
             android:layout_width="match_parent"
@@ -46,5 +40,11 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/categoryListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 </FrameLayout>
