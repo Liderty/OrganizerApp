@@ -107,7 +107,7 @@ class AddTaskActivity : AppCompatActivity() {
             finish()
         }
 
-        btnDelete.setOnClickListener {
+        fun devDoneAdd (numberOfDays: Long){
             if (etvName.text.toString().length > 0 && etvDescription.text.toString().length > 0) {
                 if (evaluation_flag) {
                     val task = Task(
@@ -119,7 +119,7 @@ class AddTaskActivity : AppCompatActivity() {
                         categoryItem.categoryId
                     )
 
-                    task.taskUpdateDate = 1579956101000L
+                    task.taskUpdateDate = numberOfDays
 
                     db.insertTask(task)
 
@@ -134,12 +134,20 @@ class AddTaskActivity : AppCompatActivity() {
                         categoryItem.categoryId
                     )
 
-                    task.taskUpdateDate = 1579956101000L
+                    task.taskUpdateDate = numberOfDays
 
                     db.insertTask(task)
                 }
 
             }
+        }
+
+        btnInsert5.setOnClickListener {
+            devDoneAdd(1580469263000)
+        }
+
+        btnInsert15.setOnClickListener {
+            devDoneAdd(1579605263000)
         }
 
         btnRead.setOnClickListener {

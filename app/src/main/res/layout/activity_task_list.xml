@@ -37,13 +37,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View style="@style/Divider" />
-
-    <ListView
-        android:id="@+id/tasksListView"
-        android:layout_width="match_parent"
-        android:layout_height="575dp" />
-
     <LinearLayout
         android:id="@+id/btnCreateTask"
         android:orientation="horizontal"
@@ -77,16 +70,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:padding="@dimen/padding_medium">
 
         <Button
             android:id="@+id/buttonEditCategory"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="Edit Category"
-            android:background="@color/colorDarkText"
+            android:background="@drawable/rounded_button"
             android:textColor="@color/colorBrightText"
             android:padding="10dp"/>
 
     </LinearLayout>
+
+    <View style="@style/Divider" />
+
+    <ListView
+        android:id="@+id/tasksListView"
+        android:layout_width="match_parent"
+        android:layout_height="575dp" />
+
+
+
+
 </LinearLayout>

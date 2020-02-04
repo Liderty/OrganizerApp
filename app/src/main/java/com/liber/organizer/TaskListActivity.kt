@@ -63,7 +63,6 @@ class TaskListActivity : AppCompatActivity() {
 
         tasksListView = findViewById(R.id.tasksListView)
 
-
         btnCreateTask.setOnClickListener {
             var intent = Intent(this, AddTaskActivity::class.java)
             intent.putExtra("category", categoryItem)
@@ -79,11 +78,15 @@ class TaskListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        var tasksList = db.readTasks(categoryId)
+        val tasksList = db.readTasks(categoryId)
+        val categoryItem = db.readCategory(categoryId)
+
+        categoryImage.setImageResource(categoryItem.categoryIcon)
+        categoryName.setText(categoryItem.categoryName)
 
         tasksListView.adapter = TaskListViewAdapter(this, R.layout.listview_task_row, tasksList)
         tasksListView.setOnItemClickListener{ parent: AdapterView<*>, view: View, position: Int, id: Long ->
-            var intent = Intent(this, TaskActivity::class.java)
+            val intent = Intent(this, TaskActivity::class.java)
             intent.putExtra("task", tasksList[position])
             startActivity(intent)
         }

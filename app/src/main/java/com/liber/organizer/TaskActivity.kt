@@ -13,17 +13,20 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_task.*
-import kotlinx.android.synthetic.main.activity_task.btnGoBack
 
 
 class TaskActivity : AppCompatActivity() {
 
     lateinit var db: DataBaseHandler
+    lateinit var taskImageView: ImageView
+    lateinit var taskTitleTextView: TextView
+    lateinit var taskDescriptionTextView: TextView
+    lateinit var taskGradeTextView: TextView
 
     val EVALUATE_EVERYDAY_STRING = "Everyday"
     val OUT_OF_WEEK = 7
+    private var id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -34,20 +37,12 @@ class TaskActivity : AppCompatActivity() {
         db = DataBaseHandler(context)
 
         val taskItem = intent.getSerializableExtra("task") as Task
+        id = taskItem.taskId
 
-        val taskImageView: ImageView = findViewById(R.id.taskImage)
-        val taskTitleTextView: TextView = findViewById(R.id.taskTitle)
-        val taskDescriptionTextView: TextView = findViewById(R.id.taskDescription)
-        val taskGradeTextView: TextView = findViewById(R.id.taskGrade)
-
-        taskImageView.setImageResource(taskItem.taskIcon)
-        taskTitleTextView.text = taskItem.taskName
-        taskDescriptionTextView.text = taskItem.taskDescription
-        taskGradeTextView.text = taskItem.taskAvarage.toString()
-        taskEvaluationDay.text = getDay(taskItem.taskEvaluationDay)
-        taskEvaluationTime.text = getTime(taskItem.taskEvaluationTime)
-
-        setUpPieChartData(taskItem.taskId)
+        taskImageView = findViewById(R.id.taskImage)
+        taskTitleTextView = findViewById(R.id.taskTitle)
+        taskDescriptionTextView = findViewById(R.id.taskDescription)
+        taskGradeTextView = findViewById(R.id.taskGrade)
 
         btnEdit.setOnClickListener {
             var intent = Intent(context, EditTaskActivity::class.java)
@@ -80,6 +75,20 @@ class TaskActivity : AppCompatActivity() {
         btnGoBack.setOnClickListener {
             finish()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val taskItem = db.readTask(id)
+
+        taskImageView.setImageResource(taskItem.taskIcon)
+        taskTitleTextView.text = taskItem.taskName
+        taskDescriptionTextView.text = taskItem.taskDescription
+        taskGradeTextView.text = taskItem.taskAvarage.toString()
+        taskEvaluationDay.text = getDay(taskItem.taskEvaluationDay)
+        taskEvaluationTime.text = getTime(taskItem.taskEvaluationTime)
+
+        setUpPieChartData(taskItem.taskId)
     }
 
     fun getDay(dayId: Int) : String {

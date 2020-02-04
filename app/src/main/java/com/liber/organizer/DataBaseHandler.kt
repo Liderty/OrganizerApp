@@ -508,6 +508,29 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return categoryList
     }
 
+    fun readCategory(categoryId: Int): Category {
+        val db = this.readableDatabase
+        val query = "SELECT * FROM ${CATEGORY_TABLE_NAME} WHERE (${COL_CATEGORY_ID}==${categoryId})"
+        val result = db.rawQuery(query, null)
+        val categoryItem = Category()
+
+        if (result.moveToFirst()) {
+            do {
+                categoryItem.categoryId =
+                    result.getString(result.getColumnIndex(COL_CATEGORY_ID)).toInt()
+                categoryItem.categoryName =
+                    result.getString(result.getColumnIndex(COL_CATEGORY_NAME))
+                categoryItem.categoryIcon =
+                    result.getString(result.getColumnIndex(COL_CATEGORY_ICON)).toInt()
+            } while (result.moveToNext())
+        }
+
+        result.close()
+        db.close()
+
+        return categoryItem
+    }
+
     fun updateCategory(categoryId: Int, category: Category) {
         val db = this.writableDatabase
         val query = "SELECT * FROM ${CATEGORY_TABLE_NAME} WHERE (${COL_CATEGORY_ID}==${categoryId})"

@@ -174,4 +174,37 @@ class CategoriesFragment : Fragment() {
             startActivity(intent)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val categoryList = db.readCategory()
+        val context = getContext()
+
+        evaluateGrades()
+        resolveDeprecatedGrades()
+        val fm = fragmentManager
+
+        val emptyGrades = gradesForEvaluation()
+
+        // TESTBLOCK.START
+        if(emptyGrades.size > 0) {
+            val ratingsDialog = RatingDialog()
+
+            var args = Bundle()
+            args.putSerializable("grades", emptyGrades)
+
+            ratingsDialog.setArguments(args)
+            ratingsDialog.show(fm!!, "Ratings_tag")
+        }
+
+        categorylistView.adapter =
+            CategoryListViewAdapter(context!!, R.layout.listview_category_row, categoryList)
+        categorylistView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
+
+            var intent = Intent(context, TaskListActivity::class.java)
+            intent.putExtra("category", categoryList[position])
+            startActivity(intent)
+        }
+
+    }
 }
