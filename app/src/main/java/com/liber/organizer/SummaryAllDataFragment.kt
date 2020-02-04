@@ -10,7 +10,6 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.fragment_summary_all_data.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class SummaryAllDataFragment : Fragment() {
@@ -44,7 +43,6 @@ class SummaryAllDataFragment : Fragment() {
 
         val colors = java.util.ArrayList<Int>()
         for (c in ColorTemplate.PASTEL_COLORS) colors.add(c)
-//        colors.add(ColorTemplate.getHoloBlue())
         dataSet.setColors(colors)
 
         val data = PieData(dataSet)

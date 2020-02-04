@@ -168,7 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
-                android:background="@color/colorInsert"
+                android:background="@drawable/rounded_button"
                 android:text="Save changes"
                 android:textColor="@color/colorBrightText" />
 
@@ -177,7 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/rounded_button"
                 android:text="@string/Cancel"
                 android:textColor="@color/colorBrightText" />
 

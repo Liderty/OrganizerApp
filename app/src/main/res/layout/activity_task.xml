@@ -126,20 +126,11 @@
 
         </LinearLayout>
 
-
-
-    </LinearLayout>
-
-    <!-- TODO Remove circleMenu -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <com.hitomi.cmlibrary.CircleMenu
-            android:id="@+id/circleMenu"
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/taskGradesLineChart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="350dp"
+            android:layout_marginTop="8dp" />
 
     </LinearLayout>
 
@@ -147,7 +138,7 @@
         android:id="@+id/btnEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorRead"
+        android:background="@drawable/rounded_button"
         android:text="Edit"
         android:textColor="@color/colorBrightText"
         android:layout_marginBottom="@dimen/margin_large"/>
@@ -156,7 +147,7 @@
         android:id="@+id/btnDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorDelete"
+        android:background="@drawable/rounded_button"
         android:text="Delete"
         android:textColor="@color/colorBrightText"
         android:layout_marginBottom="@dimen/margin_large" />
@@ -165,7 +156,7 @@
         android:id="@+id/btnGoBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/rounded_button"
         android:text="Return"
         android:textColor="@color/colorBrightText" />
 

@@ -32,11 +32,17 @@ val COL_CATEGORY_ICON = "category_icon"
 
 val EMPTY_GRADE = 0
 
-val QUERRY_CREATE_TABLE_CATEGORY = "CREATE TABLE ${CATEGORY_TABLE_NAME} (${COL_CATEGORY_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_CATEGORY_NAME} VARCHAR(256), ${COL_CATEGORY_ICON} INTEGER)"
-val QUERRY_CREATE_TABLE_TASK = "CREATE TABLE ${TASK_TABLE_NAME} (${COL_TASK_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_TASK_NAME} VARCHAR(256), ${COL_TASK_DESCRIPTION} VARCHAR(256), ${COL_TASK_AVARAGE} INTEGER, ${COL_TASK_UPDATE_DATE} INTEGER, ${COL_TASK_ICON} INTEGER, ${COL_TASK_EVALUATION_DAY} INTEGER, ${COL_TASK_EVALUATION_TIME} INTEGER, ${COL_CATEGORY_ID} INTEGER, CONSTRAINT ${FK_TASK_CATEGORY} FOREIGN KEY (${COL_CATEGORY_ID}) REFERENCES ${CATEGORY_TABLE_NAME}(${COL_CATEGORY_ID}))"
-val QUERRY_CREATE_TABLE_GRADE = "CREATE TABLE ${GRADE_TABLE_NAME} (${COL_GRADE_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GRADE_DATE} VARCHAR(256), ${COL_GRADE_GRADE} INTEGER, ${COL_TASK_ID} INTEGER, CONSTRAINT ${FK_GRADE_TASK} FOREIGN KEY (${COL_TASK_ID}) REFERENCES ${TASK_TABLE_NAME}(${COL_TASK_ID}))"
+val QUERRY_CREATE_TABLE_CATEGORY =
+    "CREATE TABLE ${CATEGORY_TABLE_NAME} (${COL_CATEGORY_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " ${COL_CATEGORY_NAME} VARCHAR(256), ${COL_CATEGORY_ICON} INTEGER)"
+
+val QUERRY_CREATE_TABLE_TASK =
+    "CREATE TABLE ${TASK_TABLE_NAME} (${COL_TASK_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_TASK_NAME} VARCHAR(256), ${COL_TASK_DESCRIPTION} VARCHAR(256), ${COL_TASK_AVARAGE} INTEGER, ${COL_TASK_UPDATE_DATE} INTEGER, ${COL_TASK_ICON} INTEGER, ${COL_TASK_EVALUATION_DAY} INTEGER, ${COL_TASK_EVALUATION_TIME} INTEGER, ${COL_CATEGORY_ID} INTEGER, CONSTRAINT ${FK_TASK_CATEGORY} FOREIGN KEY (${COL_CATEGORY_ID}) REFERENCES ${CATEGORY_TABLE_NAME}(${COL_CATEGORY_ID}))"
+val QUERRY_CREATE_TABLE_GRADE =
+    "CREATE TABLE ${GRADE_TABLE_NAME} (${COL_GRADE_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GRADE_DATE} VARCHAR(256), ${COL_GRADE_GRADE} INTEGER, ${COL_TASK_ID} INTEGER, CONSTRAINT ${FK_GRADE_TASK} FOREIGN KEY (${COL_TASK_ID}) REFERENCES ${TASK_TABLE_NAME}(${COL_TASK_ID}))"
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(QUERRY_CREATE_TABLE_TASK)
         db?.execSQL(QUERRY_CREATE_TABLE_GRADE)
@@ -79,19 +85,36 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         if (selectedData.moveToFirst()) {
             do {
                 var taskItem = Task()
-                taskItem.taskId = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
-                taskItem.taskName = selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
-                taskItem.taskDescription = selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
-                taskItem.taskAvarage = selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
-                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_ICON)).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_UPDATE_DATE)).toLong()
-                taskItem.taskEvaluationDay = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_EVALUATION_DAY)).toInt()
-                taskItem.taskEvaluationTime = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_EVALUATION_TIME)).toLong()
-                taskItem.categoryId = selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
+                taskItem.taskId =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
+                taskItem.taskName =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
+                taskItem.taskDescription =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
+                taskItem.taskAvarage =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+                taskItem.taskIcon = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_ICON
+                    )
+                ).toInt()
+                taskItem.taskUpdateDate = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_UPDATE_DATE
+                    )
+                ).toLong()
+                taskItem.taskEvaluationDay = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_EVALUATION_DAY
+                    )
+                ).toInt()
+                taskItem.taskEvaluationTime = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_EVALUATION_TIME
+                    )
+                ).toLong()
+                taskItem.categoryId =
+                    selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
                 tasksList.add(taskItem)
             } while (selectedData.moveToNext())
         }
@@ -110,19 +133,36 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
         if (selectedData.moveToFirst()) {
             do {
-                taskItem.taskId = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
-                taskItem.taskName = selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
-                taskItem.taskDescription = selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
-                taskItem.taskAvarage = selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
-                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_ICON)).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_UPDATE_DATE)).toLong()
-                taskItem.taskEvaluationDay = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_EVALUATION_DAY)).toInt()
-                taskItem.taskEvaluationTime = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_EVALUATION_TIME)).toLong()
-                taskItem.categoryId = selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
+                taskItem.taskId =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
+                taskItem.taskName =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
+                taskItem.taskDescription =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
+                taskItem.taskAvarage =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+                taskItem.taskIcon = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_ICON
+                    )
+                ).toInt()
+                taskItem.taskUpdateDate = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_UPDATE_DATE
+                    )
+                ).toLong()
+                taskItem.taskEvaluationDay = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_EVALUATION_DAY
+                    )
+                ).toInt()
+                taskItem.taskEvaluationTime = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_EVALUATION_TIME
+                    )
+                ).toLong()
+                taskItem.categoryId =
+                    selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
             } while (selectedData.moveToNext())
         }
 
@@ -142,19 +182,36 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         if (selectedData.moveToFirst()) {
             do {
                 var taskItem = Task()
-                taskItem.taskId = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
-                taskItem.taskName = selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
-                taskItem.taskDescription = selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
-                taskItem.taskAvarage = selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
-                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_ICON)).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_UPDATE_DATE)).toLong()
-                taskItem.taskEvaluationDay = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_EVALUATION_DAY)).toInt()
-                taskItem.taskEvaluationTime = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_EVALUATION_TIME)).toLong()
-                taskItem.categoryId = selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
+                taskItem.taskId =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
+                taskItem.taskName =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
+                taskItem.taskDescription =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
+                taskItem.taskAvarage =
+                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+                taskItem.taskIcon = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_ICON
+                    )
+                ).toInt()
+                taskItem.taskUpdateDate = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_UPDATE_DATE
+                    )
+                ).toLong()
+                taskItem.taskEvaluationDay = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_EVALUATION_DAY
+                    )
+                ).toInt()
+                taskItem.taskEvaluationTime = selectedData.getString(
+                    selectedData.getColumnIndex(
+                        COL_TASK_EVALUATION_TIME
+                    )
+                ).toLong()
+                taskItem.categoryId =
+                    selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
                 tasksList.add(taskItem)
             } while (selectedData.moveToNext())
         }
@@ -275,7 +332,8 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
     fun deleteTask(_id: Int): Boolean {
         val db = this.writableDatabase
-        val _success = db.delete(TASK_TABLE_NAME, COL_TASK_ID + "=?", arrayOf(_id.toString())).toLong()
+        val _success =
+            db.delete(TASK_TABLE_NAME, COL_TASK_ID + "=?", arrayOf(_id.toString())).toLong()
         db.close()
         return Integer.parseInt("$_success") != -1
     }
@@ -308,8 +366,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             do {
                 var gradeItem = Grade()
                 gradeItem.gradeId = result.getString(result.getColumnIndex(COL_GRADE_ID)).toInt()
-                gradeItem.gradeDate = result.getString(result.getColumnIndex(COL_GRADE_DATE)).toLong()
-                gradeItem.gradeGrade = result.getString(result.getColumnIndex(COL_GRADE_GRADE)).toInt()
+                gradeItem.gradeDate =
+                    result.getString(result.getColumnIndex(COL_GRADE_DATE)).toLong()
+                gradeItem.gradeGrade =
+                    result.getString(result.getColumnIndex(COL_GRADE_GRADE)).toInt()
                 gradeItem.taskId = result.getString(result.getColumnIndex(COL_TASK_ID)).toInt()
                 gradeList.add(gradeItem)
             } while (result.moveToNext())
@@ -331,8 +391,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             do {
                 var gradeItem = Grade()
                 gradeItem.gradeId = result.getString(result.getColumnIndex(COL_GRADE_ID)).toInt()
-                gradeItem.gradeDate = result.getString(result.getColumnIndex(COL_GRADE_DATE)).toLong()
-                gradeItem.gradeGrade = result.getString(result.getColumnIndex(COL_GRADE_GRADE)).toInt()
+                gradeItem.gradeDate =
+                    result.getString(result.getColumnIndex(COL_GRADE_DATE)).toLong()
+                gradeItem.gradeGrade =
+                    result.getString(result.getColumnIndex(COL_GRADE_GRADE)).toInt()
                 gradeItem.taskId = result.getString(result.getColumnIndex(COL_TASK_ID)).toInt()
                 gradeList.add(gradeItem)
             } while (result.moveToNext())
@@ -342,6 +404,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
         return gradeList
     }
+
     fun readEmptyGrades(): MutableList<Grade> {
         var gradeList: MutableList<Grade> = ArrayList()
 
@@ -353,8 +416,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             do {
                 var gradeItem = Grade()
                 gradeItem.gradeId = result.getString(result.getColumnIndex(COL_GRADE_ID)).toInt()
-                gradeItem.gradeDate = result.getString(result.getColumnIndex(COL_GRADE_DATE)).toLong()
-                gradeItem.gradeGrade = result.getString(result.getColumnIndex(COL_GRADE_GRADE)).toInt()
+                gradeItem.gradeDate =
+                    result.getString(result.getColumnIndex(COL_GRADE_DATE)).toLong()
+                gradeItem.gradeGrade =
+                    result.getString(result.getColumnIndex(COL_GRADE_GRADE)).toInt()
                 gradeItem.taskId = result.getString(result.getColumnIndex(COL_TASK_ID)).toInt()
                 gradeList.add(gradeItem)
             } while (result.moveToNext())
@@ -402,12 +467,12 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
     fun insertCategory(category: Category) {
         val db = this.writableDatabase
-        var cv = ContentValues()
+        val cv = ContentValues()
 
         cv.put(COL_CATEGORY_NAME, category.categoryName)
         cv.put(COL_CATEGORY_ICON, category.categoryIcon)
 
-        var result = db.insert(CATEGORY_TABLE_NAME, null, cv)
+        val result = db.insert(CATEGORY_TABLE_NAME, null, cv)
 
         if (result == -1.toLong()) {
             Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
@@ -426,9 +491,12 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         if (result.moveToFirst()) {
             do {
                 var categoryItem = Category()
-                categoryItem.categoryId = result.getString(result.getColumnIndex(COL_CATEGORY_ID)).toInt()
-                categoryItem.categoryName = result.getString(result.getColumnIndex(COL_CATEGORY_NAME))
-                categoryItem.categoryIcon = result.getString(result.getColumnIndex(COL_CATEGORY_ICON)).toInt()
+                categoryItem.categoryId =
+                    result.getString(result.getColumnIndex(COL_CATEGORY_ID)).toInt()
+                categoryItem.categoryName =
+                    result.getString(result.getColumnIndex(COL_CATEGORY_NAME))
+                categoryItem.categoryIcon =
+                    result.getString(result.getColumnIndex(COL_CATEGORY_ICON)).toInt()
 
                 categoryList.add(categoryItem)
             } while (result.moveToNext())
@@ -459,7 +527,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 }
 
                 db.update(
-                    CATEGORY_TABLE_NAME, cv, "${COL_CATEGORY_ID}=? AND ${COL_CATEGORY_NAME}=?", arrayOf(
+                    CATEGORY_TABLE_NAME,
+                    cv,
+                    "${COL_CATEGORY_ID}=? AND ${COL_CATEGORY_NAME}=?",
+                    arrayOf(
                         result.getString(
                             result.getColumnIndex(
                                 COL_CATEGORY_ID

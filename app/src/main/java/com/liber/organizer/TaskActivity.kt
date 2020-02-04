@@ -8,11 +8,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.android.synthetic.main.activity_task.btnGoBack
 
 
 class TaskActivity : AppCompatActivity() {
+
+    lateinit var db: DataBaseHandler
 
     val EVALUATE_EVERYDAY_STRING = "Everyday"
     val OUT_OF_WEEK = 7
@@ -23,7 +31,7 @@ class TaskActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task)
 
         val context = this
-        val db = DataBaseHandler(context)
+        db = DataBaseHandler(context)
 
         val taskItem = intent.getSerializableExtra("task") as Task
 
@@ -39,18 +47,7 @@ class TaskActivity : AppCompatActivity() {
         taskEvaluationDay.text = getDay(taskItem.taskEvaluationDay)
         taskEvaluationTime.text = getTime(taskItem.taskEvaluationTime)
 
-        circleMenu.setMainMenu(Color.parseColor("#CDCDCD"), R.drawable.plus, R.drawable.check)
-            .addSubMenu(Color.parseColor("#48E84D"), R.drawable.digit_five)
-            .addSubMenu(Color.parseColor("#C3E848"), R.drawable.digit_four)
-            .addSubMenu(Color.parseColor("#FFE45C"), R.drawable.digit_three)
-            .addSubMenu(Color.parseColor("#E8A848"), R.drawable.digit_two)
-            .addSubMenu(Color.parseColor("#FF662E"), R.drawable.digit_one)
-            .setOnMenuSelectedListener {
-                index ->
-                    val newGrade = Grade(6-(index+1), taskItem.taskId)
-                    db.insertGrade(newGrade)
-                recreate()
-            }
+        setUpPieChartData(taskItem.taskId)
 
         btnEdit.setOnClickListener {
             var intent = Intent(context, EditTaskActivity::class.java)
@@ -100,5 +97,43 @@ class TaskActivity : AppCompatActivity() {
         }
 
         return "${hours}:${minutes}"
+    }
+
+    private fun setUpPieChartData(taskId: Int) {
+        val yVals = ArrayList<Entry>()
+        val taskGrades = db.readGrades(taskId)
+
+        for(i in 0..(taskGrades.size - 1)) {
+            yVals.add(Entry(taskGrades[i].gradeGrade.toFloat(), i.toFloat() , i.toString()))
+        }
+
+        yVals.add(Entry(11f, 28f, "11"))
+
+        val set1: LineDataSet
+        set1 = LineDataSet(yVals, "DataSet 1")
+
+        set1.color = Color.BLUE
+        set1.setCircleColor(Color.BLUE)
+        set1.lineWidth = 1f
+        set1.circleRadius = 3f
+        set1.setDrawCircleHole(false)
+        set1.valueTextSize = 0f
+        set1.setDrawFilled(false)
+
+        val dataSets = ArrayList<ILineDataSet>()
+        dataSets.add(set1)
+        val data = LineData(dataSets)
+
+        // set data
+        taskGradesLineChart.setData(data)
+        taskGradesLineChart.description.isEnabled = false
+        taskGradesLineChart.legend.isEnabled = false
+        taskGradesLineChart.setPinchZoom(true)
+        taskGradesLineChart.xAxis.enableGridDashedLine(5f, 5f, 0f)
+        taskGradesLineChart.axisRight.enableGridDashedLine(5f, 5f, 0f)
+        taskGradesLineChart.axisLeft.enableGridDashedLine(5f, 5f, 0f)
+        //lineChart.setDrawGridBackground()
+        taskGradesLineChart.xAxis.labelCount = 11
+        taskGradesLineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
     }
 }

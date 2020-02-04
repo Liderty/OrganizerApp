@@ -52,6 +52,10 @@ class TaskListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task_list)
 
         val categoryItem = intent.getSerializableExtra("category") as Category
+
+        categoryImage.setImageResource(categoryItem.categoryIcon)
+        categoryName.setText(categoryItem.categoryName)
+
         categoryId = categoryItem.categoryId
         var btnCreateTask = findViewById<LinearLayout>(R.id.btnCreateTask)
 
