@@ -4,10 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -20,11 +18,12 @@ import kotlinx.android.synthetic.main.activity_task.*
 class TaskActivity : AppCompatActivity() {
 
     lateinit var db: DataBaseHandler
+
     lateinit var taskImageView: ImageView
     lateinit var taskTitleTextView: TextView
     lateinit var taskDescriptionTextView: TextView
     lateinit var taskGradeTextView: TextView
-    lateinit var goalsListView: ListView
+    lateinit var taskGradeRatingBar: RatingBar
 
     val EVALUATE_EVERYDAY_STRING = "Everyday"
     val OUT_OF_WEEK = 7
@@ -45,10 +44,10 @@ class TaskActivity : AppCompatActivity() {
         taskTitleTextView = findViewById(R.id.taskTitle)
         taskDescriptionTextView = findViewById(R.id.taskDescription)
         taskGradeTextView = findViewById(R.id.taskGrade)
-        goalsListView = findViewById(R.id.goalListview)
+        taskGradeRatingBar = findViewById(R.id.taskGradeRatingBar)
 
-        btnAddGoal.setOnClickListener {
-            var intent = Intent(context, AddGoalActivity::class.java)
+        buttonGoals.setOnClickListener {
+            var intent = Intent(context, TaskGoalsActivity::class.java)
             intent.putExtra("task", taskItem)
             startActivity(intent)
         }
@@ -94,11 +93,16 @@ class TaskActivity : AppCompatActivity() {
         taskTitleTextView.text = taskItem.taskName
         taskDescriptionTextView.text = taskItem.taskDescription
         taskGradeTextView.text = taskItem.taskAvarage.toString()
+
+        if(taskItem.taskAvarage != 0.toDouble()) {
+            taskGradeRatingBar.rating = taskItem.taskAvarage.toFloat()
+
+        } else {
+            taskGradeRatingBar.visibility = View.INVISIBLE
+        }
         taskEvaluationDay.text = getDay(taskItem.taskEvaluationDay)
         taskEvaluationTime.text = getTime(taskItem.taskEvaluationTime)
 
-        val goalsList = db.readGoals(taskItem.taskId)
-        goalsListView.adapter = TaskGoalsListViewAdapter(this, R.layout.listview_rating_row, goalsList)
 
         setUpPieChartData(taskItem.taskId)
     }

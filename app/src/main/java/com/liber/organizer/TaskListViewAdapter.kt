@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 
 class TaskListViewAdapter (var listViewContext: Context, var resources: Int, var taskItems:List<Task>) : ArrayAdapter<Task>(listViewContext, resources, taskItems) {
@@ -19,7 +20,7 @@ class TaskListViewAdapter (var listViewContext: Context, var resources: Int, var
         val taskImageView: ImageView = view.findViewById(R.id.taskImage)
         val taskTitleTextView: TextView = view.findViewById(R.id.taskTitle)
         val taskDescriptionTextView: TextView = view.findViewById(R.id.taskDescription)
-        val taskGradeTextView: TextView = view.findViewById(R.id.taskGrade)
+        val taskGradeRatingBar: RatingBar = view.findViewById(R.id.taskGrade)
 
         var taskItem:Task = taskItems[position]
 
@@ -28,9 +29,10 @@ class TaskListViewAdapter (var listViewContext: Context, var resources: Int, var
         taskDescriptionTextView.text = taskItem.taskDescription
 
         if(taskItem.taskAvarage != 0.toDouble()) {
-            taskGradeTextView.text = taskItem.taskAvarage.toString()
+            taskGradeRatingBar.rating = taskItem.taskAvarage.toFloat()
+
         } else {
-            taskGradeTextView.text = ""
+            taskGradeRatingBar.visibility = View.INVISIBLE
         }
 
         return view

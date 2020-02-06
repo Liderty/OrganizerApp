@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TaskGoalsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_large"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/taskGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Task goals"
+            android:textSize="@dimen/text_size_medium_header"
+            android:textStyle="bold" />
+
+        <View style="@style/Divider" />
+
+        <Button
+            android:id="@+id/buttonAddGoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="Add Goal"
+            android:textColor="@color/colorBrightText"
+            android:layout_marginBottom="@dimen/margin_medium"/>
+
+        <Button
+            android:id="@+id/buttonReturn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="Return"
+            android:textColor="@color/colorBrightText" />
+
+
+    </LinearLayout>
+
+    <View style="@style/Divider" />
+
+    <ListView
+        android:id="@+id/goalListview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

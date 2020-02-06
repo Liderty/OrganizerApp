@@ -115,7 +115,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Avarage:"
+                    android:text="Task avarage:"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -131,6 +131,16 @@
 
             </LinearLayout>
 
+            <RatingBar
+                android:id="@+id/taskGradeRatingBar"
+                android:progressBackgroundTint="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:isIndicator="true"
+                android:theme="@style/RatingBarYellow"
+                android:numStars="5" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/taskGradesLineChart"
                 android:layout_width="match_parent"
@@ -139,34 +149,20 @@
 
             <View style="@style/Divider" />
 
-            <Button
-                android:id="@+id/btnAddGoal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button"
-                android:text="Add Goal"
-                android:textColor="@color/colorBrightText"
-                android:layout_marginBottom="@dimen/margin_large"/>
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:fillViewport="true">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ListView
-                            android:id="@+id/goalListview"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scrollingCache="false"
-                            android:smoothScrollbar="true" />
-
-                    </RelativeLayout>
-                </ScrollView>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonGoals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="Task Goals"
+            android:textColor="@color/colorYellowStar"
+            android:layout_marginBottom="@dimen/margin_large"/>
+
+        <View style="@style/Divider" />
+
 
         <Button
             android:id="@+id/btnEdit"

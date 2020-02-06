@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_categories.*
 import kotlinx.android.synthetic.main.fragment_categories.view.*
 import kotlin.collections.ArrayList
@@ -163,7 +164,6 @@ class CategoriesFragment : Fragment() {
         categorylistView.adapter =
             CategoryListViewAdapter(context, R.layout.listview_category_row, categoryList)
         categorylistView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
-
             var intent = Intent(context, TaskListActivity::class.java)
             intent.putExtra("category", categoryList[position])
             startActivity(intent)

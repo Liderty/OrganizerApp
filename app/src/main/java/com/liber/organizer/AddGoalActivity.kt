@@ -9,18 +9,19 @@ class AddGoalActivity : AppCompatActivity() {
 
     val context = this
 
+    lateinit var goalTask: Task
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_goal)
 
         val db = DataBaseHandler(context)
-        val parentTask = intent.getSerializableExtra("task") as Task
+        goalTask = intent.getSerializableExtra("task") as Task
 
         btnInsert.setOnClickListener {
             if (goalContentInput.text.toString().length > 0) {
-                val newGoal = Goal(goalContentInput.text.toString(), parentTask.taskId)
+                val newGoal = Goal(goalContentInput.text.toString(), goalTask.taskId)
                 db.insertGoal(newGoal)
-
                 finish()
             } else {
                 Toast.makeText(context, "Please fill data!", Toast.LENGTH_SHORT).show()
@@ -30,7 +31,5 @@ class AddGoalActivity : AppCompatActivity() {
         btnGoBack.setOnClickListener {
             finish()
         }
-
-
     }
 }

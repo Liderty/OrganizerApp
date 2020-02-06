@@ -9,9 +9,14 @@
     <color name="colorRead">#8994B3</color>
     <color name="colorDelete">#5643E6</color>
     <color name="colorUpdate">#035563</color>
+    <color name="colorSuccessful">#CEEAD1</color>
+
     <color name="colorBrightBackground">#ececec</color>
+
     <color name="colorBrightText">#E3EBFF</color>
     <color name="colorDarkText">#044680</color>
     <color name="colorHintText">#E3EBFF</color>
-    <color name="colorSuccessful">#CEEAD1</color>
+
+    <color name="colorYellowStar">#EBE968</color>
+    <color name="colorYellowStarDarkBackground">#5E5E45</color>
 </resources>
