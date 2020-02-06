@@ -29,7 +29,6 @@
     <string-array name="summaryFragments">
         <item>All Data</item>
         <item>Categories</item>
-        <item>Tasks</item>
     </string-array>
 
 </resources>

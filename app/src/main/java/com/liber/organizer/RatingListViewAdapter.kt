@@ -6,55 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
+import com.github.mikephil.charting.charts.BarChart
+import kotlinx.android.synthetic.main.listview_rating_row.view.*
 
-class RatingListViewAdapter(
-    var listViewContext: Context,
-    var resources: Int,
-    var gradeItems: List<Grade>
-) : ArrayAdapter<Grade>(listViewContext, resources, gradeItems) {
+class RatingListViewAdapter (var listViewContext: Context, var resources: Int, var goalItems:MutableList<Goal>) : ArrayAdapter<Goal>(listViewContext, resources, goalItems) {
 
-    var db = DataBaseHandler(context)
 
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val layoutInflater: LayoutInflater = LayoutInflater.from(listViewContext)
         val view: View = layoutInflater.inflate(resources, null)
+        val db = DataBaseHandler(context)
 
-        val taskImageView: ImageView = view.findViewById(R.id.taskImage)
-        val taskTitleTextView: TextView = view.findViewById(R.id.taskTitle)
-        val taskDescriptionTextView: TextView = view.findViewById(R.id.taskDescription)
-        val taskDate: TextView = view.findViewById(R.id.taskDate)
-        val taskGradeTextView: TextView = view.findViewById(R.id.taskGrade)
-        val taskRatingBar: RatingBar = view.findViewById(R.id.taskRatingBar)
-        val taskRateButton: Button = view.findViewById(R.id.btnRate)
+        view.goalContent.text = goalItems[position].goalContent
 
-        val gradeItem: Grade = gradeItems[position]
-        val taskItem: Task = db.readTask(gradeItem.taskId)
-        val taskItemDate = TaskDate(gradeItem.gradeDate)
-
-        taskImageView.setImageDrawable(listViewContext.resources.getDrawable(taskItem.taskIcon))
-        taskTitleTextView.text = taskItem.taskName
-        taskDescriptionTextView.text = taskItem.taskDescription
-        taskDate.text = taskItemDate.getStringDate()
-
-        if (taskItem.taskAvarage != 0.toDouble()) {
-            taskGradeTextView.text = taskItem.taskAvarage.toString()
-        } else {
-            taskGradeTextView.text = ""
+        view.goalCheckbox.setOnClickListener {
+            db.updateGoalStatus(goalItems[position].goalId)
+            goalItems.remove(goalItems[position])
+            notifyDataSetChanged()
         }
-
-        taskRateButton.setOnClickListener {
-            println("tid: ${taskItem.taskId} gid: ${gradeItem.gradeId} rat: ${taskRatingBar.rating.toInt()}")
-            db.updateGradeGrade(gradeItem.gradeId, taskRatingBar.rating.toInt())
-            reloadData(gradeItem)
-        }
-
         return view
     }
-
-    fun reloadData(gradeItem: Grade) {
-        this.remove(gradeItem)
-        this.notifyDataSetChanged()
-    }
-
 }
+

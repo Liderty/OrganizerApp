@@ -30,7 +30,6 @@ class SummaryFragment : Fragment() {
 
         fragmentsArray.add(SummaryAllDataFragment())
         fragmentsArray.add(SummaryCategoriesFragment())
-        fragmentsArray.add(SummaryTasksFragment())
 
         var adapter = ArrayAdapter(
             context!!,

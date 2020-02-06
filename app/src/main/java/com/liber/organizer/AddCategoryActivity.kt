@@ -1,7 +1,6 @@
 package com.liber.organizer
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,7 +11,6 @@ import kotlinx.android.synthetic.main.activity_add_category.btnInsert
 import kotlinx.android.synthetic.main.activity_add_category.btnRead
 import kotlinx.android.synthetic.main.activity_add_category.etvName
 import kotlinx.android.synthetic.main.activity_add_category.tvResult
-import kotlinx.android.synthetic.main.activity_add_task.*
 
 class AddCategoryActivity : AppCompatActivity() {
 

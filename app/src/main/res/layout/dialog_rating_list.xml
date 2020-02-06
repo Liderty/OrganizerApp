@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
@@ -13,16 +15,135 @@
         android:textAlignment="center"
         android:background="@color/colorDarkText"/>
 
+    <TextView
+        android:id="@+id/graduateProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small"
+        android:text="0/0"
+        android:textColor="@color/colorBrightText"
+        android:textSize="@dimen/text_size_small_header"
+        android:textAlignment="center"
+        android:background="@color/colorDarkText"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_small">
+
+            <ImageView
+                android:id="@+id/taskImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/settings" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/taskTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Task Name"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/taskAvarageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Acctual avarage:"
+            android:textSize="16sp" />
+
+        <RatingBar
+            android:id="@+id/taskGrade"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:progressBackgroundTint="@color/colorPrimaryDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:isIndicator="true"
+            android:numStars="5" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/taskDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Task Description"
+        android:textSize="16sp" />
+
+    <View style="@style/Divider" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:text="Your grade for"
+        android:gravity="center"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/taskDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/margin_large"
+        android:text="30.01.2020"
+        android:textSize="16sp" />
+
+    <RatingBar
+        android:id="@+id/taskRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+        android:stepSize="1" />
+
+    <Button
+        android:id="@+id/btnRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSuccessful"
+        android:text="Rate!"
+        android:textColor="@color/colorPrimary" />
+
     <ListView
-        android:id="@+id/listviewRatings"
+        android:id="@+id/goalListview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btnCloseRating"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorRead"
-        android:text="@string/done"
+        android:background="@color/colorRead"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/Cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

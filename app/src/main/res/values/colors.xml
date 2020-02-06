@@ -13,4 +13,5 @@
     <color name="colorBrightText">#E3EBFF</color>
     <color name="colorDarkText">#044680</color>
     <color name="colorHintText">#E3EBFF</color>
+    <color name="colorSuccessful">#CEEAD1</color>
 </resources>

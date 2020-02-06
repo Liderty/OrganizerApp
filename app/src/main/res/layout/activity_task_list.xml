@@ -10,7 +10,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small">
 
         <ImageView
             android:id="@+id/categoryImage"
@@ -32,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="Category"
                 android:textStyle="bold"
-                android:textSize="@dimen/text_size_header" />
+                android:textSize="@dimen/text_size_medium_header" />
 
         </LinearLayout>
     </LinearLayout>

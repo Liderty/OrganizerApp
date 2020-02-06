@@ -189,11 +189,6 @@ class CategoriesFragment : Fragment() {
         // TESTBLOCK.START
         if(emptyGrades.size > 0) {
             val ratingsDialog = RatingDialog()
-
-            var args = Bundle()
-            args.putSerializable("grades", emptyGrades)
-
-            ratingsDialog.setArguments(args)
             ratingsDialog.show(fm!!, "Ratings_tag")
         }
 

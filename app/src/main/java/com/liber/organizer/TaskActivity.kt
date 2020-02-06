@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -23,6 +24,7 @@ class TaskActivity : AppCompatActivity() {
     lateinit var taskTitleTextView: TextView
     lateinit var taskDescriptionTextView: TextView
     lateinit var taskGradeTextView: TextView
+    lateinit var goalsListView: ListView
 
     val EVALUATE_EVERYDAY_STRING = "Everyday"
     val OUT_OF_WEEK = 7
@@ -43,6 +45,13 @@ class TaskActivity : AppCompatActivity() {
         taskTitleTextView = findViewById(R.id.taskTitle)
         taskDescriptionTextView = findViewById(R.id.taskDescription)
         taskGradeTextView = findViewById(R.id.taskGrade)
+        goalsListView = findViewById(R.id.goalListview)
+
+        btnAddGoal.setOnClickListener {
+            var intent = Intent(context, AddGoalActivity::class.java)
+            intent.putExtra("task", taskItem)
+            startActivity(intent)
+        }
 
         btnEdit.setOnClickListener {
             var intent = Intent(context, EditTaskActivity::class.java)
@@ -87,6 +96,9 @@ class TaskActivity : AppCompatActivity() {
         taskGradeTextView.text = taskItem.taskAvarage.toString()
         taskEvaluationDay.text = getDay(taskItem.taskEvaluationDay)
         taskEvaluationTime.text = getTime(taskItem.taskEvaluationTime)
+
+        val goalsList = db.readGoals(taskItem.taskId)
+        goalsListView.adapter = TaskGoalsListViewAdapter(this, R.layout.listview_rating_row, goalsList)
 
         setUpPieChartData(taskItem.taskId)
     }

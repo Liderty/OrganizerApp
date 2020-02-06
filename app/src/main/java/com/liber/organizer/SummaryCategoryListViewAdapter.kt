@@ -33,7 +33,6 @@ class SummaryCategoryListViewAdapter (var listViewContext: Context, var resource
 
         val taskList = db.readTasks(categoryItem.categoryId)
 
-        // create BarEntry for Bar Group
         val bargroup = ArrayList<BarEntry>()
 
         for (i in 0..taskList.size-1) {
