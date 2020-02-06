@@ -14,7 +14,8 @@
         android:text="Pick an image:"
         android:background="@color/colorUpdate"
         android:textColor="@color/colorBrightText"
-        android:textSize="@dimen/text_size_header"
+        android:textSize="@dimen/text_size_medium_header"
+        android:padding="@dimen/padding_medium"
         android:gravity="center"/>
 
     <GridView
@@ -25,7 +26,7 @@
 
     <Button
         android:id="@+id/buttonCancel"
-        android:background="@color/colorDarkText"
+        android:background="@color/colorPrimary"
         android:textColor="@color/colorBrightText"
         android:text="Cancel"
         android:layout_width="match_parent"

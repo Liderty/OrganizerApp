@@ -156,7 +156,7 @@
             android:id="@+id/buttonGoals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_highlighted"
             android:text="Task Goals"
             android:textColor="@color/colorYellowStar"
             android:layout_marginBottom="@dimen/margin_large"/>
@@ -186,7 +186,7 @@
             android:id="@+id/btnGoBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_toned"
             android:text="Return"
             android:textColor="@color/colorBrightText" />
 

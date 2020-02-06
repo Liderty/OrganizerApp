@@ -83,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:isIndicator="true"
+            android:theme="@style/RatingBarYellow"
             android:numStars="5" />
 
     </LinearLayout>
