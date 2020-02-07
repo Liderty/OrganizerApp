@@ -40,8 +40,7 @@ val GOAL_DONE_VALUE = 1
 val GOAL_PROGRESS_VALUE = 0
 
 val QUERY_CREATE_TABLE_CATEGORY =
-    "CREATE TABLE ${CATEGORY_TABLE_NAME} (${COL_CATEGORY_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-            " ${COL_CATEGORY_NAME} VARCHAR(256), ${COL_CATEGORY_ICON} INTEGER)"
+    "CREATE TABLE ${CATEGORY_TABLE_NAME} (${COL_CATEGORY_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_CATEGORY_NAME} VARCHAR(256), ${COL_CATEGORY_ICON} INTEGER)"
 
 val QUERY_CREATE_TABLE_TASK =
     "CREATE TABLE ${TASK_TABLE_NAME} (${COL_TASK_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_TASK_NAME} VARCHAR(256), ${COL_TASK_DESCRIPTION} VARCHAR(256), ${COL_TASK_AVARAGE} INTEGER, ${COL_TASK_UPDATE_DATE} INTEGER, ${COL_TASK_ICON} INTEGER, ${COL_TASK_EVALUATION_DAY} INTEGER, ${COL_TASK_EVALUATION_TIME} INTEGER, ${COL_CATEGORY_ID} INTEGER, CONSTRAINT ${FK_TASK_CATEGORY} FOREIGN KEY (${COL_CATEGORY_ID}) REFERENCES ${CATEGORY_TABLE_NAME}(${COL_CATEGORY_ID}))"
@@ -49,8 +48,7 @@ val QUERY_CREATE_TABLE_TASK =
 val QUERY_CREATE_TABLE_GRADE =
     "CREATE TABLE ${GRADE_TABLE_NAME} (${COL_GRADE_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GRADE_DATE} VARCHAR(256), ${COL_GRADE_GRADE} INTEGER, ${COL_TASK_ID} INTEGER, CONSTRAINT ${FK_GRADE_TASK} FOREIGN KEY (${COL_TASK_ID}) REFERENCES ${TASK_TABLE_NAME}(${COL_TASK_ID}))"
 
-val QUERY_CREATE_TABLE_GOAL = "CREATE TABLE ${GOAL_TABLE_NAME} (${COL_GOAL_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-"${COL_GOAL_STATUS} INTEGER(4), ${COL_GOAL_CONTENT} VARCHAR(256), ${COL_TASK_ID} INTEGER)"
+val QUERY_CREATE_TABLE_GOAL = "CREATE TABLE ${GOAL_TABLE_NAME} (${COL_GOAL_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GOAL_STATUS} INTEGER(4), ${COL_GOAL_CONTENT} VARCHAR(256), ${COL_TASK_ID} INTEGER)"
 
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
@@ -106,16 +104,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                     selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
                 taskItem.taskAvarage =
                     selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
-                taskItem.taskIcon = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_ICON
-                    )
-                ).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_UPDATE_DATE
-                    )
-                ).toLong()
+
+                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ICON)).toInt()
+                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(COL_TASK_UPDATE_DATE)).toLong()
+
                 taskItem.taskEvaluationDay = selectedData.getString(
                     selectedData.getColumnIndex(
                         COL_TASK_EVALUATION_DAY
