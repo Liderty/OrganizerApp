@@ -29,7 +29,14 @@
     <string-array name="summaryFragments">
         <item>All Data</item>
         <item>Categories</item>
-        <item>Tasks</item>
     </string-array>
 
+    <string name="notification_title">Graduate Yourself!</string>
+    <string name="notification_description">You have a new ratings to be done!</string>
+
+    <string name="notification_schedule_title">Schedule notification:\u00a0</string>
+    <string name="notification_schedule_pattern">dd.MM.yy \u00B7 HH:mm</string>
+    <string name="notification_schedule_error">
+        Schedule notification: Notification error, wrong date!
+    </string>
 </resources>

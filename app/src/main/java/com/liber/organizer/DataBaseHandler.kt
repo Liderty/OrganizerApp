@@ -30,23 +30,34 @@ val COL_CATEGORY_ID = "category_id"
 val COL_CATEGORY_NAME = "category_name"
 val COL_CATEGORY_ICON = "category_icon"
 
+val GOAL_TABLE_NAME = "Goal"
+val COL_GOAL_ID = "goal_id"
+val COL_GOAL_CONTENT = "goal_content"
+val COL_GOAL_STATUS = "goal_status"
+
 val EMPTY_GRADE = 0
+val GOAL_DONE_VALUE = 1
+val GOAL_PROGRESS_VALUE = 0
 
-val QUERRY_CREATE_TABLE_CATEGORY =
-    "CREATE TABLE ${CATEGORY_TABLE_NAME} (${COL_CATEGORY_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-            " ${COL_CATEGORY_NAME} VARCHAR(256), ${COL_CATEGORY_ICON} INTEGER)"
+val QUERY_CREATE_TABLE_CATEGORY =
+    "CREATE TABLE ${CATEGORY_TABLE_NAME} (${COL_CATEGORY_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_CATEGORY_NAME} VARCHAR(256), ${COL_CATEGORY_ICON} INTEGER)"
 
-val QUERRY_CREATE_TABLE_TASK =
+val QUERY_CREATE_TABLE_TASK =
     "CREATE TABLE ${TASK_TABLE_NAME} (${COL_TASK_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_TASK_NAME} VARCHAR(256), ${COL_TASK_DESCRIPTION} VARCHAR(256), ${COL_TASK_AVARAGE} INTEGER, ${COL_TASK_UPDATE_DATE} INTEGER, ${COL_TASK_ICON} INTEGER, ${COL_TASK_EVALUATION_DAY} INTEGER, ${COL_TASK_EVALUATION_TIME} INTEGER, ${COL_CATEGORY_ID} INTEGER, CONSTRAINT ${FK_TASK_CATEGORY} FOREIGN KEY (${COL_CATEGORY_ID}) REFERENCES ${CATEGORY_TABLE_NAME}(${COL_CATEGORY_ID}))"
-val QUERRY_CREATE_TABLE_GRADE =
+
+val QUERY_CREATE_TABLE_GRADE =
     "CREATE TABLE ${GRADE_TABLE_NAME} (${COL_GRADE_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GRADE_DATE} VARCHAR(256), ${COL_GRADE_GRADE} INTEGER, ${COL_TASK_ID} INTEGER, CONSTRAINT ${FK_GRADE_TASK} FOREIGN KEY (${COL_TASK_ID}) REFERENCES ${TASK_TABLE_NAME}(${COL_TASK_ID}))"
+
+val QUERY_CREATE_TABLE_GOAL = "CREATE TABLE ${GOAL_TABLE_NAME} (${COL_GOAL_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GOAL_STATUS} INTEGER(4), ${COL_GOAL_CONTENT} VARCHAR(256), ${COL_TASK_ID} INTEGER)"
+
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL(QUERRY_CREATE_TABLE_TASK)
-        db?.execSQL(QUERRY_CREATE_TABLE_GRADE)
-        db?.execSQL(QUERRY_CREATE_TABLE_CATEGORY)
+        db?.execSQL(QUERY_CREATE_TABLE_TASK)
+        db?.execSQL(QUERY_CREATE_TABLE_GRADE)
+        db?.execSQL(QUERY_CREATE_TABLE_CATEGORY)
+        db?.execSQL(QUERY_CREATE_TABLE_GOAL)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -93,16 +104,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                     selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
                 taskItem.taskAvarage =
                     selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
-                taskItem.taskIcon = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_ICON
-                    )
-                ).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_UPDATE_DATE
-                    )
-                ).toLong()
+
+                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ICON)).toInt()
+                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(COL_TASK_UPDATE_DATE)).toLong()
+
                 taskItem.taskEvaluationDay = selectedData.getString(
                     selectedData.getColumnIndex(
                         COL_TASK_EVALUATION_DAY
@@ -570,4 +575,120 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         result.close()
         db.close()
     }
+
+    fun insertGoal(goal: Goal) {
+        val db = this.writableDatabase
+        var cv = ContentValues()
+
+        cv.put(COL_GOAL_CONTENT, goal.goalContent)
+        cv.put(COL_TASK_ID, goal.goalTaskId)
+        cv.put(COL_GOAL_STATUS, goal.goalStatus)
+
+        var result = db.insert(GOAL_TABLE_NAME, null, cv)
+
+        if (result == -1.toLong()) {
+            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun readGoals(taskId: Int): MutableList<Goal> {
+        var goalsList: MutableList<Goal> = ArrayList()
+
+        val db = this.readableDatabase
+        val query = "SELECT * FROM ${GOAL_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var goalItem = Goal()
+                goalItem.goalId =
+                    result.getString(result.getColumnIndex(COL_GOAL_ID)).toInt()
+
+                goalItem.goalContent =
+                    result.getString(result.getColumnIndex(COL_GOAL_CONTENT))
+
+                goalItem.goalStatus =
+                    result.getString(result.getColumnIndex(COL_GOAL_STATUS)).toInt()
+
+                goalItem.goalTaskId =
+                    result.getString(result.getColumnIndex(COL_TASK_ID)).toInt()
+
+                goalsList.add(goalItem)
+            } while (result.moveToNext())
+        }
+
+        result.close()
+        db.close()
+
+        return goalsList
+    }
+
+    fun readGoalsInProgess(taskId: Int): MutableList<Goal> {
+        var goalsList: MutableList<Goal> = ArrayList()
+
+        val db = this.readableDatabase
+        val query = "SELECT * FROM ${GOAL_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId} AND ${COL_GOAL_STATUS}==${GOAL_PROGRESS_VALUE})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var goalItem = Goal()
+                goalItem.goalId =
+                    result.getString(result.getColumnIndex(COL_GOAL_ID)).toInt()
+
+                goalItem.goalContent =
+                    result.getString(result.getColumnIndex(COL_GOAL_CONTENT))
+
+                goalItem.goalStatus =
+                    result.getString(result.getColumnIndex(COL_GOAL_STATUS)).toInt()
+
+                goalItem.goalTaskId =
+                    result.getString(result.getColumnIndex(COL_TASK_ID)).toInt()
+
+                goalsList.add(goalItem)
+            } while (result.moveToNext())
+        }
+
+        result.close()
+        db.close()
+
+        return goalsList
+    }
+
+    fun updateGoalStatus(goalId: Int) {
+        val db = this.writableDatabase
+        val query = "SELECT * FROM ${GOAL_TABLE_NAME} WHERE (${COL_GOAL_ID}==${goalId})"
+        val result = db.rawQuery(query, null)
+
+        if (result.moveToFirst()) {
+            do {
+                var cv = ContentValues()
+
+                cv.put(COL_GOAL_STATUS, GOAL_DONE_VALUE)
+
+                db.update(
+                    GOAL_TABLE_NAME,
+                    cv,
+                    "${COL_GOAL_ID}=? AND ${COL_GOAL_CONTENT}=?",
+                    arrayOf(
+                        result.getString(
+                            result.getColumnIndex(
+                                COL_GOAL_ID
+                            )
+                        ), result.getString(
+                            result.getColumnIndex(
+                                COL_GOAL_CONTENT
+                            )
+                        )
+                    )
+                )
+            } while (result.moveToNext())
+        }
+        result.close()
+        db.close()
+    }
+
+
 }

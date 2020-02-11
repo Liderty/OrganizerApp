@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_highlighted"
             android:text="Insert"
             android:textColor="@color/colorBrightText" />
 
@@ -67,7 +67,7 @@
             android:id="@+id/btnGoBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_toned"
             android:text="Return"
             android:textColor="@color/colorBrightText" />
 

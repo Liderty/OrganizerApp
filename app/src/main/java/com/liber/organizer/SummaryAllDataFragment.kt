@@ -49,13 +49,16 @@ class SummaryAllDataFragment : Fragment() {
         chartAllGrades.data = data
         chartAllGrades.centerTextRadiusPercent = 0f
         chartAllGrades.isDrawHoleEnabled = false
-        chartAllGrades.legend.isEnabled = false
-        chartAllGrades.description.isEnabled = false
+        chartAllGrades.legend.formSize = 15f
+        chartAllGrades.legend.textSize = 15f
+
+//        chartAllGrades.legend.isEnabled = false
+//        chartAllGrades.description.isEnabled = false
     }
 
     private fun setData() : ArrayList<PieEntry> {
         val chartData = ArrayList<PieEntry>()
-        val allGrades = db.readGrades()
+        val allGrades = db.readGrades().reversed()
         val summary = arrayOf(0,0,0,0,0,0)
 
         for (grade in allGrades) {

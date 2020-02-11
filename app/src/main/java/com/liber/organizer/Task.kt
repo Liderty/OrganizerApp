@@ -31,9 +31,7 @@ class Task : Serializable {
         this.categoryId = categoryId
     }
 
-    constructor() {
-
-    }
+    constructor()
 
     fun getUpdateDate(): Long {
         return System.currentTimeMillis()

@@ -9,6 +9,7 @@
     <dimen name="padding_small">10dp</dimen>
 
     <dimen name="text_size_header">30sp</dimen>
+    <dimen name="text_size_medium_header">25sp</dimen>
     <dimen name="text_size_small_header">20sp</dimen>
     <dimen name="text_size_creation">15sp</dimen>
 

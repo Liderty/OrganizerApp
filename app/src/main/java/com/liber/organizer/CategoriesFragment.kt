@@ -1,5 +1,6 @@
 package com.liber.organizer
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,14 +9,71 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
-import kotlinx.android.synthetic.main.fragment_categories.*
+import android.widget.Toast
+import com.liber.organizer.NotifyWork.Companion.NOTIFICATION_ID
 import kotlinx.android.synthetic.main.fragment_categories.view.*
 import kotlin.collections.ArrayList
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import com.liber.organizer.NotifyWork.Companion.NOTIFICATION_WORK
+import androidx.work.ExistingWorkPolicy.REPLACE
+import java.util.concurrent.TimeUnit
+
 
 class CategoriesFragment : Fragment() {
 
     lateinit var categorylistView: ListView
     lateinit var db: DataBaseHandler
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_categories, container, false)
+        categorylistView = view.findViewById(R.id.categoryListView)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val context = getContext()!!
+        db = DataBaseHandler(context)
+
+        view.btnCreateCategroy.setOnClickListener {
+            val intent = Intent(context, AddCategoryActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val categoryList = db.readCategory()
+
+        evaluateGrades()
+        resolveDeprecatedGrades()
+        createNotification(getDateForNotification())
+
+        val fm = fragmentManager
+
+        val emptyGrades = gradesForEvaluation()
+
+        if(emptyGrades.size > 0) {
+            val ratingsDialog = RatingDialog()
+            ratingsDialog.show(fm!!, "Ratings_tag")
+        }
+
+        categorylistView.adapter =
+            CategoryListViewAdapter(context!!, R.layout.listview_category_row, categoryList)
+        categorylistView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
+
+            var intent = Intent(context, TaskListActivity::class.java)
+            intent.putExtra("category", categoryList[position])
+            startActivity(intent)
+        }
+    }
 
     fun createMissingGradesForTask(task: Task) {
 
@@ -124,87 +182,38 @@ class CategoriesFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_categories, container, false)
-        categorylistView = view.findViewById(R.id.categoryListView)
-        return view
-    }
+    private fun createNotification(notificationTime: TaskDate) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val currentTimeDate = TaskDate()
 
-        val fm = fragmentManager
-        val context = getContext()
-        db = DataBaseHandler(context!!)
+        val customTime = notificationTime.milliseconds
+        val currentTime = currentTimeDate.milliseconds
 
-        evaluateGrades()
-        resolveDeprecatedGrades()
+            if (customTime > currentTime) {
+                val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
+                val delay = customTime - currentTime
+                scheduleNotification(delay, data)
 
-        val emptyGrades = gradesForEvaluation()
-
-        // TESTBLOCK.START
-        if(emptyGrades.size > 0) {
-            val ratingsDialog = RatingDialog()
-
-            var args = Bundle()
-            args.putSerializable("grades", emptyGrades)
-
-            ratingsDialog.setArguments(args)
-            ratingsDialog.show(fm!!, "Ratings_tag")
-        }
-        // TESTBLOCK.END
-
-        var categoryList = db.readCategory()
-
-        categorylistView.adapter =
-            CategoryListViewAdapter(context, R.layout.listview_category_row, categoryList)
-        categorylistView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
-
-            var intent = Intent(context, TaskListActivity::class.java)
-            intent.putExtra("category", categoryList[position])
-            startActivity(intent)
-        }
-
-        view.btnCreateCategroy.setOnClickListener {
-            var intent = Intent(context, AddCategoryActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val categoryList = db.readCategory()
-        val context = getContext()
-
-        evaluateGrades()
-        resolveDeprecatedGrades()
-        val fm = fragmentManager
-
-        val emptyGrades = gradesForEvaluation()
-
-        // TESTBLOCK.START
-        if(emptyGrades.size > 0) {
-            val ratingsDialog = RatingDialog()
-
-            var args = Bundle()
-            args.putSerializable("grades", emptyGrades)
-
-            ratingsDialog.setArguments(args)
-            ratingsDialog.show(fm!!, "Ratings_tag")
-        }
-
-        categorylistView.adapter =
-            CategoryListViewAdapter(context!!, R.layout.listview_category_row, categoryList)
-        categorylistView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
-
-            var intent = Intent(context, TaskListActivity::class.java)
-            intent.putExtra("category", categoryList[position])
-            startActivity(intent)
-        }
+            } else {
+                val errorNotificationSchedule = getString(R.string.notification_schedule_error)
+                Toast.makeText(context, errorNotificationSchedule, Toast.LENGTH_LONG).show()
+            }
 
     }
+
+    private fun scheduleNotification(delay: Long, data: Data) {
+        val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
+
+        val instanceWorkManager = WorkManager.getInstance(context!!)
+        instanceWorkManager.beginUniqueWork(NOTIFICATION_WORK, REPLACE, notificationWork).enqueue()
+    }
+
+    fun getDateForNotification(): TaskDate {
+
+
+
+        return TaskDate()
+    }
+
 }
