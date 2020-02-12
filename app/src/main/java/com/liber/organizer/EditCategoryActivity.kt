@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_edit_category.*
 
 
@@ -54,6 +55,44 @@ class EditCategoryActivity : AppCompatActivity() {
 
         buttonGoBack.setOnClickListener {
             finish()
+        }
+
+        buttonDeleteCategory.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+
+            builder.setTitle("Deleting Category")
+            builder.setMessage("WARNING: Are you sure you want to delete this CATEGORY? All of its data like tasks, grades, goals and statistics will be also deleted!")
+
+            builder.setPositiveButton("Confirm Delete") { dialog, which ->
+                val taskList = db.readTasks(categoryItem.categoryId)
+
+                for(taskItem in taskList) {
+                    if (db.deleteTask(taskItem.taskId)) {
+                        db.deleteAllTaskGrades(taskItem.taskId)
+                        db.deleteAllTaskGoals(taskItem.taskId)
+                    }
+                }
+
+                db.deleteCategory(categoryItem.categoryId)
+
+                Toast.makeText(
+                    applicationContext,
+                    "Successfully deleted.",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                var intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                startActivity(intent)
+                finish()
+            }
+
+            builder.setNegativeButton("Cancel") { dialog, which ->
+                Toast.makeText(applicationContext, "Nothing deleted", Toast.LENGTH_SHORT).show()
+            }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
     }
 

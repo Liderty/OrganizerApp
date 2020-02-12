@@ -53,23 +53,26 @@ class CategoriesFragment : Fragment() {
         val categoryList = db.readCategory()
 
         evaluateGrades()
-        resolveDeprecatedGrades()
-        createNotification(getDateForNotification())
+//        resolveDeprecatedGrades()
 
         val fm = fragmentManager
 
         val emptyGrades = gradesForEvaluation()
+        createNotification(TaskDate(getDateForNotification()))
 
         if(emptyGrades.size > 0) {
             val ratingsDialog = RatingDialog()
-            ratingsDialog.show(fm!!, "Ratings_tag")
+
+            if(!ratingsDialog.isAdded) {
+                ratingsDialog.show(fm!!, "Ratings_tag")
+            }
         }
 
         categorylistView.adapter =
             CategoryListViewAdapter(context!!, R.layout.listview_category_row, categoryList)
-        categorylistView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
 
-            var intent = Intent(context, TaskListActivity::class.java)
+        categorylistView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
+            val intent = Intent(context, TaskListActivity::class.java)
             intent.putExtra("category", categoryList[position])
             startActivity(intent)
         }
@@ -125,8 +128,8 @@ class CategoriesFragment : Fragment() {
         val currentDate = TaskDate()
 
         for (grade in emptyGradeList) {
-            var gradeTask = db.readTask(grade.taskId)
-            var evaluationFullDateAndTime = TaskDate(grade.gradeDate, gradeTask.taskEvaluationTime)
+            val gradeTask = db.readTask(grade.taskId)
+            val evaluationFullDateAndTime = TaskDate(grade.gradeDate, gradeTask.taskEvaluationTime)
 
             if (evaluationFullDateAndTime.milliseconds < currentDate.milliseconds) {
                 gradesForEvaluationList.add(grade)
@@ -141,8 +144,8 @@ class CategoriesFragment : Fragment() {
 
         for (task in taskList) {
             if (grade.taskId == task.taskId) {
-                var currentTime = TaskDate()
-                var evaluationDate = TaskDate(grade.gradeDate)
+                val currentTime = TaskDate()
+                val evaluationDate = TaskDate(grade.gradeDate)
 
                 if (task.taskEvaluationDay > 6) {
                     if (currentTime.getDaysBetweenThisAndOtherDate(evaluationDate) > 5) {
@@ -186,6 +189,8 @@ class CategoriesFragment : Fragment() {
 
         val currentTimeDate = TaskDate()
 
+        println("notification time ${notificationTime.milliseconds}")
+
         val customTime = notificationTime.milliseconds
         val currentTime = currentTimeDate.milliseconds
 
@@ -194,6 +199,7 @@ class CategoriesFragment : Fragment() {
                 val delay = customTime - currentTime
                 scheduleNotification(delay, data)
 
+                Toast.makeText(context, "Notification created", Toast.LENGTH_LONG).show()
             } else {
                 val errorNotificationSchedule = getString(R.string.notification_schedule_error)
                 Toast.makeText(context, errorNotificationSchedule, Toast.LENGTH_LONG).show()
@@ -209,11 +215,22 @@ class CategoriesFragment : Fragment() {
         instanceWorkManager.beginUniqueWork(NOTIFICATION_WORK, REPLACE, notificationWork).enqueue()
     }
 
-    fun getDateForNotification(): TaskDate {
+    fun getDateForNotification(): Long {
+        val currentTime = TaskDate()
+        val taskList = db.readTasks()
 
+        var comparableDate: Long
+        var closestDate = 0L
 
+        for(task in taskList) {
+            comparableDate = currentTime.getNextDayAndTime(task.taskEvaluationDay, task.taskEvaluationTime)
 
-        return TaskDate()
+            println("task_date: | day ${task.taskEvaluationDay} time ${task.taskEvaluationTime} |")
+            if((comparableDate < closestDate) || (closestDate == 0L)) {
+                closestDate = comparableDate
+            }
+        }
+
+        return closestDate
     }
-
 }

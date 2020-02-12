@@ -62,11 +62,12 @@ class TaskActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
 
             builder.setTitle("Deleting Task")
-            builder.setMessage("WARNING: Are you sure you want to delete this Task? All of its data like grades and statistics will be also deleted!")
+            builder.setMessage("WARNING: Are you sure you want to delete this Task? All of its data like grades, goals and statistics will be also deleted!")
 
             builder.setPositiveButton("Confirm Delete") { dialog, which ->
                 if (db.deleteTask(taskItem.taskId)) {
                     db.deleteAllTaskGrades(taskItem.taskId)
+                    db.deleteAllTaskGoals(taskItem.taskId)
                     Toast.makeText(applicationContext, "Successfully deleted.", Toast.LENGTH_SHORT)
                         .show()
                 }

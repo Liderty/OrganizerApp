@@ -470,6 +470,12 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
     }
 
+    fun deleteAllTaskGoals(_id: Int) {
+        val db = this.writableDatabase
+        db.delete(GOAL_TABLE_NAME, COL_TASK_ID + "=?", arrayOf(_id.toString())).toLong()
+        db.close()
+    }
+
     fun insertCategory(category: Category) {
         val db = this.writableDatabase
         val cv = ContentValues()
@@ -573,6 +579,12 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             } while (result.moveToNext())
         }
         result.close()
+        db.close()
+    }
+
+    fun deleteCategory(_id: Int) {
+        val db = this.writableDatabase
+        db.delete(CATEGORY_TABLE_NAME, COL_CATEGORY_ID + "=?", arrayOf(_id.toString())).toLong()
         db.close()
     }
 

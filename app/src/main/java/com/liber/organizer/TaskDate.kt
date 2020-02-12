@@ -11,6 +11,7 @@ class TaskDate {
     val DAY_IN_MILLIS = 1000L * 60 * 60 * 24
     val DAYS_OF_WEEK =
         arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    val TIME_ZONE = "UTC+1"
 
     var milliseconds: Long = 0L
 
@@ -30,8 +31,12 @@ class TaskDate {
         return abs(((getDateWithoutTime(otherDate.milliseconds) - getDateWithoutTime(this.milliseconds)) / DAY_IN_MILLIS).toInt()) + ADDITIONAL_DAY
     }
 
+    fun TaskDate.add(addedMilliseconds: Long) {
+        this.milliseconds = this.milliseconds + addedMilliseconds
+    }
+
     fun getDatesListBetweenThisAndOtherDate(otherDate: TaskDate): ArrayList<Long> {
-        var datesList = arrayListOf<Long>()
+        val datesList = arrayListOf<Long>()
         val daysBetween = this.getDaysBetweenThisAndOtherDate(otherDate)
 
         for (i in 0..daysBetween - 1) {
@@ -42,7 +47,7 @@ class TaskDate {
     }
 
     fun getDaysListByIndexFromDatesList(dayIndex: Int, datesList: ArrayList<Long>): ArrayList<Long> {
-        var daysList = arrayListOf<Long>()
+        val daysList = arrayListOf<Long>()
         for (i in 0..datesList.size - 1) {
             if(TaskDate(datesList[i]).getDayOfWeekIndex() == dayIndex) {
                 daysList.add(datesList[i])
@@ -52,29 +57,29 @@ class TaskDate {
     }
 
     fun getHour() : Int {
-        var calendar = getInstance(TimeZone.getTimeZone("UTC"))
+        val calendar = getInstance(TimeZone.getTimeZone(TIME_ZONE))
         calendar.setTimeInMillis(this.milliseconds)
         return calendar.get(HOUR_OF_DAY)
     }
 
     fun getMinute() : Int {
-        var calendar = getInstance(TimeZone.getTimeZone("UTC"))
+        val calendar = getInstance(TimeZone.getTimeZone(TIME_ZONE))
         calendar.setTimeInMillis(this.milliseconds)
         return calendar.get(MINUTE)
     }
 
     fun getDayOfWeekIndex(): Int {
-        var calendar = getInstance(TimeZone.getTimeZone("UTC"))
+        val calendar = getInstance(TimeZone.getTimeZone(TIME_ZONE))
         calendar.setTimeInMillis(this.milliseconds)
 
-        var dayOfWeek = when (calendar.get(DAY_OF_WEEK)) {
-            0 -> 6
-            1 -> 0
-            2 -> 1
-            3 -> 2
-            4 -> 3
-            5 -> 4
-            6 -> 5
+        val dayOfWeek = when (calendar.get(DAY_OF_WEEK)) {
+            1 -> 6
+            2 -> 0
+            3 -> 1
+            4 -> 2
+            5 -> 3
+            6 -> 4
+            7 -> 5
             else -> 7
         }
 
@@ -86,7 +91,7 @@ class TaskDate {
     }
 
     fun getDateWithoutTime(dateTimeMillis: Long): Long {
-        var calendar = getInstance(TimeZone.getTimeZone("UTC"))
+        var calendar = getInstance(TimeZone.getTimeZone(TIME_ZONE))
         calendar.setTimeInMillis(dateTimeMillis)
 
         calendar.set(MILLISECOND, 0);
@@ -106,9 +111,48 @@ class TaskDate {
     }
 
     fun getStringDate() : String {
-        val calendar = getInstance(TimeZone.getTimeZone("UTC"))
+        val calendar = getInstance(TimeZone.getTimeZone(TIME_ZONE))
         calendar.setTimeInMillis(milliseconds)
         val dateString = "${calendar.get(DAY_OF_MONTH)}/${calendar.get(MONTH) + 1}/${calendar.get(YEAR)}"
         return dateString
+    }
+
+    fun getTimeWithoutDate() : Long {
+        val hoursInMillis = this.getHour() * 60L * 60 * 1000
+        val minutesInMillis = this.getMinute() * 60L * 1000
+
+        return hoursInMillis + minutesInMillis
+    }
+
+    fun getNextDayAndTime(otherDayIndex: Int, otherTimeInMillis: Long) : Long {
+        val resultDate = TaskDate()
+        val today = resultDate.getDayOfWeekIndex()
+
+        resultDate.milliseconds = resultDate.getDateWithoutTime()
+        resultDate.add(otherTimeInMillis)
+
+        val daysDifference: Int
+
+        if(otherDayIndex > 6) {
+            if(otherTimeInMillis <= this.getTimeWithoutDate()) {
+                resultDate.add(DAY_IN_MILLIS)
+            }
+        } else {
+            if(otherDayIndex > today) {
+                daysDifference = abs(otherDayIndex - today)
+                resultDate.add(DAY_IN_MILLIS * daysDifference)
+
+            } else if(otherDayIndex < today) {
+                daysDifference = abs(DAYS_OF_WEEK.size + otherDayIndex - today)
+                resultDate.add(DAY_IN_MILLIS * daysDifference)
+
+            } else {
+                if(otherTimeInMillis <= this.getTimeWithoutDate()) {
+                    resultDate.add(DAY_IN_MILLIS)
+                }
+            }
+        }
+
+        return resultDate.milliseconds
     }
 }

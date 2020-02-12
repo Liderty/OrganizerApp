@@ -23,10 +23,17 @@ class SummaryCategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val context = getContext()
+
         db = DataBaseHandler(context!!)
 
         var categoryList = db.readCategory()
-        listViewCategoriesCharts.adapter = SummaryCategoryListViewAdapter(context, R.layout.listview_summary_categories_row, categoryList)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val context = getContext()
+
+        var categoryList = db.readCategory()
+        listViewCategoriesCharts.adapter = SummaryCategoryListViewAdapter(context!!, R.layout.listview_summary_categories_row, categoryList)
     }
 }

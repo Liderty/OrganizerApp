@@ -24,10 +24,6 @@ class TaskGoalsListViewAdapter (var listViewContext: Context, var resources: Int
             view.goalCheckbox.isChecked = true
         }
 
-        view.goalArea.setOnClickListener {
-            Toast.makeText(context, "Pos: ${position} Status: ${goalItems[position].goalStatus}", Toast.LENGTH_SHORT).show()
-        }
-
         return view
     }
 }

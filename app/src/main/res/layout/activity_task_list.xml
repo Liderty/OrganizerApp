@@ -78,7 +78,7 @@
             android:id="@+id/buttonEditCategory"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Edit Category"
+            android:text="Manage Category"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorBrightText"
             android:padding="10dp"/>

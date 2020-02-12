@@ -13,20 +13,33 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorDarkText" >
+            android:layout_height="wrap_content"
+            android:background="@color/colorInsert"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
 
-            <TextView
-                android:id="@+id/categoryName"
-                android:textColor="@color/colorBrightText"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All categories"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_small_header"
-                android:layout_margin="@dimen/margin_medium"/>
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="STARATE"
+                    android:textColor="@color/colorSuccessful"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_main" />
         </LinearLayout>
 
         <LinearLayout

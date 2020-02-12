@@ -31,8 +31,6 @@ class SummaryAllDataFragment : Fragment() {
 
         val context = getContext()
         db = DataBaseHandler(context!!)
-
-        setUpPieChartData()
     }
 
     private fun setUpPieChartData() {
