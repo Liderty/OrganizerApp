@@ -1,12 +1,10 @@
 package com.liber.organizer
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import kotlinx.android.synthetic.main.fragment_summary_categories.*
 
 class SummaryCategoriesFragment : Fragment() {
@@ -23,17 +21,19 @@ class SummaryCategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         db = DataBaseHandler(context!!)
-
-        var categoryList = db.readCategory()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
+
         val context = getContext()
 
         var categoryList = db.readCategory()
-        listViewCategoriesCharts.adapter = SummaryCategoryListViewAdapter(context!!, R.layout.listview_summary_categories_row, categoryList)
+        listViewCategoriesCharts.adapter = SummaryCategoryListViewAdapter(
+            context!!,
+            R.layout.listview_summary_categories_row,
+            categoryList
+        )
     }
 }

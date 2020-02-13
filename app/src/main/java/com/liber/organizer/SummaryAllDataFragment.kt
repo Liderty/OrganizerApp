@@ -40,7 +40,7 @@ class SummaryAllDataFragment : Fragment() {
         dataSet.valueTextSize = 0f
 
         val colors = java.util.ArrayList<Int>()
-        for (c in ColorTemplate.PASTEL_COLORS) colors.add(c)
+        for (c in ColorTemplate.PASTEL_COLORS.reversed()) colors.add(c)
         dataSet.setColors(colors)
 
         val data = PieData(dataSet)
@@ -50,13 +50,12 @@ class SummaryAllDataFragment : Fragment() {
         chartAllGrades.legend.formSize = 15f
         chartAllGrades.legend.textSize = 15f
 
-//        chartAllGrades.legend.isEnabled = false
-//        chartAllGrades.description.isEnabled = false
+        chartAllGrades.description.isEnabled = false
     }
 
     private fun setData() : ArrayList<PieEntry> {
         val chartData = ArrayList<PieEntry>()
-        val allGrades = db.readGrades().reversed()
+        val allGrades = db.readGrades()
         val summary = arrayOf(0,0,0,0,0,0)
 
         for (grade in allGrades) {

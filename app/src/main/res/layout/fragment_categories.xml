@@ -16,28 +16,24 @@
             android:layout_height="wrap_content"
             android:background="@color/colorInsert"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="10dp">
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="24dp"
                     android:layout_margin="5dp"
-                    android:text="STARATE"
-                    android:textColor="@color/colorSuccessful"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:src="@drawable/logo"/>
 
             </LinearLayout>
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_margin="5dp"
                 android:src="@drawable/ic_main" />
         </LinearLayout>

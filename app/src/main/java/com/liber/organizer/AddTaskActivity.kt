@@ -28,6 +28,8 @@ class AddTaskActivity : AppCompatActivity() {
         val categoryItem = intent.getSerializableExtra("category") as Category
         val daySpinner = findViewById(R.id.daySpinnerElement) as LinearLayout
 
+        selectedTime = TaskDate().getTimeWithoutDate()
+
         taskImage.setOnClickListener {
             var intent = Intent(this, IconPickerActivity::class.java)
             startActivityForResult(intent, REQUEST_ICON_CODE)

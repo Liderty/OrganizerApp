@@ -8,7 +8,8 @@ import kotlin.math.abs
 class TaskDate {
 
     val ADDITIONAL_DAY = 1
-    val DAY_IN_MILLIS = 1000L * 60 * 60 * 24
+    val HOUR_IN_MILLIS = 60 * 60 * 1000
+    val DAY_IN_MILLIS = HOUR_IN_MILLIS * 24L
     val DAYS_OF_WEEK =
         arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     val TIME_ZONE = "UTC+1"
@@ -20,7 +21,7 @@ class TaskDate {
     }
 
     constructor() {
-        this.milliseconds = System.currentTimeMillis()
+        this.milliseconds = System.currentTimeMillis() + HOUR_IN_MILLIS
     }
 
     constructor(dateMillis: Long, timeMillis: Long) {

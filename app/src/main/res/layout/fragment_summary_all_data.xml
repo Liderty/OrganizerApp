@@ -6,6 +6,16 @@
     android:orientation="vertical"
     tools:context=".SummaryAllDataFragment">
 
+    <TextView
+        android:id="@+id/taskDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Every grade frome all task around all categories"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_margin="@dimen/margin_large"/>
+
+
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chartAllGrades"
         android:layout_width="match_parent"

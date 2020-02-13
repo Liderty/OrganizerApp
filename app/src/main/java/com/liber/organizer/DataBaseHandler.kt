@@ -93,8 +93,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         val query = "SELECT * FROM ${TASK_TABLE_NAME}"
         val selectedData = db.rawQuery(query, null)
 
-        if (selectedData.moveToFirst()) {
-            do {
+        while (selectedData.moveToNext()) {
                 var taskItem = Task()
                 taskItem.taskId =
                     selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
@@ -106,7 +105,8 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                     selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
 
                 taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ICON)).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(COL_TASK_UPDATE_DATE)).toLong()
+                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(
+                    COL_TASK_UPDATE_DATE)).toLong()
 
                 taskItem.taskEvaluationDay = selectedData.getString(
                     selectedData.getColumnIndex(
@@ -121,8 +121,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 taskItem.categoryId =
                     selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
                 tasksList.add(taskItem)
-            } while (selectedData.moveToNext())
-        }
+            }
 
         selectedData.close()
         db.close()

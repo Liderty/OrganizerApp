@@ -34,6 +34,6 @@ class Task : Serializable {
     constructor()
 
     fun getUpdateDate(): Long {
-        return System.currentTimeMillis()
+        return TaskDate().getTimeWithoutDate()
     }
 }

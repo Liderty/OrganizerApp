@@ -88,10 +88,10 @@ class RatingDialog : DialogFragment() {
 
         taskRateButton.setOnClickListener {
             db.updateGradeGrade(gradeItem.gradeId, taskRatingBar.rating.toInt())
+            gradeIndex++
+            if(gradeIndex != epmtyGradesNumber) {
 
-            if(gradeIndex != epmtyGradesNumber-1) {
                 setData(emptyGrades[gradeIndex])
-                gradeIndex++
             } else {
                 this.dismiss()
             }

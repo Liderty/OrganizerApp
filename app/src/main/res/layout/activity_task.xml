@@ -161,6 +161,52 @@
             android:textColor="@color/colorYellowStar"
             android:layout_marginBottom="@dimen/margin_large"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task goals:"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/taskGoalsNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="16sp"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goals done:"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/taskGoalsDoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="16sp"
+                android:textAlignment="textEnd"
+                android:layout_gravity="end"/>
+
+        </LinearLayout>
+
         <View style="@style/Divider" />
 
 

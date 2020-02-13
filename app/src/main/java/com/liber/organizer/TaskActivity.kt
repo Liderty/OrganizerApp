@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -90,6 +91,7 @@ class TaskActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         val taskItem = db.readTask(id)
+        val taskGoals = db.readGoals(id)
 
         taskImageView.setImageResource(taskItem.taskIcon)
         taskTitleTextView.text = taskItem.taskName
@@ -102,11 +104,20 @@ class TaskActivity : AppCompatActivity() {
         } else {
             taskGradeRatingBar.visibility = View.INVISIBLE
         }
+
         taskEvaluationDay.text = getDay(taskItem.taskEvaluationDay)
         taskEvaluationTime.text = getTime(taskItem.taskEvaluationTime)
 
-
         setUpLineChartData(taskItem.taskId)
+
+        var numberOfGoalsDone = 0
+        for (goal in taskGoals) {
+            if(goal.goalStatus == 1)
+                numberOfGoalsDone++
+        }
+
+        taskGoalsNumber.text = taskGoals.size.toString()
+        taskGoalsDoneNumber.text = numberOfGoalsDone.toString()
     }
 
     fun getDay(dayId: Int): String {
@@ -129,7 +140,7 @@ class TaskActivity : AppCompatActivity() {
     private fun setUpLineChartData(taskId: Int) {
         //Dataset
         val yVals = ArrayList<Entry>()
-        val taskGrades = db.readGrades(taskId).reversed()
+        val taskGrades = db.readGrades(taskId)
 
         for (i in 0..(taskGrades.size - 1)) {
             if(taskGrades[i].gradeGrade != 0) {
@@ -156,6 +167,18 @@ class TaskActivity : AppCompatActivity() {
         val dataSets = ArrayList<ILineDataSet>()
         dataSets.add(set1)
         val data = LineData(dataSets)
+
+        taskGradesLineChart.xAxis.isEnabled = false
+
+        val yAxisLeft: YAxis = taskGradesLineChart.getAxisLeft()
+        yAxisLeft.setAxisMinimum(0f)
+        yAxisLeft.setAxisMaximum(6f)
+        yAxisLeft.setGranularity(1f)
+
+        val yAxisRight: YAxis = taskGradesLineChart.getAxisRight()
+        yAxisRight.setAxisMinimum(0f)
+        yAxisRight.setAxisMaximum(6f)
+        yAxisRight.setGranularity(1f)
 
         //Chart options
         taskGradesLineChart.setData(data)
