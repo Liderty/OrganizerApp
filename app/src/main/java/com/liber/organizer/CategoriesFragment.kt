@@ -23,6 +23,9 @@ import java.util.concurrent.TimeUnit
 
 class CategoriesFragment : Fragment() {
 
+    val EXPIRED_GRADE_EVRYDAY = 7
+    val EXPIRED_GRADE_DAY = 14
+
     lateinit var categorylistView: ListView
     lateinit var db: DataBaseHandler
 
@@ -53,12 +56,16 @@ class CategoriesFragment : Fragment() {
         val categoryList = db.readCategory()
 
         evaluateGrades()
-//        resolveDeprecatedGrades()
+        resolveDeprecatedGrades()
 
         val fm = fragmentManager
 
         val emptyGrades = gradesForEvaluation()
-        createNotification(TaskDate(getDateForNotification()))
+
+        println("--> Empty grades size: | ${emptyGrades.size} |")
+        if(db.readTasks().isNotEmpty()) {
+            createNotification(TaskDate(getDateForNotification()))
+        }
 
         if(emptyGrades.size > 0) {
             val ratingsDialog = RatingDialog()
@@ -148,11 +155,11 @@ class CategoriesFragment : Fragment() {
                 val evaluationDate = TaskDate(grade.gradeDate)
 
                 if (task.taskEvaluationDay > 6) {
-                    if (currentTime.getDaysBetweenThisAndOtherDate(evaluationDate) > 5) {
+                    if (currentTime.getDaysBetweenThisAndOtherDate(evaluationDate) > EXPIRED_GRADE_EVRYDAY) {
                         db.updateGradeGrade(grade.gradeId, 1)
                     }
                 } else {
-                    if (currentTime.getDaysBetweenThisAndOtherDate(evaluationDate) > 14) {
+                    if (currentTime.getDaysBetweenThisAndOtherDate(evaluationDate) > EXPIRED_GRADE_DAY) {
                         db.updateGradeGrade(grade.gradeId, 1)
                     }
                 }
@@ -189,10 +196,11 @@ class CategoriesFragment : Fragment() {
 
         val currentTimeDate = TaskDate()
 
-        println("notification time ${notificationTime.milliseconds}")
-
         val customTime = notificationTime.milliseconds
         val currentTime = currentTimeDate.milliseconds
+
+        println("Current time:      | ${currentTime} |")
+        println("Notification time: | ${customTime} |")
 
             if (customTime > currentTime) {
                 val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
@@ -202,7 +210,7 @@ class CategoriesFragment : Fragment() {
                 Toast.makeText(context, "Notification created", Toast.LENGTH_LONG).show()
             } else {
                 val errorNotificationSchedule = getString(R.string.notification_schedule_error)
-                Toast.makeText(context, errorNotificationSchedule, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, errorNotificationSchedule, Toast.LENGTH_LONG)
             }
 
     }
@@ -216,17 +224,17 @@ class CategoriesFragment : Fragment() {
     }
 
     fun getDateForNotification(): Long {
-        val currentTime = TaskDate()
         val taskList = db.readTasks()
-
+        var currentTime = TaskDate()
         var comparableDate: Long
-        var closestDate = 0L
+        var closestDate = currentTime.getNextDayAndTime(taskList[0].taskEvaluationDay, taskList[0].taskEvaluationTime)
 
-        for(task in taskList) {
-            comparableDate = currentTime.getNextDayAndTime(task.taskEvaluationDay, task.taskEvaluationTime)
+        for(i in 0..taskList.size-1) {
+            currentTime = TaskDate()
+            comparableDate = currentTime.getNextDayAndTime(taskList[i].taskEvaluationDay, taskList[i].taskEvaluationTime)
 
-            println("task_date: | day ${task.taskEvaluationDay} time ${task.taskEvaluationTime} |")
-            if((comparableDate < closestDate) || (closestDate == 0L)) {
+            println("COMPARABLE_DATE: ${comparableDate}")
+            if (comparableDate < closestDate) {
                 closestDate = comparableDate
             }
         }

@@ -353,9 +353,9 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         var result = db.insert(GRADE_TABLE_NAME, null, cv)
 
         if (result == -1.toLong()) {
-            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT)
         } else {
-            Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Success!", Toast.LENGTH_SHORT)
         }
     }
 

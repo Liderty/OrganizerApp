@@ -83,7 +83,6 @@ class TaskDate {
             7 -> 5
             else -> 7
         }
-
         return dayOfWeek
     }
 
@@ -125,35 +124,37 @@ class TaskDate {
         return hoursInMillis + minutesInMillis
     }
 
-    fun getNextDayAndTime(otherDayIndex: Int, otherTimeInMillis: Long) : Long {
-        val resultDate = TaskDate()
-        val today = resultDate.getDayOfWeekIndex()
-
-        resultDate.milliseconds = resultDate.getDateWithoutTime()
-        resultDate.add(otherTimeInMillis)
+    fun getNextDayAndTime(targetDayIndex: Int, targetTimeInMillis: Long) : Long {
+        val today = this.getDayOfWeekIndex()
 
         val daysDifference: Int
+        var additionalDays = 0L
 
-        if(otherDayIndex > 6) {
-            if(otherTimeInMillis <= this.getTimeWithoutDate()) {
-                resultDate.add(DAY_IN_MILLIS)
+        if(targetDayIndex > 6) {
+            if(targetTimeInMillis <= this.getTimeWithoutDate()) {
+                additionalDays = DAY_IN_MILLIS
             }
         } else {
-            if(otherDayIndex > today) {
-                daysDifference = abs(otherDayIndex - today)
-                resultDate.add(DAY_IN_MILLIS * daysDifference)
+            if(targetDayIndex > today) {
+                daysDifference = abs(targetDayIndex - today)
+                additionalDays = (DAY_IN_MILLIS * daysDifference)
 
-            } else if(otherDayIndex < today) {
-                daysDifference = abs(DAYS_OF_WEEK.size + otherDayIndex - today)
-                resultDate.add(DAY_IN_MILLIS * daysDifference)
+            } else if(targetDayIndex < today) {
+                daysDifference = abs(DAYS_OF_WEEK.size + targetDayIndex - today)
+                additionalDays = (DAY_IN_MILLIS * daysDifference)
 
             } else {
-                if(otherTimeInMillis <= this.getTimeWithoutDate()) {
-                    resultDate.add(DAY_IN_MILLIS)
+                if(targetTimeInMillis < this.getTimeWithoutDate()) {
+                    daysDifference = DAYS_OF_WEEK.size
+                    additionalDays = (DAY_IN_MILLIS * daysDifference)
                 }
             }
         }
 
-        return resultDate.milliseconds
+        this.milliseconds = this.getDateWithoutTime()
+        this.add(targetTimeInMillis)
+        this.add(additionalDays)
+
+        return this.milliseconds
     }
 }
