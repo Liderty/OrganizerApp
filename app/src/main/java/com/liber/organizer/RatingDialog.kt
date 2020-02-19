@@ -45,7 +45,7 @@ class RatingDialog : DialogFragment() {
         goalsListView = rootView.findViewById(R.id.goalListview) as ListView
 
         taskImageView = rootView.findViewById(R.id.taskImage)
-        taskTitleTextView= rootView.findViewById(R.id.taskTitle)
+        taskTitleTextView = rootView.findViewById(R.id.taskTitle)
         taskDescriptionTextView = rootView.findViewById(R.id.taskDescription)
         taskDate = rootView.findViewById(R.id.taskDate)
         taskGradeRatingBar = rootView.findViewById(R.id.taskGrade)
@@ -84,12 +84,13 @@ class RatingDialog : DialogFragment() {
         }
 
         val goalsList = db.readGoalsInProgess(taskItem.taskId)
-        goalsListView.adapter = RatingListViewAdapter(this.context!!, R.layout.listview_rating_row, goalsList)
+        goalsListView.adapter =
+            RatingListViewAdapter(this.context!!, R.layout.listview_rating_row, goalsList)
 
         taskRateButton.setOnClickListener {
             db.updateGradeGrade(gradeItem.gradeId, taskRatingBar.rating.toInt())
             gradeIndex++
-            if(gradeIndex != epmtyGradesNumber) {
+            if (gradeIndex != epmtyGradesNumber) {
 
                 setData(emptyGrades[gradeIndex])
             } else {
@@ -100,6 +101,6 @@ class RatingDialog : DialogFragment() {
 
     @SuppressLint("SetTextI18n")
     fun setNumber(gradeIndex: Int) {
-        graduateProgress.text = "${gradeIndex+1}/${epmtyGradesNumber}"
+        graduateProgress.text = "${gradeIndex + 1}/${epmtyGradesNumber}"
     }
 }

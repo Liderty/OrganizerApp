@@ -23,21 +23,21 @@ class AddCategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_category)
 
-        var db = DataBaseHandler(context)
+        val db = DataBaseHandler(context)
 
         categoryImage.setOnClickListener {
-            var intent = Intent(this, IconPickerActivity::class.java)
+            val intent = Intent(this, IconPickerActivity::class.java)
             startActivityForResult(intent, REQUEST_ICON_CODE)
         }
 
         btnInsert.setOnClickListener {
             if (etvName.text.toString().length > 0) {
-                var category = Category(etvName.text.toString(), categoryIcon)
+                val category = Category(etvName.text.toString(), categoryIcon)
                 db.insertCategory(category)
 
                 finish()
             } else {
-                Toast.makeText(context, "Please fill data!", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Please fill data!", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -46,7 +46,7 @@ class AddCategoryActivity : AppCompatActivity() {
         }
 
         btnRead.setOnClickListener {
-            var data = db.readCategory()
+            val data = db.readCategory()
             tvResult.text = ""
 
             for (i in 0..(data.size - 1)) {
