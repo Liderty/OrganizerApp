@@ -8,7 +8,7 @@ class Task : Serializable {
     var taskName: String = ""
     var taskDescription: String = ""
     var taskAvarage: Double = 0.0
-    var taskIcon: Int = R.drawable.settings
+    var taskIcon: Int = R.drawable.star
     var taskUpdateDate: Long = 0
     var taskEvaluationDay: Int = 0
     var taskEvaluationTime: Long = 0

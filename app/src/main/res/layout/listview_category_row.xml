@@ -11,7 +11,7 @@
         android:id="@+id/categoryImage"
         android:layout_width="@dimen/icon_size_medium"
         android:layout_height="@dimen/icon_size_medium"
-        app:srcCompat="@drawable/business_contact"
+        app:srcCompat="@drawable/star"
         android:layout_margin="@dimen/margin_small"/>
 
     <LinearLayout

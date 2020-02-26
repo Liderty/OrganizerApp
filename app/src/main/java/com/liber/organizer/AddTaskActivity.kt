@@ -19,7 +19,7 @@ class AddTaskActivity : AppCompatActivity() {
     var evaluation_flag = false
     var selectedDay = 0
     var selectedTime = 0L
-    var taskIcon = R.drawable.settings
+    var taskIcon = R.drawable.star
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
