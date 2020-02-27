@@ -19,7 +19,7 @@ class AddTaskActivity : AppCompatActivity() {
     var evaluation_flag = false
     var selectedDay = 0
     var selectedTime = 0L
-    var taskIcon = R.drawable.settings
+    var taskIcon = R.drawable.star
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,17 +139,23 @@ class AddTaskActivity : AppCompatActivity() {
                     task.taskUpdateDate = numberOfDays
 
                     db.insertTask(task)
+
                 }
 
+                finish()
             }
         }
 
         btnInsert5.setOnClickListener {
-            devDoneAdd(1580469263000)
+            var newDate = TaskDate()
+            newDate.add(-(newDate.DAY_IN_MILLIS * 1))
+            devDoneAdd(newDate.milliseconds)
         }
 
         btnInsert15.setOnClickListener {
-            devDoneAdd(1579605263000)
+            var newDate = TaskDate()
+            newDate.add(-(newDate.DAY_IN_MILLIS * 5))
+            devDoneAdd(newDate.milliseconds)
         }
 
         btnRead.setOnClickListener {

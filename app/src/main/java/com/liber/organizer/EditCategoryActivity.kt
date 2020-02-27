@@ -14,7 +14,7 @@ class EditCategoryActivity : AppCompatActivity() {
     val REQUEST_ICON_CODE = 1
     val context = this
 
-    var categoryIcon = R.drawable.settings
+    var categoryIcon = R.drawable.multiple_stars
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

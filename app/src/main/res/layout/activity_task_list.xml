@@ -17,7 +17,7 @@
             android:id="@+id/categoryImage"
             android:layout_width="@dimen/icon_size_medium"
             android:layout_height="@dimen/icon_size_medium"
-            app:srcCompat="@drawable/settings"
+            app:srcCompat="@drawable/multiple_stars"
             android:layout_margin="@dimen/margin_small"/>
 
         <LinearLayout
@@ -47,15 +47,15 @@
         android:padding="10dp" >
 
         <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/plus"
-            android:layout_margin="5dp"/>
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/add"/>
 
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="@dimen/margin_small">
 
             <TextView
                 android:layout_width="match_parent"
@@ -90,9 +90,6 @@
     <ListView
         android:id="@+id/tasksListView"
         android:layout_width="match_parent"
-        android:layout_height="575dp" />
-
-
-
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -2,6 +2,9 @@ package com.liber.organizer
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +43,7 @@ class SummaryCategoryListViewAdapter (var listViewContext: Context, var resource
         val bargroup = ArrayList<BarEntry>()
 
         for (i in 0..taskList.size-1) {
-            bargroup.add(BarEntry(i.toFloat(), taskList[i].taskAvarage.toFloat(), listViewContext.getDrawable((taskList[i].taskIcon))))
+            bargroup.add(BarEntry(i.toFloat(), taskList[i].taskAvarage.toFloat(), resize(listViewContext.getDrawable((taskList[i].taskIcon))!!)))
             taskNames.add(taskList[i].taskName)
         }
 
@@ -52,6 +55,7 @@ class SummaryCategoryListViewAdapter (var listViewContext: Context, var resource
         barDataSet.setColors(colors)
 
         val data = BarData(barDataSet)
+        data.setDrawValues(false)
         barChart.setData(data)
 
         val xAxis: XAxis = barChart.getXAxis()
@@ -79,5 +83,11 @@ class SummaryCategoryListViewAdapter (var listViewContext: Context, var resource
         barChart.setPinchZoom(true)
 
         return view
+    }
+
+    private fun resize(image: Drawable): Drawable? {
+        val b = (image as BitmapDrawable).bitmap
+        val bitmapResized = Bitmap.createScaledBitmap(b, 32, 32, false)
+        return BitmapDrawable(context.getResources(), bitmapResized)
     }
 }

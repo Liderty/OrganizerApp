@@ -17,7 +17,7 @@
             android:id="@+id/taskImage"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:srcCompat="@drawable/settings"
+            app:srcCompat="@drawable/star"
             android:layout_margin="5dp"/>
 
         <LinearLayout

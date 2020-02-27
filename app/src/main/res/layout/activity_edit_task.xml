@@ -60,7 +60,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_medium"
                     android:contentDescription="@string/task_icon_description"
-                    android:src="@drawable/edit" />
+                    android:src="@drawable/star" />
 
             </LinearLayout>
 
