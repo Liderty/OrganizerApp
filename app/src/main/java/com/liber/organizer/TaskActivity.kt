@@ -140,7 +140,7 @@ class TaskActivity : AppCompatActivity() {
     private fun setUpLineChartData(taskId: Int) {
         //Dataset
         val yVals = ArrayList<Entry>()
-        val taskGrades = db.readGrades(taskId)
+        val taskGrades = db.readGrades(taskId).reversed()
 
         for (i in 0..(taskGrades.size - 1)) {
             if(taskGrades[i].gradeGrade != 0) {

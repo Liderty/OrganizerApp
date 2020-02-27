@@ -48,7 +48,8 @@ val QUERY_CREATE_TABLE_TASK =
 val QUERY_CREATE_TABLE_GRADE =
     "CREATE TABLE ${GRADE_TABLE_NAME} (${COL_GRADE_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GRADE_DATE} VARCHAR(256), ${COL_GRADE_GRADE} INTEGER, ${COL_TASK_ID} INTEGER, CONSTRAINT ${FK_GRADE_TASK} FOREIGN KEY (${COL_TASK_ID}) REFERENCES ${TASK_TABLE_NAME}(${COL_TASK_ID}))"
 
-val QUERY_CREATE_TABLE_GOAL = "CREATE TABLE ${GOAL_TABLE_NAME} (${COL_GOAL_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GOAL_STATUS} INTEGER(4), ${COL_GOAL_CONTENT} VARCHAR(256), ${COL_TASK_ID} INTEGER)"
+val QUERY_CREATE_TABLE_GOAL =
+    "CREATE TABLE ${GOAL_TABLE_NAME} (${COL_GOAL_ID} INTEGER PRIMARY KEY AUTOINCREMENT, ${COL_GOAL_STATUS} INTEGER(4), ${COL_GOAL_CONTENT} VARCHAR(256), ${COL_TASK_ID} INTEGER)"
 
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
@@ -94,34 +95,38 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         val selectedData = db.rawQuery(query, null)
 
         while (selectedData.moveToNext()) {
-                var taskItem = Task()
-                taskItem.taskId =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
-                taskItem.taskName =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
-                taskItem.taskDescription =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
-                taskItem.taskAvarage =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+            var taskItem = Task()
+            taskItem.taskId =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
+            taskItem.taskName =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
+            taskItem.taskDescription =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
+            taskItem.taskAvarage =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
 
-                taskItem.taskIcon = selectedData.getString(selectedData.getColumnIndex(COL_TASK_ICON)).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(selectedData.getColumnIndex(
-                    COL_TASK_UPDATE_DATE)).toLong()
+            taskItem.taskIcon =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_ICON)).toInt()
+            taskItem.taskUpdateDate = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_UPDATE_DATE
+                )
+            ).toLong()
 
-                taskItem.taskEvaluationDay = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_EVALUATION_DAY
-                    )
-                ).toInt()
-                taskItem.taskEvaluationTime = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_EVALUATION_TIME
-                    )
-                ).toLong()
-                taskItem.categoryId =
-                    selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
-                tasksList.add(taskItem)
-            }
+            taskItem.taskEvaluationDay = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_EVALUATION_DAY
+                )
+            ).toInt()
+            taskItem.taskEvaluationTime = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_EVALUATION_TIME
+                )
+            ).toLong()
+            taskItem.categoryId =
+                selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
+            tasksList.add(taskItem)
+        }
 
         selectedData.close()
         db.close()
@@ -135,39 +140,37 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
         var taskItem = Task()
 
-        if (selectedData.moveToFirst()) {
-            do {
-                taskItem.taskId =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
-                taskItem.taskName =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
-                taskItem.taskDescription =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
-                taskItem.taskAvarage =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
-                taskItem.taskIcon = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_ICON
-                    )
-                ).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_UPDATE_DATE
-                    )
-                ).toLong()
-                taskItem.taskEvaluationDay = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_EVALUATION_DAY
-                    )
-                ).toInt()
-                taskItem.taskEvaluationTime = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_EVALUATION_TIME
-                    )
-                ).toLong()
-                taskItem.categoryId =
-                    selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
-            } while (selectedData.moveToNext())
+        while (selectedData.moveToNext()) {
+            taskItem.taskId =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
+            taskItem.taskName =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
+            taskItem.taskDescription =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
+            taskItem.taskAvarage =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+            taskItem.taskIcon = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_ICON
+                )
+            ).toInt()
+            taskItem.taskUpdateDate = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_UPDATE_DATE
+                )
+            ).toLong()
+            taskItem.taskEvaluationDay = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_EVALUATION_DAY
+                )
+            ).toInt()
+            taskItem.taskEvaluationTime = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_EVALUATION_TIME
+                )
+            ).toLong()
+            taskItem.categoryId =
+                selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
         }
 
         selectedData.close()
@@ -183,41 +186,39 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         val query = "SELECT * FROM ${TASK_TABLE_NAME} WHERE (${COL_CATEGORY_ID}==${categoryId})"
         val selectedData = db.rawQuery(query, null)
 
-        if (selectedData.moveToFirst()) {
-            do {
-                var taskItem = Task()
-                taskItem.taskId =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
-                taskItem.taskName =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
-                taskItem.taskDescription =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
-                taskItem.taskAvarage =
-                    selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
-                taskItem.taskIcon = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_ICON
-                    )
-                ).toInt()
-                taskItem.taskUpdateDate = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_UPDATE_DATE
-                    )
-                ).toLong()
-                taskItem.taskEvaluationDay = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_EVALUATION_DAY
-                    )
-                ).toInt()
-                taskItem.taskEvaluationTime = selectedData.getString(
-                    selectedData.getColumnIndex(
-                        COL_TASK_EVALUATION_TIME
-                    )
-                ).toLong()
-                taskItem.categoryId =
-                    selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
-                tasksList.add(taskItem)
-            } while (selectedData.moveToNext())
+        while (selectedData.moveToNext()) {
+            var taskItem = Task()
+            taskItem.taskId =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_ID)).toInt()
+            taskItem.taskName =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_NAME))
+            taskItem.taskDescription =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_DESCRIPTION))
+            taskItem.taskAvarage =
+                selectedData.getString(selectedData.getColumnIndex(COL_TASK_AVARAGE)).toDouble()
+            taskItem.taskIcon = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_ICON
+                )
+            ).toInt()
+            taskItem.taskUpdateDate = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_UPDATE_DATE
+                )
+            ).toLong()
+            taskItem.taskEvaluationDay = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_EVALUATION_DAY
+                )
+            ).toInt()
+            taskItem.taskEvaluationTime = selectedData.getString(
+                selectedData.getColumnIndex(
+                    COL_TASK_EVALUATION_TIME
+                )
+            ).toLong()
+            taskItem.categoryId =
+                selectedData.getString(selectedData.getColumnIndex(COL_CATEGORY_ID)).toInt()
+            tasksList.add(taskItem)
         }
 
         selectedData.close()
@@ -640,7 +641,8 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         var goalsList: MutableList<Goal> = ArrayList()
 
         val db = this.readableDatabase
-        val query = "SELECT * FROM ${GOAL_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId} AND ${COL_GOAL_STATUS}==${GOAL_PROGRESS_VALUE})"
+        val query =
+            "SELECT * FROM ${GOAL_TABLE_NAME} WHERE (${COL_TASK_ID}==${taskId} AND ${COL_GOAL_STATUS}==${GOAL_PROGRESS_VALUE})"
         val result = db.rawQuery(query, null)
 
         if (result.moveToFirst()) {

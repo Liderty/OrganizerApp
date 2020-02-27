@@ -9,10 +9,9 @@ import android.widget.*
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_rating_list.*
 
-
 class RatingDialog : DialogFragment() {
 
-    lateinit var emptyGrades: MutableList<Grade>
+    lateinit var emptyGrades: List<Grade>
     lateinit var db: DataBaseHandler
 
     lateinit var taskImageView: ImageView
@@ -37,7 +36,7 @@ class RatingDialog : DialogFragment() {
 
         db = DataBaseHandler(this.context!!)
 
-        emptyGrades = db.readEmptyGrades()
+        emptyGrades = db.readEmptyGrades().reversed()
         this.epmtyGradesNumber = emptyGrades.size
 
         val rootView = inflater.inflate(R.layout.dialog_rating_list, container)
@@ -79,6 +78,7 @@ class RatingDialog : DialogFragment() {
 
         if (taskItem.taskAvarage != 0.toDouble()) {
             taskGradeRatingBar.rating = taskItem.taskAvarage.toFloat()
+            taskAvarageView.visibility = View.VISIBLE
         } else {
             taskAvarageView.visibility = View.INVISIBLE
         }
@@ -91,10 +91,50 @@ class RatingDialog : DialogFragment() {
             db.updateGradeGrade(gradeItem.gradeId, taskRatingBar.rating.toInt())
             gradeIndex++
             if (gradeIndex != epmtyGradesNumber) {
-
+                updateAvarage()
                 setData(emptyGrades[gradeIndex])
             } else {
                 this.dismiss()
+            }
+        }
+    }
+
+    private fun countAvarage(gradeList: List<Int>): Double {
+        return Math.round((gradeList.sum().toDouble() / gradeList.size) * 10.0) / 10.0
+    }
+
+    private fun getTaskIds(): ArrayList<Int> {
+        val taskList = db.readTasks()
+        val taskIdList = arrayListOf<Int>()
+
+        for (i in 0..(taskList.size - 1)) {
+            taskIdList.add(taskList.get(i).taskId)
+        }
+
+        return taskIdList
+    }
+
+    private fun getGradesForTask(taskId: Int) : ArrayList<Int> {
+        val gradesList = db.readGrades()
+        val taskGradesList = ArrayList<Int>()
+
+        for (grade in gradesList) {
+            if (taskId == grade.taskId) {
+                taskGradesList.add(grade.gradeGrade)
+            }
+        }
+        return taskGradesList
+    }
+
+    private fun updateAvarage() {
+        val taskIdList = getTaskIds()
+
+        for (taskId in taskIdList) {
+            val taskGradesList = getGradesForTask(taskId)
+
+            if (taskGradesList.isNotEmpty()) {
+                val newTaskAvarage = countAvarage(taskGradesList)
+                db.updateTaskAvarage(taskId, newTaskAvarage)
             }
         }
     }

@@ -49,6 +49,24 @@ class IconPickerActivity : AppCompatActivity() {
         foodsList.add(R.drawable.star)
         foodsList.add(R.drawable.tennis)
 
+        foodsList.add(R.drawable.brush)
+        foodsList.add(R.drawable.elevator)
+        foodsList.add(R.drawable.food)
+        foodsList.add(R.drawable.garage)
+        foodsList.add(R.drawable.glass)
+        foodsList.add(R.drawable.jacuzzi)
+        foodsList.add(R.drawable.love)
+        foodsList.add(R.drawable.mastercard)
+        foodsList.add(R.drawable.pass)
+        foodsList.add(R.drawable.plate)
+        foodsList.add(R.drawable.rss)
+        foodsList.add(R.drawable.silhouette)
+        foodsList.add(R.drawable.sport)
+        foodsList.add(R.drawable.swimming)
+        foodsList.add(R.drawable.taxi)
+        foodsList.add(R.drawable.telephone)
+
+
         val adapter = FoodAdapter(this, foodsList)
         gridViewIcons.adapter = adapter
 

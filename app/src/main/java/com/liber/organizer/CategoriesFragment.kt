@@ -55,27 +55,21 @@ class CategoriesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val categoryList = db.readCategory()
+        val fm = fragmentManager
 
-        updateAvarage()
+//        updateAvarage()
         prepareGrades()
         resolveDeprecatedGrades()
 
-
-        val fm = fragmentManager
-
-        val emptyGrades = gradesForEvaluation()
+        val emptyGrades = db.readEmptyGrades()
 
         if (db.readTasks().isNotEmpty()) {
             createNotification(TaskDate(getDateForNotification()))
         }
 
+        val ratingsDialog = RatingDialog()
         if (emptyGrades.size > 0) {
-            val ratingsDialog = RatingDialog()
-
-            if (!ratingsDialog.isAdded) {
-                ratingsDialog.show(fm!!, "Ratings_tag")
-            }
-
+            ratingsDialog.show(fm!!, "Ratings_tag")
         }
 
         categorylistView.adapter =
@@ -130,23 +124,23 @@ class CategoriesFragment : Fragment() {
         }
     }
 
-    fun gradesForEvaluation(): ArrayList<Grade> {
-        val emptyGradeList = db.readEmptyGrades()
-        val gradesForEvaluationList = arrayListOf<Grade>()
-
-        val currentDate = TaskDate()
-
-        for (grade in emptyGradeList) {
-            val gradeTask = db.readTask(grade.taskId)
-            val evaluationFullDateAndTime = TaskDate(grade.gradeDate, gradeTask.taskEvaluationTime)
-
-            if (evaluationFullDateAndTime.milliseconds < currentDate.milliseconds) {
-                gradesForEvaluationList.add(grade)
-            }
-        }
-
-        return gradesForEvaluationList
-    }
+//    fun gradesForEvaluation(): ArrayList<Grade> {
+//        val emptyGradeList = db.readEmptyGrades()
+//        val gradesForEvaluationList = arrayListOf<Grade>()
+//
+//        val currentDate = TaskDate()
+//
+//        for (grade in emptyGradeList) {
+//            val gradeTask = db.readTask(grade.taskId)
+//            val evaluationFullDateAndTime = TaskDate(grade.gradeDate, gradeTask.taskEvaluationTime)
+//
+//            if (evaluationFullDateAndTime.milliseconds < currentDate.milliseconds) {
+//                gradesForEvaluationList.add(grade)
+//            }
+//        }
+//
+//        return gradesForEvaluationList
+//    }
 
     fun resolveDeprecated(grade: Grade, taskList: MutableList<Task>): Boolean {
         val isDeprecated = false
@@ -249,43 +243,5 @@ class CategoriesFragment : Fragment() {
         return closestDate
     }
 
-    private fun countAvarage(gradeList: List<Int>): Double {
-        return Math.round((gradeList.sum().toDouble() / gradeList.size) * 10.0) / 10.0
-    }
 
-    private fun getTaskIds(): ArrayList<Int> {
-        val taskList = db.readTasks()
-        val taskIdList = arrayListOf<Int>()
-
-        for (i in 0..(taskList.size - 1)) {
-            taskIdList.add(taskList.get(i).taskId)
-        }
-
-        return taskIdList
-    }
-
-    private fun getGradesForTask(taskId: Int) : ArrayList<Int> {
-        val gradesList = db.readGrades()
-        val taskGradesList = ArrayList<Int>()
-
-        for (grade in gradesList) {
-            if (taskId == grade.taskId) {
-                taskGradesList.add(grade.gradeGrade)
-            }
-        }
-        return taskGradesList
-    }
-
-    private fun updateAvarage() {
-        val taskIdList = getTaskIds()
-
-        for (taskId in taskIdList) {
-            val taskGradesList = getGradesForTask(taskId)
-
-            if (taskGradesList.isNotEmpty()) {
-                val newTaskAvarage = countAvarage(taskGradesList)
-                db.updateTaskAvarage(taskId, newTaskAvarage)
-            }
-        }
-    }
 }
