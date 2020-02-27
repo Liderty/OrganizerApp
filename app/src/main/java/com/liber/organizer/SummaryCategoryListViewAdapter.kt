@@ -43,8 +43,6 @@ class SummaryCategoryListViewAdapter (var listViewContext: Context, var resource
         val bargroup = ArrayList<BarEntry>()
 
         for (i in 0..taskList.size-1) {
-
-
             bargroup.add(BarEntry(i.toFloat(), taskList[i].taskAvarage.toFloat(), resize(listViewContext.getDrawable((taskList[i].taskIcon))!!)))
             taskNames.add(taskList[i].taskName)
         }
@@ -89,7 +87,7 @@ class SummaryCategoryListViewAdapter (var listViewContext: Context, var resource
 
     private fun resize(image: Drawable): Drawable? {
         val b = (image as BitmapDrawable).bitmap
-        val bitmapResized = Bitmap.createScaledBitmap(b, 48, 48, false)
+        val bitmapResized = Bitmap.createScaledBitmap(b, 32, 32, false)
         return BitmapDrawable(context.getResources(), bitmapResized)
     }
 }

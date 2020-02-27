@@ -57,7 +57,6 @@ class CategoriesFragment : Fragment() {
         val categoryList = db.readCategory()
         val fm = fragmentManager
 
-//        updateAvarage()
         prepareGrades()
         resolveDeprecatedGrades()
 
@@ -194,8 +193,8 @@ class CategoriesFragment : Fragment() {
         val customTime = notificationTime.milliseconds
         val currentTime = currentTimeDate.milliseconds
 
-        println("Current time:      | ${currentTime} |")
-        println("Notification time: | ${customTime} |")
+//        println("Current time:      | ${currentTime} |")
+//        println("Notification time: | ${customTime} |")
 
         if (customTime > currentTime) {
             val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
@@ -222,6 +221,7 @@ class CategoriesFragment : Fragment() {
         val taskList = db.readTasks()
         var currentTime = TaskDate()
         var comparableDate: Long
+
         var closestDate = currentTime.getNextDayAndTime(
             taskList[0].taskEvaluationDay,
             taskList[0].taskEvaluationTime
@@ -229,12 +229,14 @@ class CategoriesFragment : Fragment() {
 
         for (i in 0..taskList.size - 1) {
             currentTime = TaskDate()
+
+//            println("Day: ${taskList[i].taskEvaluationDay} Time: ${taskList[i].taskEvaluationTime}")
             comparableDate = currentTime.getNextDayAndTime(
                 taskList[i].taskEvaluationDay,
                 taskList[i].taskEvaluationTime
             )
 
-            println("COMPARABLE_DATE: ${comparableDate}")
+//            println("COMPARABLE_DATE: ${comparableDate}")
             if (comparableDate < closestDate) {
                 closestDate = comparableDate
             }

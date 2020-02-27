@@ -32,7 +32,7 @@ class TaskDate {
         return abs(((getDateWithoutTime(otherDate.milliseconds) - getDateWithoutTime(this.milliseconds)) / DAY_IN_MILLIS).toInt()) + ADDITIONAL_DAY
     }
 
-    fun TaskDate.add(addedMilliseconds: Long) {
+    fun add(addedMilliseconds: Long) {
         this.milliseconds = this.milliseconds + addedMilliseconds
     }
 
@@ -91,15 +91,16 @@ class TaskDate {
     }
 
     fun getDateWithoutTime(dateTimeMillis: Long): Long {
-        var calendar = getInstance(TimeZone.getTimeZone(TIME_ZONE))
-        calendar.setTimeInMillis(dateTimeMillis)
+        val newCalendarDate = getInstance(TimeZone.getTimeZone(TIME_ZONE))
+        newCalendarDate.setTimeInMillis(dateTimeMillis)
 
-        calendar.set(MILLISECOND, 0);
-        calendar.set(SECOND, 0);
-        calendar.set(MINUTE, 0);
-        calendar.set(HOUR, 0);
+        newCalendarDate.set(MILLISECOND, 0);
+        newCalendarDate.set(SECOND, 0);
+        newCalendarDate.set(MINUTE, 0);
+        newCalendarDate.set(HOUR, 0);
+        newCalendarDate.set(AM_PM, 0);
 
-        return calendar.timeInMillis;
+        return newCalendarDate.timeInMillis;
     }
 
     fun getStringDayOf(): String {
@@ -126,12 +127,13 @@ class TaskDate {
 
     fun getNextDayAndTime(targetDayIndex: Int, targetTimeInMillis: Long) : Long {
         val today = this.getDayOfWeekIndex()
-
         val daysDifference: Int
+        val nextDayDate = TaskDate(this.getDateWithoutTime())
+
         var additionalDays = 0L
 
         if(targetDayIndex > 6) {
-            if(targetTimeInMillis <= this.getTimeWithoutDate()) {
+            if(this.getTimeWithoutDate() > targetTimeInMillis) {
                 additionalDays = DAY_IN_MILLIS
             }
         } else {
@@ -151,10 +153,9 @@ class TaskDate {
             }
         }
 
-        this.milliseconds = this.getDateWithoutTime()
-        this.add(targetTimeInMillis)
-        this.add(additionalDays)
+        nextDayDate.add(targetTimeInMillis)
+        nextDayDate.add(additionalDays)
 
-        return this.milliseconds
+        return nextDayDate.milliseconds
     }
 }

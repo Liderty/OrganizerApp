@@ -178,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:background="@drawable/rounded_button"
-                android:text="DevDone +5"
+                android:text="Done - Yesturday"
                 android:textColor="@color/colorBrightText" />
 
             <Button
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:background="@drawable/rounded_button"
-                android:text="DevDone +15"
+                android:text="Done - 5 days ago"
                 android:textColor="@color/colorBrightText" />
 
             <Button

@@ -66,7 +66,7 @@ class RatingDialog : DialogFragment() {
     }
 
     fun setData(gradeItem: Grade) {
-        val taskItem: Task = db.readTask(gradeItem.taskId)
+        val taskItem = db.readTask(gradeItem.taskId)
         val taskItemDate = TaskDate(gradeItem.gradeDate)
 
         setNumber(gradeIndex)
@@ -77,6 +77,7 @@ class RatingDialog : DialogFragment() {
         taskDate.text = taskItemDate.getStringDate()
 
         if (taskItem.taskAvarage != 0.toDouble()) {
+            println("TAKS AVARAGE: ${taskItem.taskAvarage.toFloat()}")
             taskGradeRatingBar.rating = taskItem.taskAvarage.toFloat()
             taskAvarageView.visibility = View.VISIBLE
         } else {
@@ -90,8 +91,8 @@ class RatingDialog : DialogFragment() {
         taskRateButton.setOnClickListener {
             db.updateGradeGrade(gradeItem.gradeId, taskRatingBar.rating.toInt())
             gradeIndex++
+            updateAvarage()
             if (gradeIndex != epmtyGradesNumber) {
-                updateAvarage()
                 setData(emptyGrades[gradeIndex])
             } else {
                 this.dismiss()
@@ -119,7 +120,7 @@ class RatingDialog : DialogFragment() {
         val taskGradesList = ArrayList<Int>()
 
         for (grade in gradesList) {
-            if (taskId == grade.taskId) {
+            if (taskId == grade.taskId && grade.gradeGrade != 0) {
                 taskGradesList.add(grade.gradeGrade)
             }
         }
